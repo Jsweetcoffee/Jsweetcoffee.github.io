@@ -1,0 +1,834 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E8%95%BE%E5%A7%86.png">
+  <link rel="icon" href="/img/%E8%95%BE%E5%A7%86.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#58C9B9">
+  <meta name="author" content="SCxiaoyun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前提：创建影子账户再已经getshell并且可以使用system权限（直接远端更好）  这里用win7做演示，本来是想用win10做实验的，但是win10是一个家庭版的，虽然用OSSQ转换成了专业版，但是最后用命令虽然显示命令完成，但还是无法开启3389。😵 需要远程上去，远程的话看另一篇文章😚 先创建一个管理员权限的隐藏账户（在账户名后跟一个$）  这里就需要system权限，admini">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows创建影子账户">
+<meta property="og:url" content="https://jsweetcoffee.github.io/posts/f2d36e3a.html">
+<meta property="og:site_name" content="晓雲的陋室">
+<meta property="og:description" content="前提：创建影子账户再已经getshell并且可以使用system权限（直接远端更好）  这里用win7做演示，本来是想用win10做实验的，但是win10是一个家庭版的，虽然用OSSQ转换成了专业版，但是最后用命令虽然显示命令完成，但还是无法开启3389。😵 需要远程上去，远程的话看另一篇文章😚 先创建一个管理员权限的隐藏账户（在账户名后跟一个$）  这里就需要system权限，admini">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f2d36e3a/image-20230709114018554-1688874024711-1-1688874026799-3.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f2d36e3a/image-202307091147240532.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f2d36e3a/image-20230709115053395.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f2d36e3a/image-20230709115325186.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f2d36e3a/image-20230709115510369.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f2d36e3a/image-20230709115629181.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f2d36e3a/image-20230709115822973.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f2d36e3a/image-20230709120006106.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f2d36e3a/image-20230709120011875.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f2d36e3a/image-20230709120146413.png">
+<meta property="article:published_time" content="2023-07-09T03:11:32.000Z">
+<meta property="article:modified_time" content="2023-08-17T07:41:16.000Z">
+<meta property="article:author" content="SCxiaoyun">
+<meta property="article:tag" content="权限维持">
+<meta property="article:tag" content="后渗透">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jsweetcoffee.github.io/posts/f2d36e3a/image-20230709114018554-1688874024711-1-1688874026799-3.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>windows创建影子账户 - 晓雲的陋室</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/scroll.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jsweetcoffee.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":50,"cursorChar":"♫","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"❡"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":true,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading2.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>聊五分钱的天吗？|ω･)و ̑̑༉</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pic9.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="windows创建影子账户"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        SCxiaoyun
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-07-09 11:11" pubdate>
+          2023年7月9日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">windows创建影子账户</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：2023年8月17日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>前提：创建影子账户再已经getshell并且可以使用system权限（直接远端更好）</p>
+</blockquote>
+<p>这里用win7做演示，本来是想用win10做实验的，但是win10是一个家庭版的，虽然用OSSQ转换成了专业版，但是最后用命令虽然显示命令完成，但还是无法开启3389。😵</p>
+<p>需要远程上去，远程的话看另一篇文章😚</p>
+<p>先创建一个管理员权限的隐藏账户（在账户名后跟一个$）</p>
+<blockquote>
+<p>这里就需要system权限，administrator权限都不能创建用户</p>
+</blockquote>
+<img src="/posts/f2d36e3a/image-20230709114018554-1688874024711-1-1688874026799-3.png" class title="image-20230709114018554">
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">net user 98k$ admiN@123 /add<br></code></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">net localgroup administrators 98k$ /add<br></code></pre></td></tr></table></figure>
+<p>这里创建的账户用<code>net user</code>是看不到的，但是可以在本地用户和组<code>lusrmgr.msc或compmgmt.msc</code>里看到。</p>
+<img src="/posts/f2d36e3a/image-202307091147240532.png" class title="image-20230709114724053">
+<p>接下来win+R输入<code>regedit</code>打开注册表，找到SAM这个文件夹，具体位置如下；需要将这个文件夹的权限都赋予administrator，然后重新打开，就可以看到用户的注册表信息了。</p>
+<img src="/posts/f2d36e3a/image-20230709115053395.png" class title="image-20230709115053395">
+<p>之后访问一下我们刚创建的用户98k$,查看这文件中对于的字段，和上面的文件夹名称对应。</p>
+<img src="/posts/f2d36e3a/image-20230709115325186.png" class title="image-20230709115325186">
+<p>再找到administrator的对应文件夹，将其中F文件的字段值复制出来，替换掉刚刚我们创建的用户的字段值。</p>
+<img src="/posts/f2d36e3a/image-20230709115510369.png" class title="image-20230709115510369">
+<p>然后分别将Users和Names下的用户文件导出。（导出到桌面好找）</p>
+<img src="/posts/f2d36e3a/image-20230709115629181.png" class title="image-20230709115629181">
+<p>到命令行（记得用管理员权限打开）输入命令将刚刚创建的用户删除。</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">net <span class="hljs-keyword">user</span> <span class="hljs-title">98k</span>$ /del<br></code></pre></td></tr></table></figure>
+<img src="/posts/f2d36e3a/image-20230709115822973.png" class title="image-20230709115822973">
+<p>再找到刚刚我们导出的两个文件，双击分别再将他们导入到注册表。</p>
+<img src="/posts/f2d36e3a/image-20230709120006106.png" class title="image-20230709120006106">
+<img src="/posts/f2d36e3a/image-20230709120011875.png" class title="image-20230709120011875">
+<p>此时再重新打开注册表，可以发现刚刚创建的用户还在，但是在本地用户和组以及<code>net user</code>命令中看不到该账户的存在，说明创建用户成功了。🌈🌈🌈</p>
+<img src="/posts/f2d36e3a/image-20230709120146413.png" class title="image-20230709120146413">
+<h1>补充加更正！</h1>
+<p>​		1. 之前说的用Administrator账户继续创建影子账户，在后续的利用过程中发现并不好使，原因是在新的win7以及后续的win10等版本中，administrator账户是被禁用的状态，无法远程登录（正常登录都登不上）</p>
+<p>​		所以需要将一个其他具有管理员权限的账户的F值复制到影子账户的F值下！！！！</p>
+<ol start="2">
+<li>
+<p>在某些情况下（很小的情况下），密码不正确会被直接挡在门外（远程的界面都打不开）原因和解决：</p>
+<p>鉴权开启时，我们在不知道账号密码的情况下无法登录到远程界面，但是鉴权关闭之后，无论我们输入的账号和密码是否正确，都可以进入远程界面窗口。</p>
+<p>如何关闭鉴权模式，我们采用如下命令：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile">REG <span class="hljs-keyword">ADD</span><span class="language-bash"> <span class="hljs-string">&quot;HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot;</span> /v UserAuthentication /t REG_DWORD /d 0</span><br></code></pre></td></tr></table></figure>
+<p>0代表关闭，1代表开启</p>
+<p>关闭鉴权模式还不够，还需要关闭securitylayer安全层验证 ：</p>
+<p>具体指：0 就是连接前使用 rdp 协议进行身份验证，rdp 即远程桌面连接，可以简单理解为就是关闭验证。1 是指在连接前两端协商来进行身份验证，这个是默认值。2 就是使用 tls 协议来进行。</p>
+<p>将其参数设置为0，命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs '">REG ADD &quot;HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot; /v SecurityLayer /t REG_DWORD /d 0<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81/" class="category-chain-item">权限维持</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81/%E5%90%8E%E6%B8%97%E9%80%8F/" class="category-chain-item">后渗透</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81/">#权限维持</a>
+      
+        <a href="/tags/%E5%90%8E%E6%B8%97%E9%80%8F/">#后渗透</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>windows创建影子账户</div>
+      <div>https://jsweetcoffee.github.io/posts/f2d36e3a.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>SCxiaoyun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年7月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/2cf00b0.html" title="常见端口号对应汇总">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">常见端口号对应汇总</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/de4bde88.html" title="Http请求头字段和响应头字段">
+                        <span class="hidden-mobile">Http请求头字段和响应头字段</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"ejWQ4cLgEdFyaqpxh7H74jUL-gzGzoHsz","appKey":"esK2EV3cfDXbDYkhTkNEHyHD","path":"window.location.pathname","placeholder":"吐槽一下","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true,"verify":false,"notify":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+
+  
+  <script
+  async
+  defer
+  src="http://49.233.251.176:10087/api/application/embed?protocol=http&host=49.233.251.176:10087&token=0c8a92daa216c5bf">
+  </script>
+</div>  
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":true,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/runtime.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/DynamicLine.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/containsWord.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/nito.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"rect":"opacity:0.5","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

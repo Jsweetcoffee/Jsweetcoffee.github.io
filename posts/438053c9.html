@@ -1,0 +1,809 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E8%95%BE%E5%A7%86.png">
+  <link rel="icon" href="/img/%E8%95%BE%E5%A7%86.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#58C9B9">
+  <meta name="author" content="SCxiaoyun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="旁路阻断技术 旁路阻断就是采用旁路的方式侦听通信的数据包，然后再进行协议还原，根据内容进行阻断。这类技术的优点是不影响互联网访问的速度，并且对用户没有特殊的设置要求。通俗讲是并联在互联网的出口上，不会影响原来网络的稳定性，部署也很方便。 采用旁路的方式管理网络并阻断非法连接的方法可以分为三类： 1、 发送TCP Reset包 2、 通过与网关产品联动，建立临时规则 3、 进行基于arp的阻断方式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="旁路阻断技术">
+<meta property="og:url" content="https://jsweetcoffee.github.io/posts/438053c9.html">
+<meta property="og:site_name" content="晓雲的陋室">
+<meta property="og:description" content="旁路阻断技术 旁路阻断就是采用旁路的方式侦听通信的数据包，然后再进行协议还原，根据内容进行阻断。这类技术的优点是不影响互联网访问的速度，并且对用户没有特殊的设置要求。通俗讲是并联在互联网的出口上，不会影响原来网络的稳定性，部署也很方便。 采用旁路的方式管理网络并阻断非法连接的方法可以分为三类： 1、 发送TCP Reset包 2、 通过与网关产品联动，建立临时规则 3、 进行基于arp的阻断方式。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-17T01:57:46.000Z">
+<meta property="article:modified_time" content="2024-12-19T01:07:56.000Z">
+<meta property="article:author" content="SCxiaoyun">
+<meta property="article:tag" content="web安全">
+<meta property="article:tag" content="理论知识">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>旁路阻断技术 - 晓雲的陋室</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/scroll.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jsweetcoffee.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":50,"cursorChar":"♫","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"❡"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":true,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading2.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>聊五分钱的天吗？|ω･)و ̑̑༉</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pic9.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="旁路阻断技术"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        SCxiaoyun
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-17 09:57" pubdate>
+          2024年4月17日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">旁路阻断技术</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：2024年12月19日 上午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>旁路阻断技术</h1>
+<p>旁路阻断就是采用旁路的方式侦听通信的数据包，然后再进行协议还原，根据内容进行阻断。这类技术的优点是不影响互联网访问的速度，并且对用户没有特殊的设置要求。通俗讲是并联在互联网的出口上，不会影响原来网络的稳定性，部署也很方便。</p>
+<p>采用旁路的方式管理网络并阻断非法连接的方法可以分为三类：<br>
+1、 发送TCP Reset包<br>
+2、 通过与网关产品联动，建立临时规则<br>
+3、 进行基于arp的阻断方式。</p>
+<h3 id="一、TCP-Reset"><a class="header-anchor" href="#一、TCP-Reset">¶</a>一、TCP Reset</h3>
+<p>我们以IDS为例，IDS设备是一个典型的旁路监听并通过TCP Reset进行阻断的网络安全设备。IDS TCP Reset实现方法，当IDS发现一条非法得连接IDS将会向通信的两端各发送一个TCP RESET包，从而实现主动切断连接的目的，此时通信双方的堆栈将会把这个RESET包解释为另一端的回应，然后停止整个通信过程，释放缓冲区并撤销所有TCP状态信息。这个时候，攻击数据包可能还在目标主机操作系统TCP/IP堆栈缓冲区中，没有被提交给应用程序，由于缓冲区被清空了，所以攻击不会发生。</p>
+<p>对于RESET包来说，IDS发出的RESET包的前提是知道整个会话当前的序列号和确认号，否则这个RESET包将会被忽略。我们假定一个会话得确认号必须为152如果你发送的RESET包的确认号为142，那么堆栈将会认为这是一个无效的数据包或者被破坏的数据包而将它忽略掉。</p>
+<p>从另一方面讲所有的IDS在响应攻击时都有延迟时间，因为IDS从抓取数据包，监测攻击，产生RESET包，到最后发出RESET整个过程都要消耗一定的时间。很多的IDS使用<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=libpcap&amp;spm=1001.2101.3001.7020">libpcap</a>库来抓包，大部分IDS构建在类BSD的系统上，BSD系统下是利用BPF(Berkeley Packet Filters)进行抓包，BPF默认将会开一个很大的缓冲区，在一个典型的网络中，IDS发出RESET包的过程大约会延迟半秒。在Linux和Solaris平台上，性能要稍微好一点，但是肯定也有延迟时间。</p>
+<p>而且TCP Rest对于网络得应用来说也有着很大得局限性，其只能针对通常得标准TCP连接发送阻断信息，对于UDP会话是无能为力得。再则目前得一些网络应用软件在会话连接保持上都很强得能力，TCP Reset包对于他们得效果基本可以忽略。</p>
+<h3 id="二、与网关产品联动"><a class="header-anchor" href="#二、与网关产品联动">¶</a>二、与网关产品联动</h3>
+<p>通过与网关产品的联动方式主要是向防火墙发送临时规则，以及路由器或交换机发送临时ACL列表，阻断当前这个会话。</p>
+<p>这种方式存在着这么几个方面得问题：</p>
+<p>1、首先是联动协议问题。“联动”一直是网络安全界中的一个很时髦的概念，虽然已经有五六年的历史，但是到目前为止，还远远没有得到充分的发展。现在联动得实现是以现有得某个厂家为核心，其他厂家的产品在一些半公开的SDK的支持下实现与核心厂家的某个产品实现互联。这样导致现有和多产品有联动功能，但是没有联动得实际效果。</p>
+<p>2、联动信息的滞后。即使产品与防火墙有着优良得联动相应方式，IDS产品在检测得过程中发现了非法得连接，生成一条临时规则发送到防火墙，防火墙应用这条规则阻断这个连接;在这一个过程中存在着三个延时，一、IDS发现非法连接，生成临时规则;二、规则传输给防火墙;三、防火墙应用规则。这三个演示得总时间最好情况下是小于两秒，而且这个过程当中IDS的检测是滞后IDS检测到非法连接时，这个连接已经建立了，如果这个连接时蠕虫，或木马，两秒的延时足够成功攻击了。</p>
+<p>3、当遇到大规模的非法连接的时候，IDS会针对每一条会话向防火墙添加临时规则，这样势必造成防火墙临时规则增大，降低防火墙的效率，引起防火墙包转发延时，严重造成防火墙瘫痪，网络中断。</p>
+<h3 id="三、基于arp的阻断"><a class="header-anchor" href="#三、基于arp的阻断">¶</a>三、基于arp的阻断</h3>
+<p>共有三种方式ARP 欺骗、ARP 投毒和 ARP 攻击。先了解ARP的原理。ARP 用于将 IP 地址匹配到或解析至恰当的 MAC 地址，所有的网络设备都有一张 ARP 表，里面临时记忆着该设备已经匹配起来的所有的 IP 地址和 MAC 地址。ARP 表能够确保该设备不需要向已经与自己进行过通信的计算机重复 ARP 询问。当有人在未获得授权时就企图更改 MAC 和 IP 地址的 ARP 表格中的信息时，就发生了 ARP 攻击。通过这种方式我们可以伪造ARP应答包，使得非法连接主机的ARP表错误，无法连接到网关，从而阻断连接。</p>
+<p>这种阻断方式从效果上讲是很强的，但是同时也造成了一个问题，其不但阻止了非法连接，而且也阻断了合法连接，这对于网络中的正常应用是有着很大的影响。</p>
+<p>实际大家比较常用的是采用发送TCP Reset包，上文提到的主要缺点都是可以解决的。</p>
+<h3 id="reset"><a class="header-anchor" href="#reset">¶</a>reset</h3>
+<p>RST 标志</p>
+<p>Reset，复位标志，用于非正常地关闭连接。它是 TCP 协议首部里的一个标志位。发送 RST 包关闭连接时，直接丢弃缓冲区的包并发送 RST 包，而接收端收到 RST 包后，也不必发送 ACK 包来确认。</p>
+<p>TCP 套接字在任何状态下，只要收到 RST 包，即可进入 CLOSED 初始状态，不会有任何回应。至于是否通知上层应用，要根据应用程序是阻塞模式还是非阻塞模式：</p>
+<p>阻塞模型下，内核无法主动通知应用层出错，只有应用层主动调用 read() 或者 write() 这样的 IO 系统调用时，内核才会利用出错来通知应用层对端 RST。<br>
+非阻塞模型下，select 或者 epoll 会返回 sockfd 可读，应用层对其进行读取时，read() 会报错 RST。<br>
+FIN 标志</p>
+<p>发端完成发送任务标识。用来释放一个连接。FIN=1 表明此报文段的发送端的数据已经发送完毕，并要求释放连接。</p>
+<p>RST 和 FIN 的区别</p>
+<p>正常地关闭连接用 FIN 标志位，但 FIN 标志位不能用来处理异常情况；<br>
+RST 会导致连接立即终止，而在 FIN 中会得到确认。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/web%E5%AE%89%E5%85%A8/" class="category-chain-item">web安全</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/web%E5%AE%89%E5%85%A8/%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/" class="category-chain-item">理论知识</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/web%E5%AE%89%E5%85%A8/">#web安全</a>
+      
+        <a href="/tags/%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/">#理论知识</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>旁路阻断技术</div>
+      <div>https://jsweetcoffee.github.io/posts/438053c9.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>SCxiaoyun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/5e6d38ee.html" title="云WAF以及与云WAF相关内容">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">云WAF以及与云WAF相关内容</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/ae353ca9.html" title="SNAT策略概述">
+                        <span class="hidden-mobile">SNAT策略概述</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"ejWQ4cLgEdFyaqpxh7H74jUL-gzGzoHsz","appKey":"esK2EV3cfDXbDYkhTkNEHyHD","path":"window.location.pathname","placeholder":"吐槽一下","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true,"verify":false,"notify":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+
+  
+  <script
+  async
+  defer
+  src="http://49.233.251.176:10087/api/application/embed?protocol=http&host=49.233.251.176:10087&token=0c8a92daa216c5bf">
+  </script>
+</div>  
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":true,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/runtime.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/DynamicLine.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/containsWord.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/nito.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"rect":"opacity:0.5","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

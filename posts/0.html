@@ -1,0 +1,965 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E8%95%BE%E5%A7%86.png">
+  <link rel="icon" href="/img/%E8%95%BE%E5%A7%86.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#58C9B9">
+  <meta name="author" content="SCxiaoyun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="IP以及IP划分 ¶什么是IP地址 IP地址（Internet Protocol Address）是指互联网协议地址，又称网际协议地址。IP地址是IP协议提供的一种统一的地址格式，它为互联网上的每一个网络和每一台主机分配一个逻辑地址，以此来屏蔽物理地址的差异。因此，IP地址是逻辑地址，每台主机的网卡上的MAC地址才是物理地址 IP地址其实是一串32位的二进制数，为了方便我们记忆我们以8位一组进行划">
+<meta property="og:type" content="article">
+<meta property="og:title" content="晓雲的陋室">
+<meta property="og:url" content="https://jsweetcoffee.github.io/posts/0.html">
+<meta property="og:site_name" content="晓雲的陋室">
+<meta property="og:description" content="IP以及IP划分 ¶什么是IP地址 IP地址（Internet Protocol Address）是指互联网协议地址，又称网际协议地址。IP地址是IP协议提供的一种统一的地址格式，它为互联网上的每一个网络和每一台主机分配一个逻辑地址，以此来屏蔽物理地址的差异。因此，IP地址是逻辑地址，每台主机的网卡上的MAC地址才是物理地址 IP地址其实是一串32位的二进制数，为了方便我们记忆我们以8位一组进行划">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/0/8f813080e5af4b0c90eae497fabfaa81.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/0/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L215dmVzdA==,size_16,color_FFFFFF,t_70.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/18c4515a87b9ae6c8e0492c3feae7c34.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/0/97765b8783d51e23df97e63618c27eb5.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/0/4cbabd46d2d07ad602d4d562ae98af14.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/0/29ab14509c068d6ae04110cde759637c.png">
+<meta property="article:published_time" content="2024-12-19T01:07:56.000Z">
+<meta property="article:modified_time" content="2024-12-19T01:07:56.000Z">
+<meta property="article:author" content="SCxiaoyun">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jsweetcoffee.github.io/posts/0/8f813080e5af4b0c90eae497fabfaa81.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>晓雲的陋室</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/scroll.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jsweetcoffee.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":50,"cursorChar":"♫","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"❡"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":true,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading2.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>聊五分钱的天吗？|ω･)و ̑̑༉</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pic9.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        SCxiaoyun
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-12-19 09:07" pubdate>
+          2024年12月19日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          63 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>IP以及IP划分</h1>
+<h3 id="什么是IP地址"><a class="header-anchor" href="#什么是IP地址">¶</a>什么是IP地址</h3>
+<p>IP地址（Internet Protocol Address）是指互联网协议地址，又称网际协议地址。IP地址是IP协议提供的一种统一的地址格式，它为互联网上的每一个网络和每一台主机分配一个逻辑地址，以此来屏蔽物理地址的差异。因此，IP地址是逻辑地址，每台主机的网卡上的MAC地址才是物理地址<br>
+IP地址其实是一串32位的二进制数，为了方便我们记忆我们以8位一组进行划分，中间用小数点分割，类似：172.20.5.6（10110110.00010100.00000101.00000110）</p>
+<h3 id="IPv4"><a class="header-anchor" href="#IPv4">¶</a>IPv4</h3>
+<p>根据使用场景（范围）</p>
+<p>IPv4地址 有限地址 2^32  --约42亿</p>
+<p>私有地址 --免费使用、本地唯一性</p>
+<p>公有地址 --付费使用、全球唯一性</p>
+<p>IPv4地址根据网络ID的不同分为5种类型，A类地址、B类地址、C类地址、D类地址和E类地址。</p>
+<p>1、A类IP地址：一个A类IP地址由1字节（8位）的网络地址和3字节主机地址组成，网络地址的最高位必须是“0”， 地址范围从<strong>1.0.0.0 ~126.0.0.0</strong>。可用的A类网络有126（2<sup>7-2）个，每个网络能容纳1亿多(2</sup>24-2)个主机。</p>
+<p>2、B类IP地址：一个B类IP地址由2个字节的网络地址和2个字节的主机地址组成，网络地址的最高位必须是“10”，地址范围从<strong>128.0.0.0~191.255.255.255</strong>。可用的B类网络有16382（2<sup>14-1）个，每个网络能容纳6万多（2</sup>16-2）个主机 。</p>
+<p>3、 C类IP地址：一个C类IP地址由3字节的网络地址和1字节的主机地址组成，网络地址的最高位必须是“110”。范围从<strong>192.0.0.0~223.255.255.255</strong>。C类网络可达209万余(2<sup>21-1)个，每个网络能容纳254（2</sup>8-2）个主机。</p>
+<p>4、 D类地址：D类IP地址第一个字节以“lll0”开始，它是一个专门保留的地址。它并不指向特定的网络</p>
+<p>5、 E类IP地址：以“llll0”开始，为将来使用保留。 全零（<strong>“0.0.0.0”</strong>）地址对应于当前主机。全“1”的IP地址（<strong>“255.255.255.255”</strong>）是当前子网的广播地址。</p>
+<ul>
+<li>D类IP地址。其范围是从<strong>224.0.0.0到239.255.255.255</strong>，用于网络中的组播（多点广播）通信。</li>
+<li>E类IP地址。其范围是从<strong>240.0.0.0到255.255.255.255</strong>，主要用于将来使用和实验目的。</li>
+</ul>
+<img src="/posts/0/8f813080e5af4b0c90eae497fabfaa81.png" class title="img">
+<p>其中ABC三类地址为单播地址、D类地址为多（组）播地址、E类地址科研使用，保留</p>
+<p>**单播地址：**既可以作为源地址，也可以作为目标地址使用</p>
+<p>**多（组）播地址：**只能作为目标地址去使用</p>
+<p>主类网：默认情况下，ABC三类地址的网络位、拥有默认的子网掩码长度</p>
+<p>A  /8    255.0.0.0</p>
+<p>B  /16   255.255.0.0</p>
+<p>C  /24   255.255.255.0</p>
+<p>私有地址范围：</p>
+<p><strong>A：10.0.0.0/8</strong></p>
+<p><strong>B：172.16.0.0/16-172.31.0.0/16</strong></p>
+<p><strong>C：192.168.0.0/24-192.168.255.0/24</strong></p>
+<h4 id="本地私有地址"><a class="header-anchor" href="#本地私有地址">¶</a>本地私有地址</h4>
+<p>169.254.x.x/16    本地私有地址<br>
+作用：当PC无法通过自动获取IP地址的方式(DHCP)获取到IP地址时，PC会自动产生一个IP地址，即169.254.x.x/16</p>
+<p>192.168.1.0/24    主机位全 0 的地址-网络地址</p>
+<p><strong>主机位全0</strong> 的地址代表一个网段，代表本网段内的所有IP地址 —xxx班全体同学</p>
+<p>代表地址范围：<strong>192.168.1.1/24-192.168.1.255/24</strong></p>
+<p><strong>此地址不能给主机使用</strong></p>
+<p><strong>192.168.1.255/24  主机位全 1 的地址-广播地址</strong></p>
+<p>主机位全1 的地址代表本网段内的广播地址，只能作为目标地址使用；也不能给主机使用 —xx班班群内@所有人</p>
+<p>在一个网段内，除了主机位全0和主机位全1 的地址外，剩下的地址均可给主机使用</p>
+<blockquote>
+<p>例：</p>
+<p>写出172.16.3.0/16 的可用地址范围、可用主机数量、以及广播地址和网络地址</p>
+<p>172.16.3.0/16、</p>
+<p>可用主机数量：</p>
+<p>65534=2^16-2</p>
+<p>可用地址范围：</p>
+<p>172.16.0.1/16-172.16.255.254/16</p>
+<p>2^主机位-2</p>
+<p>网络地址 172.16.0.0/16</p>
+<p>广播地址 172.16.255.255/16</p>
+</blockquote>
+<p>VLSM 可变长子网掩码 --子网划分</p>
+<p>将原来的一个大的广播域逻辑的划分为若干个小的广播域</p>
+<p>做法：通过借用主机位来充当网络位，实现</p>
+<blockquote>
+<p>例1. 借1位 划分2个广播域–2个网段</p>
+<p><strong>192.168.1.0/24</strong></p>
+<p>192.168.1.00000000/24+1=25</p>
+<p>192.168.1.10000000/24+1=25</p>
+<p><strong>192.168.1.0/25</strong></p>
+<p>可用地址范围：192.168.1.1/25-192.168.1.126/25</p>
+<p>可用主机数量:126=2^25-2</p>
+<p>网络地址：192.168.1.0/25</p>
+<p>广播地址:192.168.1.127/25</p>
+<p><strong>192.168.1.128/25</strong></p>
+<p>可用地址范围：192.168.1.129/25-192.168.1.254/25</p>
+<p>可用主机数量:126</p>
+<p>网络地址：192.168.1.128/25</p>
+<p>广播地址:192.168.1.255/25</p>
+<p>例2. 借2位 划分 4个广播域--  4个网段</p>
+<p><strong>192.168.1.0/24</strong></p>
+<p>192.168.1.00000000/24+2=26</p>
+<p>192.168.1.01000000/24+2=26</p>
+<p>192.168.1.10000000/24+2=26</p>
+<p>192.168.1.11000000/24+2=26</p>
+<p><strong>192.168.1.0/26</strong></p>
+<p>网络地址：192.168.1.0/26</p>
+<p>广播地址：192.168.1.63/26</p>
+<p>可用地址范围：192.168.1.1/26 - 192.168.1.62/26</p>
+<p>可用地址数量：62  =  2^6-2</p>
+<p><strong>192.168.1.64/26</strong></p>
+<p>网络地址：192.168.1.64/26</p>
+<p>广播地址：192.168.1.127/26</p>
+<p>可用地址范围：192.168.1.65/26 - 192.168.1.126/26</p>
+<p>可用地址数量：62  =  2^6-2</p>
+<p><strong>192.168.1.128/26</strong></p>
+<p>网络地址：192.168.1.128/26</p>
+<p>广播地址：192.168.1.191/26</p>
+<p>可用地址范围：192.168.1.129/26 - 192.168.1.190/26</p>
+<p>可用地址数量：62  =  2^6-2</p>
+<p><strong>192.168.1.192/26</strong></p>
+<p>借3位 划分 8个广播域-- 8个网段</p>
+<p>192.168.1.0/24</p>
+<p>192.168.1.00000000/24+3=27</p>
+<p>192.168.1.00100000/24+3=27</p>
+<p>192.168.1.01000000/24+3=27</p>
+<p>192.168.1.01100000/24+3=27</p>
+<p>192.168.1.10000000/24+3=27</p>
+<p>192.168.1.10100000/24+3=27</p>
+<p>192.168.1.11000000/24+3=27</p>
+<p>192.168.1.11100000/24+3=27</p>
+<p><strong>192.168.1.0/27</strong></p>
+<p>网络地址：192.168.1.0/27</p>
+<p>广播地址：192.168.1.31/27</p>
+<p>可用地址范围：192.168.1.1/27 - 192.168.1.30/27</p>
+<p>可用地址数量：30  =  2^5-2</p>
+<p>192.168.1.32/27</p>
+<p>192.168.1.64/27</p>
+<p>192.168.1.96/27</p>
+<p>192.168.1.128/27</p>
+<p>192.168.1.160/27</p>
+<p>192.168.1.192/27</p>
+<p>192.168.1.224/27</p>
+</blockquote>
+<p>划分网段数量=2^借位</p>
+<p>可用主机数量=2^主机位-2（网络地址、广播地址）</p>
+<p>可用地址范围=网络地址+1 - 广播地址-1</p>
+<p>划分网段之间的关系：</p>
+<p>简便算法：</p>
+<p>首先：必须要找到首段地址，之后递增网段，递增的数值就是借位的最低位（最右边那位）的代表数字（也就是掩码：例：/27 就是第27位的代表数字）</p>
+<h3 id="IPv6"><a class="header-anchor" href="#IPv6">¶</a>IPv6</h3>
+<p>IPv6地址中分为<strong>本地链路地址（Link-Local Address）<strong>与</strong>全局单播地址（Global Address）。</strong><br>
+本地链路地址根据mac等信息通过指定算法得到，不需要从路由器获取。以<strong>fe80</strong>:开头<br>
+全局单播地址从需要和路由器进行协商获取，可以与公网通信。</p>
+<p>全局单播地址可通过手动或自动方式配置，其中自动方式分为“**有状态”**和“<strong>无状态</strong>”。</p>
+<p>有状态：可控、可管理。在网络中存在一个IP地址管理者，它能够识别客户端，根据不同的客户端，分配对应的IPv6地址，客户端与服务端之间需要维护IP地址的租期及续约。目前实现这种效果的，就是DHCPv6协议，IP地址管理者就是DHCPv6 Server</p>
+<p>无状态：不可控、难管理。在网络中只有网关，没有IP地址管理者。因此无人去识别客户端，每个客户端根据网关发送的相同的RA报文内容，自行配置IPv6地址</p>
+<p><strong>在这种情况下，IPv6相关网络配置具有三种方式。</strong></p>
+<p><strong>无状态（Stateless）</strong>：通过邻居管理协议RA报文，从路由公告中配置IPv6地址。RA报文中会携带前缀等信息。同时IPv6DNS等信息也从RA报文中获取。<br>
+<strong>有状态（Stateful DHCPv6）</strong>：通过DHCPv6协议获取IPv6相关信息。包括IP地址及DNS等信息。<br>
+<strong>无状态DHCPv6（Stateless DHCPv6）</strong>：这种介于上面两种形式中间，IP地址从RA报文中计算得到，而DNS信息，通过DHCPv6协议获取。</p>
+<h4 id="RA、RS报文"><a class="header-anchor" href="#RA、RS报文">¶</a>RA、RS报文</h4>
+<p><strong>简介</strong><br>
+**NDP（Neighbor Discovery Protocol，邻居发现协议）**是IPv6的基础协议，它组合了IPv4中的ARP、ICMP路由器发现和ICMP重定向等协议，并对它们作了改进。作为IPv6的基础性协议，NDP还提供了前缀发现、邻居不可达检测、重复地址监测、地址自动配置等功能。</p>
+<p>NDP定义了5种ICMPv6报文类型，包括<strong>RS、RA、NS、NA和Redirect</strong>报文。</p>
+<p><strong>NS、NA</strong>简单来说就是邻居设备之间互通信息，完成<strong>IPv6地址到链路层地址的解析</strong>，然后通过解析后得到的链路层地址和IPv6等地址信息来建立相应的邻居缓存表项。</p>
+<p>而RS、RA报文用于路由器发现</p>
+<p>路由器发现是指主机定位本地链路上的路由器和确定其配置信息的过程，主要包含以下3方面内容：</p>
+<p>路由器发现（Router Discovery）：主机发现邻居路由器及选择某一个路由器作为默认网关的过程。<br>
+前缀发现（Prefix Discovery）：主机发现本地链路上的一组IPv6前缀，生成前缀列表。该列表用于主机的地址自动配置和on-link判断。<br>
+参数发现（Parameter Discovery）：主机发现相关操作参数的过程，如MTU、报文的默认跳数限制、地址分配方式等信息。<br>
+<strong>全球单播地址的配置步骤如下</strong>：<br>
+1）客户端在配置好链路本地地址后，发送RS报文，请求路由器的前缀信息。<br>
+2）路由器收到RS报文后，发送单播RA报文，其中携带M、O flag用于指示进行何种类型配置，A flag用于无状态地址自动配置的前缀信息。同时路由器也会周期性地发送组播RA报文。<br>
+3）客户端根据RA报文携带A flag，获取网关信息。如果是自动配置或者是无状态，则根据M、O flag，选择IPv6地址及DNS的获取方式<br>
+<strong>三个flag:M O A</strong></p>
+<p>**M flag：**Managed address<br>
+configuration字段，为1通过DHCPv6获取IP地址，为0则是通过RA报文获取地址。<br>
+**O flag：**Other configuration字段，为1通过DHCPv6获取DNS等其他配置，为0通过RA报文获取其他配置。<br>
+虽然M O flag具有四种组合，但实际中M=0，0=0是一直错误的配置，因为当IP通过DHCPv6<br>
+Server获取时，相应的DNS等其他配置信息也应从DHCPv6 Server获取以保证业务的连通性。</p>
+<p>**A flag：**Autonomous address-configuration<br>
+flag(A)字段，表示是否可以使用RA报文前缀信息配置无状态地址。<br>
+通过前缀，可以获取子网掩码长度，网关，以及计算出IP地址，图中例子，前缀信息如下：</p>
+ <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-selector-tag">ICMPv6</span> <span class="hljs-selector-tag">Option</span> (Prefix <span class="hljs-attribute">information </span>: <span class="hljs-number">2409</span>:<span class="hljs-number">8</span><span class="hljs-attribute">a20</span>:<span class="hljs-attribute">c1a</span>:<span class="hljs-attribute">ce70</span>::/<span class="hljs-number">64</span>)<br></code></pre></td></tr></table></figure>
+<p>如果是客户端采用自动配置，那么则完全根据RA报文来决定如何获取IPv6相关配置，当然，客户端也可以无视RA报文，选择自己想要的配置方式。（如上图，RA报文配置为无状态DHCPv6模式，但是客户端其实也可以通过DHCPv6来获取有状态地址，只要DHCPv6 Server支持即可）。</p>
+<p>所以，有状态及无状态地址并不是完全互斥，他们可以同时存在，如下图可以理解其流程：</p>
+<img src="/posts/0/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L215dmVzdA==,size_16,color_FFFFFF,t_70.png" class title="IPv6分配流程">
+<h4 id="地址构成"><a class="header-anchor" href="#地址构成">¶</a>地址构成</h4>
+<p>IPv6 与 <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=IPv4&amp;spm=1001.2101.3001.7020">IPv4</a> 最显著的不同，就是其超大的地址空间。IPv4 有32比特 (4字节)，允许大约42.9亿（232）个地址。而 IPv6 定义了128比特 (16字节)，支持大约340 x 1036个地址。这是一个相当可观的数字，在可预见的未来都不会出现地址枯竭的问题。典型的 IPv6 地址可被划分成两部分。如下图所示，开头的64比特用来代表网络，后面的64比特用作接口标识：</p>
+<p><a target="_blank" rel="noopener" href="https://www.packetmania.net/2020/12/01/IPv6-Addressing/ipv6-addr-format.png"><img src="https://img-blog.csdnimg.cn/img_convert/18c4515a87b9ae6c8e0492c3feae7c34.png" alt="img"></a></p>
+<p>接口标识(interface ID)可以有多种方式产生：</p>
+<ul>
+<li>静态手工设置</li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/IPv6_address#Modified_EUI-64">链路层地址 (MAC) 转化为64比特 EUI-64</a></li>
+<li>由 DHCPv6 指定</li>
+<li>由隐私扩展或加密协议生成</li>
+</ul>
+<p>为了便于书写，IPv6 推荐末端加上网络前缀长度的压缩格式标记，据此上面的地址可以缩短表示为： 2001:db8:130f**:😗*7000:<strong>0</strong>:140b/<strong>64</strong></p>
+<p>2101:db6::/64 这个子网我想拆成有8个子网， 那8个子网分别是多少？</p>
+<p>首先我们要知道IPv6 地址位有128位，一个IPv6由8个地址节组成，每个地址节为16位，所以2101:db6::/64  完整的16进制表达方式及二进制方式如下图</p>
+<img src="/posts/0/97765b8783d51e23df97e63618c27eb5.png" class title="img">
+<p>2101这样一个地址节有16位，拆成二进制表达方式为 0010 0001 0000 0001</p>
+<p>所以以上要拆成8个子网（2^3=8）需要在原来的64位在往后延伸 3位，所以需要向下一个地址节中的第一个16进制数字中借用三位   0000</p>
+<img src="/posts/0/4cbabd46d2d07ad602d4d562ae98af14.png" class title="img">
+<p>所以2101:db6::/64 这个子网拆成有8个子网有以下</p>
+<img src="/posts/0/29ab14509c068d6ae04110cde759637c.png" class title="img">
+<p>所以完整的8个子网的地址网段为</p>
+<p>简写：2101:db6::/64</p>
+<p>完整写法：2101:0DB6:0000:0000:0000:0000:0000:0000/64</p>
+<p>网络地址	2101:0DB6:0000:0000:0000:0000:0000:0000<br>
+起始地址	2101:0DB6:0000:0000:0000:0000:0000:0000<br>
+结束地址	2101:0DB6:0000:0000:FFFF:FFFF:FFFF:FFFF<br>
+IP 数量	18446744073709551616</p>
+<blockquote>
+<p>子网1：2101:0db6:0000:0000:0000:0000:0000:0000/67</p>
+<p>网络地址	2101:0DB6:0000:0000:0000:0000:0000:0000<br>
+起始地址	2101:0DB6:0000:0000:0000:0000:0000:0000<br>
+结束地址	2101:0DB6:0000:0000:1FFF:FFFF:FFFF:FFFF<br>
+IP 数量	2305843009213693952<br>
+子网2：2101:0db6:0000:0000:2000:0000:0000:0000/67</p>
+<p>网络地址	2101:0DB6:0000:0000:2000:0000:0000:0000<br>
+起始地址	2101:0DB6:0000:0000:2000:0000:0000:0000<br>
+结束地址	2101:0DB6:0000:0000:3FFF:FFFF:FFFF:FFFF<br>
+IP 数量	2305843009213693952<br>
+子网3：2101:0db6:0000:0000:4000:0000:0000:0000/67</p>
+<p>网络地址	2101:0DB6:0000:0000:4000:0000:0000:0000<br>
+起始地址	2101:0DB6:0000:0000:4000:0000:0000:0000<br>
+结束地址	2101:0DB6:0000:0000:5FFF:FFFF:FFFF:FFFF<br>
+IP 数量	2305843009213693952<br>
+子网4：2101:0db6:0000:0000:6000:0000:0000:0000/67</p>
+<p>网络地址	2101:0DB6:0000:0000:6000:0000:0000:0000<br>
+起始地址	2101:0DB6:0000:0000:6000:0000:0000:0000<br>
+结束地址	2101:0DB6:0000:0000:7FFF:FFFF:FFFF:FFFF<br>
+IP 数量	2305843009213693952<br>
+子网5：2101:0db6:0000:0000:8000:0000:0000:0000/67</p>
+<p>网络地址	2101:0DB6:0000:0000:8000:0000:0000:0000<br>
+起始地址	2101:0DB6:0000:0000:8000:0000:0000:0000<br>
+结束地址	2101:0DB6:0000:0000:9FFF:FFFF:FFFF:FFFF<br>
+IP 数量	2305843009213693952<br>
+子网6：2101:0db6:0000:0000:a000:0000:0000:0000/67</p>
+<p>网络地址	2101:0DB6:0000:0000:A000:0000:0000:0000<br>
+起始地址	2101:0DB6:0000:0000:A000:0000:0000:0000<br>
+结束地址	2101:0DB6:0000:0000:BFFF:FFFF:FFFF:FFFF<br>
+IP 数量	2305843009213693952<br>
+子网7：2101:0db6:0000:0000:c000:0000:0000:0000/67</p>
+<p>网络地址	2101:0DB6:0000:0000:C000:0000:0000:0000<br>
+起始地址	2101:0DB6:0000:0000:C000:0000:0000:0000<br>
+结束地址	2101:0DB6:0000:0000:DFFF:FFFF:FFFF:FFFF<br>
+IP 数量	2305843009213693952<br>
+子网8：2101:0db6:0000:0000:e000:0000:0000:0000/67</p>
+<p>网络地址	2101:0DB6:0000:0000:E000:0000:0000:0000<br>
+起始地址	2101:0DB6:0000:0000:E000:0000:0000:0000<br>
+结束地址	2101:0DB6:0000:0000:FFFF:FFFF:FFFF:FFFF<br>
+IP 数量	2305843009213693952</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>https://jsweetcoffee.github.io/posts/0.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>SCxiaoyun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年12月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/450afc9b.html" title="吃饭AI小助手">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">吃饭AI小助手</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/df8abfee.html" title="WAF中相关漏洞原理以及防护原理">
+                        <span class="hidden-mobile">WAF中相关漏洞原理以及防护原理</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"ejWQ4cLgEdFyaqpxh7H74jUL-gzGzoHsz","appKey":"esK2EV3cfDXbDYkhTkNEHyHD","path":"window.location.pathname","placeholder":"吐槽一下","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true,"verify":false,"notify":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+
+  
+  <script
+  async
+  defer
+  src="http://49.233.251.176:10087/api/application/embed?protocol=http&host=49.233.251.176:10087&token=0c8a92daa216c5bf">
+  </script>
+</div>  
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":true,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/runtime.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/DynamicLine.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/containsWord.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/nito.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"rect":"opacity:0.5","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

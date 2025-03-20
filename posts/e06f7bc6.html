@@ -1,0 +1,929 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E8%95%BE%E5%A7%86.png">
+  <link rel="icon" href="/img/%E8%95%BE%E5%A7%86.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#58C9B9">
+  <meta name="author" content="SCxiaoyun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="WAF [TOC] ¶1. 什么是waf？ ¶概念: WAF的全称是（Web Application Firewall）即Web应用防火墙，简称WAF。是一种用于保护Web应用程序的安全设备，Web应用程序是指通过Web浏览器或其他Web客户端访问的应用程序。WAF的目的是保护Web应用程序免受黑客、网络攻击和数据泄漏等安全威胁的攻击。 ¶特点： **监测和拦截恶意流量：**WAF可以监测流经其设">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WAF">
+<meta property="og:url" content="https://jsweetcoffee.github.io/posts/e06f7bc6.html">
+<meta property="og:site_name" content="晓雲的陋室">
+<meta property="og:description" content="WAF [TOC] ¶1. 什么是waf？ ¶概念: WAF的全称是（Web Application Firewall）即Web应用防火墙，简称WAF。是一种用于保护Web应用程序的安全设备，Web应用程序是指通过Web浏览器或其他Web客户端访问的应用程序。WAF的目的是保护Web应用程序免受黑客、网络攻击和数据泄漏等安全威胁的攻击。 ¶特点： **监测和拦截恶意流量：**WAF可以监测流经其设">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/e06f7bc6/image-20240326133155800.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/e06f7bc6/image-20240326155708773.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/e06f7bc6/image-20240326155854698.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/e06f7bc6/image-20240326161405972.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/e06f7bc6/image-20240326161538046.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/e06f7bc6/image-20240326161741614.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/e06f7bc6/image-20240326161938306.png">
+<meta property="article:published_time" content="2024-04-17T01:57:46.000Z">
+<meta property="article:modified_time" content="2024-12-19T01:07:56.000Z">
+<meta property="article:author" content="SCxiaoyun">
+<meta property="article:tag" content="web安全">
+<meta property="article:tag" content="理论知识">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jsweetcoffee.github.io/posts/e06f7bc6/image-20240326133155800.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>WAF - 晓雲的陋室</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/scroll.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jsweetcoffee.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":50,"cursorChar":"♫","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"❡"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":true,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading2.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>聊五分钱的天吗？|ω･)و ̑̑༉</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pic9.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="WAF"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        SCxiaoyun
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-17 09:57" pubdate>
+          2024年4月17日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          39 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">WAF</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：2024年12月19日 上午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>WAF</h1>
+<p>[TOC]</p>
+<h2 id="1-什么是waf？"><a class="header-anchor" href="#1-什么是waf？">¶</a>1. 什么是waf？</h2>
+<h4 id="概念"><a class="header-anchor" href="#概念">¶</a>概念:</h4>
+<p><strong>WAF</strong>的全称是（Web Application Firewall）即<strong>Web应用防火墙</strong>，简称WAF。是一种用于保护Web应用程序的安全设备，Web应用程序是指通过Web浏览器或其他Web客户端访问的应用程序。WAF的目的是保护Web应用程序免受黑客、网络攻击和数据泄漏等安全威胁的攻击。</p>
+<h4 id="特点："><a class="header-anchor" href="#特点：">¶</a>特点：</h4>
+<p>**监测和拦截恶意流量：**WAF可以监测流经其设备的所有流量，对恶意流量进行拦截，保护Web应用程序免受各种攻击。</p>
+<p>**基于规则的检测：**WAF通常采用基于规则的检测技术，通过预定义规则或自定义规则来检测并拦截恶意流量。</p>
+<p>**防止漏洞利用：**WAF可以检测和拦截各种漏洞利用攻击，如SQL注入、XSS、CSRF、命令注入等。</p>
+<p>**安全策略：**WAF可以通过安全策略来限制流量的来源、目标和类型，从而实现更精细的流量控制和访问控制。</p>
+<p>**高可用性：**WAF通常具有高可用性，可以通过多节点部署和负载均衡来实现高可靠性和可扩展性。</p>
+<h4 id="分类："><a class="header-anchor" href="#分类：">¶</a>分类：</h4>
+<p>**硬件WAF：**硬件WAF通常是一种独立设备，它可以与网络交换机、路由器等设备集成，拦截来自外部网络的流量，并对Web应用程序进行保护。硬件WAF通常具有高性能和低延迟，适用于高流量的Web应用程序。</p>
+<p>**软件WAF：**软件WAF通常是一种安装在服务器上的应用程序，可以通过修改Web服务器或代理服务器的配置文件实现。软件WAF可以与多种Web服务器和应用程序框架集成，包括Apache、Nginx、IIS等。软件WAF通常具有灵活性和易于配置的优点，适用于多种Web应用程序。</p>
+<p>**云WAF：**云WAF通常是一种基于云的服务，可以将Web应用程序的流量转发到云端进行处理。云WAF可以提供全球分布的节点，从而提高Web应用程序的可用性和性能。云WAF通常具有弹性扩展、自动升级等优点，适用于高可用性和高性能的Web应用程序。</p>
+<img src="/posts/e06f7bc6/image-20240326133155800.png" class title="image-20240326133155800">
+<h2 id="2-waf的工作原理"><a class="header-anchor" href="#2-waf的工作原理">¶</a>2. waf的工作原理</h2>
+<p>WAF的<strong>工作原理</strong>通常包括以下几个步骤：</p>
+<p><strong>流量识别</strong>：WAF识别来自客户端的请求，并对请求进行分析。WAF可以检查请求头、请求体、Cookie、URL参数等信息，并识别其中的攻击。</p>
+<p><strong>攻击检测</strong>：WAF对识别的请求进行攻击检测。WAF可以使用多种技术来检测攻击，例如正则表达式、特征匹配、行为分析等。WAF可以检测多种攻击，包括SQL注入、XSS、CSRF、命令注入等。</p>
+<p><strong>攻击响应</strong>：WAF根据检测结果采取相应的措施，例如拦截请求、阻止访问、记录事件等。WAF可以使用多种技术来响应攻击，例如重定向、报错、拦截等。</p>
+<p><strong>日志记录</strong>：WAF记录所有请求和响应的详细信息，包括请求头、请求体、响应头、响应体等。WAF可以将日志发送给中央日志管理系统，以便进行分析和审计。</p>
+<h2 id="waf和普通防火墙的区别"><a class="header-anchor" href="#waf和普通防火墙的区别">¶</a>waf和普通防火墙的区别</h2>
+<p><strong>网络防火墙</strong>作为访问控制设备，主要工作在<strong>OSI模型三、四层（网络层和传输层）</strong>，基于IP报文进行检测。只是对端口做限制，对TCP协议做封堵。(只关注正向和反向流量的目的地址、源地址以及端口)其产品设计无需理解HTTP会话，也就决定了无法理解Web应用程序语言如HTML、SQL语言。因此，它不可能对HTTP通讯进行输入验证或攻击规则分析。针对Web网站的恶意攻击绝大部分都将封装为HTTP请求，从80或443端口顺利通过防火墙检测。</p>
+<p>WAF能够过滤特定Web应用程序的内容，而常规防火墙则充当服务器之间的安全门。通过检查HTTP流量，它可以防止源自Web应用程序安全漏洞的攻击，例如SQL注入、跨站点脚本，文件包含和安全性错误配置。</p>
+<h2 id="WAF的功能："><a class="header-anchor" href="#WAF的功能：">¶</a>WAF的功能：</h2>
+<h4 id="通常传统waf的功能："><a class="header-anchor" href="#通常传统waf的功能：">¶</a>通常传统waf的功能：</h4>
+<p>WAF主要是通过内置的很多安全规则 来进行防御。</p>
+<p>可防护常见的SQL注入、XSS、网页篡改、中间件漏洞等OWASP TOP10攻击行。</p>
+<p>当发现攻击后，可将IP进行锁定，IP锁定之后将无法访问网站业务。</p>
+<p>也支持防止CC攻击，采用集中度和速率双重检测算法。</p>
+<blockquote>
+<p>CC攻击：通过大量请求对应用程序资源消耗最大的应用，如WEB查询数据库应用，从而导致服务器拒绝服务</p>
+</blockquote>
+<p><strong>WAF不能做什么？</strong></p>
+<p>WAF不能做什么？</p>
+<p>WAF不能过滤其他协议流量，如FTP、PoP3协议</p>
+<p>WAF不能实现传统防护墙功能，如地址映射</p>
+<p>WAF不能防止网络层的DDoS攻击</p>
+<p>不能防病毒（NGFW可防）</p>
+<h4 id="盛邦RAYwaf的功能"><a class="header-anchor" href="#盛邦RAYwaf的功能">¶</a>盛邦RAYwaf的功能</h4>
+<p><strong>1.协议合规检测</strong></p>
+<p>RayWAF 支持对 HTTP 协议包中各项参数，例如 URL 长度、Cookies 长度、请求行长度以及请求头长度等进行合规性控制，通过自定义阈值与参数访问控制相结合的方式，对 HTTP 数据进行第一层安全控制，从最开始杜绝非法数据包传输。</p>
+<p><strong><a target="_blank" rel="noopener" href="http://1.Web">1.Web</a> 攻击防护</strong></p>
+<p>RayWAF 通过预置 Web 细粒度的防护特征库，可以有效的对 OWASP TOP10 攻击行为进行拦截，全面覆盖了 WEB 应用安全存在的主要威胁，并可根据特定的攻击字段自定义特征，通过匹配的方式对可能出现的攻击执行相应的处理。</p>
+<p><strong><a target="_blank" rel="noopener" href="http://2.Web">2.Web</a> 业务控制</strong></p>
+<p>RayWAF 采用行为分析算法，针对访问行为分析，实现无特征行为的攻击防护，基于访问行为分析可以有效阻断此几类安全风险：爬虫，黑链，盗链，恶意文件的上传下载等行为</p>
+<p><strong><a target="_blank" rel="noopener" href="http://3.Web">3.Web</a> 敏感信息保护</strong></p>
+<p>RayWAF 通过中件间信息保护、数据库信息保护、敏感文件保护、代码错误信息保护、隐私信息保护、敏感词防护等诸多敏感信息检测技术，防止敏感信息被泄露</p>
+<p><strong><a target="_blank" rel="noopener" href="http://4.Web">4.Web</a> 业务加固</strong></p>
+<p>RayWAF 提供深入到具体应用业务内部的专项的加固保护能力，并为每种所支持的应用程序提供专门的检测防御模块，并综合提供暴力破解、弱密码检测、会话安全，CGI 防护，人机识别，访问顺序控制等多层面的多种检查、控制，从而保护业务的安全性。</p>
+<p><strong>5.入侵检测防护</strong></p>
+<p>RayWAF 通在核心技术平台上将引擎、协议分析和攻击检测分为三部分进行开发，然后再通过核心平台将它们的工作结合起来，这样可以避免由一个或两个规模很大的开发小组来维护整个检测语言系统的开发工作。另外，也增加了检测技术的适应性，可以共享各类事件库，从而能够更多的检测和防护各类攻击。另外，由于核心平台检测粒度非常精细，所以系统能够更加准确的判断网络工具行为。针对除应用层外的攻击进行全方位防护。</p>
+<p><strong>6.DDos 攻击防护</strong></p>
+<p>RayWAF 采用全新的数据采集模型，对经过流量进行分发调配，并配合多核处理架构合理利用系统资源，提升自身处理和清洗能力。同时，通过多样的DDoS 识别和二次验证算法，提升事件的检出能力和准确性</p>
+<h2 id="WAF部署方式"><a class="header-anchor" href="#WAF部署方式">¶</a>WAF部署方式</h2>
+<p><strong>串联：透明代理、透明流</strong></p>
+<p><strong>并联：旁路反代（代理模式和牵引模式）、旁路检测、旁路镜像阻断</strong></p>
+<h4 id="串联模式："><a class="header-anchor" href="#串联模式：">¶</a>串联模式：</h4>
+<p><strong>透明代理：</strong></p>
+<p>透明代理部署模式支持透明串接部署方式。串接在用户网络中，可实现即插即用，无需用户更改网络设备与服务器配置。部署简单易用，应用于大部分用户网络中。</p>
+<img src="/posts/e06f7bc6/image-20240326155708773.png" class title="image-20240326155708773">
+<p>部署特点：</p>
+<ol>
+<li>不需要改变用户网络结构，对于用户而言是透明的</li>
+<li>安全防护性能强</li>
+<li>故障恢复快，可支持Bypass</li>
+</ol>
+<p><strong>透明流：</strong></p>
+<p>透明桥模式是真正意义上的纯透明，不会改变更改数据包任何内容，比如源端口、TCP序列号，桥模式不跟踪TCP会话，可支持路由不对称环境。</p>
+<img src="/posts/e06f7bc6/image-20240326155854698.png" class title="image-20240326155854698">
+<h4 id="并联模式："><a class="header-anchor" href="#并联模式：">¶</a>并联模式：</h4>
+<p><strong>旁路反向代理（代理模式和牵引模式）</strong></p>
+<p>​		<strong>代理模式：</strong></p>
+<img src="/posts/e06f7bc6/image-20240326161405972.png" class title="image-20240326161405972">
+<p>WAF采用反向代理模式以旁路的方式接入到网络环境中，需要更改网络防火墙的<strong>目的映射表</strong>，网络防火墙映射WAF的业务口地址，将服务器的IP地址进行隐藏。</p>
+<p>部署特点：</p>
+<ol>
+<li>可旁路部署，对于用户网络不透明，防护能力强</li>
+<li>故障恢复时间慢，不支持Bypass，恢复时需要重新将域名或地址映射到原服务器。</li>
+<li>此模式应用于复杂环境中，如设备无法直接串接的环境。</li>
+<li>访问时需要先访问WAF配置的业务口地址。</li>
+<li>支持VRRP主备</li>
+</ol>
+<p>​		<strong>牵引模式：</strong></p>
+<img src="/posts/e06f7bc6/image-20240326161538046.png" class title="image-20240326161538046">
+<p>WAF采用反向代理模式以旁路的方式接入到网络环境中，需要在核心交换机上做策略路由PBR，将客户端访问服务器的流量牵引到WAF上，策略路由的下一跳地址为WAF的业务口地址。</p>
+<p>部署特点:</p>
+<ol>
+<li>可旁路部署，对于用户网络不透明。</li>
+<li>故障恢复时间慢，不支持Bypass，恢复时需要删除路由器策略路由配置。</li>
+<li>此模式应用于复杂环境中，如设备无法直接串接的环境。</li>
+<li>访问时仍访问网站服务器</li>
+</ol>
+<p><strong>旁路监控模式：</strong></p>
+<p>采用旁路监听模式，在交换机做服务器端口镜像，将流量复制一份到WAF上，部署时不影响在线业务。在旁路模式下WAF只会进行<strong>告警而不阻断</strong>。</p>
+<img src="/posts/e06f7bc6/image-20240326161741614.png" class title="image-20240326161741614">
+<p><strong>旁路镜像阻断模式:</strong></p>
+<p>此拓扑适用于 WAF 旁路镜像阻断模式，WAF 旁路接入到交换机上，接收交换机传给 WAF 的镜像数据，对镜像数据进行分析，然后针对攻击行为进行<strong>构造阻断包</strong>，中断后续会话，进行攻击行为阻断。对存在的攻击以日志形式展示出来。拓扑如下:</p>
+<img src="/posts/e06f7bc6/image-20240326161938306.png" class title="image-20240326161938306">
+<h2 id="云WAF的相关概念"><a class="header-anchor" href="#云WAF的相关概念">¶</a>云WAF的相关概念</h2>
+<h2 id="软件waf、云waf和硬件waf的优缺点"><a class="header-anchor" href="#软件waf、云waf和硬件waf的优缺点">¶</a>软件waf、云waf和硬件waf的优缺点</h2>
+<p><strong>硬件WAF的优点：</strong></p>
+<ol>
+<li>**性能强大：**硬件WAF通常是为专门的硬件设备设计的，具有强大的处理能力，能够处理高流量和大规模的网络应用程序流量。</li>
+<li>**高度可定制化：**硬件WAF通常具有灵活的配置选项，可以根据具体需求进行高度定制，以适应各种应用程序的安全需求。</li>
+<li>**低延迟：**由于硬件WAF是直接部署在网络基础设施上的，因此可以实现低延迟的攻击检测和防御。</li>
+</ol>
+<p><strong>硬件WAF的缺点：</strong></p>
+<ol>
+<li>**高成本：**硬件WAF通常需要昂贵的硬件设备来支持其功能，包括购买、部署和维护成本。</li>
+<li>**部署复杂：**硬件WAF需要物理部署，可能需要对网络基础设施进行更改或调整，这可能需要较高的技术知识和专业人员来完成。</li>
+<li>**扩展性有限：**硬件WAF的扩展性受到硬件设备的限制，如果需要增加容量或支持更多应用程序，可能需要购买新的硬件设备。</li>
+</ol>
+<p><strong>软件WAF的优点：</strong></p>
+<ol>
+<li>**灵活性：**软件WAF可以在通用服务器上运行，无需专用硬件设备，因此具有更大的灵活性和可移植性。</li>
+<li>**成本效益：**相对于硬件WAF，软件WAF的成本较低，因为它可以在现有的服务器基础设施上运行。</li>
+<li>**易于部署：**软件WAF可以通过软件安装和配置来实现，相对于物理部署要简单和快速。</li>
+</ol>
+<p><strong>软件WAF的缺点：</strong></p>
+<ol>
+<li>**性能受限：**软件WAF的性能可能受到运行它的服务器的资源限制，处理高流量和大规模应用程序流量时可能性能下降。</li>
+<li>**系统依赖：**软件WAF可能依赖于特定的操作系统和软件环境，这可能限制其在不同平台上的可用性和兼容性。</li>
+<li>**安全性风险：**由于软件WAF运行在服务器上，如果服务器本身存在漏洞或受到攻击，可能会导致软件WAF的绕过或失效。</li>
+</ol>
+<p><strong>云WAF的优点：</strong></p>
+<ol>
+<li>**可扩展性：**云WAF基于云服务提供商的基础设施，可以根据需要轻松地扩展容量和支持更多应用程序。</li>
+<li>**管理简便：**云WAF通常提供易于使用的管理界面，可以实现快速配置和更新规则，而无需进行物理或软件部署。</li>
+<li>**全球分发：**云WAF通常具有全球分布的能力，可以将应用程序流量路由到最近的数据中心，提高性能和用户体验。</li>
+</ol>
+<p><strong>云WAF的缺点：</strong></p>
+<ol>
+<li>
+<p>**数据隐私：**网站访问数据对于一些企业、机构来说为保密数据，里面可能包含用户的隐私或者商业信息，这些数据自行管控会相对安全，但是如果使用Waf，所有的数据会记录到云端，这相当于数据被别人保管，可能存在一定的泄露风险</p>
+</li>
+<li>
+<p>**存在轻易被绕过的风险：**云Waf的主要实现原理是通过将用户的DNS解析到云节点实现防护，这样一来，如果黑客通过相关手段获取了服务器的真实IP地址，然后强制解析域名，就可以轻松绕过云Waf对服务器发起攻击</p>
+</li>
+<li>
+<p>**可靠性低：**云Waf处理一次请求，其中需要经过DNS解析、请求调度、流量过滤等环节，其中涉及协同关联工作，其中只要有一个环节出现问题，就会导致网站无法访问。必要时，只能手动切换为原DNS来保证业务正常运行，而域名解析需要一定时间，则会导致网站短时间无法正常访问</p>
+</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/web%E5%AE%89%E5%85%A8/" class="category-chain-item">web安全</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/web%E5%AE%89%E5%85%A8/%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/" class="category-chain-item">理论知识</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/web%E5%AE%89%E5%85%A8/">#web安全</a>
+      
+        <a href="/tags/%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/">#理论知识</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>WAF</div>
+      <div>https://jsweetcoffee.github.io/posts/e06f7bc6.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>SCxiaoyun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/a1c52770.html" title="WAF如何防护HTTPS站点">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">WAF如何防护HTTPS站点</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/7422e24d.html" title="下一代防火墙">
+                        <span class="hidden-mobile">下一代防火墙</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"ejWQ4cLgEdFyaqpxh7H74jUL-gzGzoHsz","appKey":"esK2EV3cfDXbDYkhTkNEHyHD","path":"window.location.pathname","placeholder":"吐槽一下","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true,"verify":false,"notify":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+
+  
+  <script
+  async
+  defer
+  src="http://49.233.251.176:10087/api/application/embed?protocol=http&host=49.233.251.176:10087&token=0c8a92daa216c5bf">
+  </script>
+</div>  
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":true,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/runtime.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/DynamicLine.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/containsWord.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/nito.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"rect":"opacity:0.5","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

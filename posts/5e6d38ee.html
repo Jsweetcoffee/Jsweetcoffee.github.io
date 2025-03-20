@@ -1,0 +1,882 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E8%95%BE%E5%A7%86.png">
+  <link rel="icon" href="/img/%E8%95%BE%E5%A7%86.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#58C9B9">
+  <meta name="author" content="SCxiaoyun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="云WAF以及与云WAF相关内容 ¶云计算： 目前我们说的云计算指的是云计算服务。云是一个地理概念，指的是计算在云端发生，云计算服务是厂商把自己的数据资源中心按需租用给客户，协助他在云端进行计算处理的服务。 **优点：**灵活的订阅机制；弹性的按需付费；有别与本地化部署，部署和运维成本很低，部署简单，可弹性购买服务，安全性很高，厂商会提供标准化的安全检查和安全服务。 云服务模式： SaaS：将软件作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="云WAF以及与云WAF相关内容">
+<meta property="og:url" content="https://jsweetcoffee.github.io/posts/5e6d38ee.html">
+<meta property="og:site_name" content="晓雲的陋室">
+<meta property="og:description" content="云WAF以及与云WAF相关内容 ¶云计算： 目前我们说的云计算指的是云计算服务。云是一个地理概念，指的是计算在云端发生，云计算服务是厂商把自己的数据资源中心按需租用给客户，协助他在云端进行计算处理的服务。 **优点：**灵活的订阅机制；弹性的按需付费；有别与本地化部署，部署和运维成本很低，部署简单，可弹性购买服务，安全性很高，厂商会提供标准化的安全检查和安全服务。 云服务模式： SaaS：将软件作">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-17T01:57:46.000Z">
+<meta property="article:modified_time" content="2024-12-19T01:07:56.000Z">
+<meta property="article:author" content="SCxiaoyun">
+<meta property="article:tag" content="web安全">
+<meta property="article:tag" content="理论知识">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>云WAF以及与云WAF相关内容 - 晓雲的陋室</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/scroll.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jsweetcoffee.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":50,"cursorChar":"♫","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"❡"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":true,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading2.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>聊五分钱的天吗？|ω･)و ̑̑༉</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pic9.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="云WAF以及与云WAF相关内容"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        SCxiaoyun
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-17 09:57" pubdate>
+          2024年4月17日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          24 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">云WAF以及与云WAF相关内容</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：2024年12月19日 上午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>云WAF以及与云WAF相关内容</h1>
+<h3 id="云计算："><a class="header-anchor" href="#云计算：">¶</a>云计算：</h3>
+<p>目前我们说的云计算指的是<strong>云计算服务</strong>。云是一个地理概念，指的是<strong>计算在云端发生</strong>，云计算服务是厂商把自己的数据资源中心按需租用给客户，协助他在云端进行计算处理的服务。</p>
+<p>**优点：**灵活的订阅机制；弹性的按需付费；有别与本地化部署，部署和运维成本很低，部署简单，可弹性购买服务，安全性很高，厂商会提供标准化的安全检查和安全服务。</p>
+<p>云服务模式：</p>
+<p><strong>SaaS</strong>：将软件作为服务卖给客户</p>
+<p><strong>PaaS</strong>：将平台作为服务卖给客户</p>
+<p><strong>LaaS</strong>：将基础设施作为服务卖给客户</p>
+<h3 id="硬件防火墙："><a class="header-anchor" href="#硬件防火墙：">¶</a>硬件防火墙：</h3>
+<p>部署方式：一个独立的硬件盒子串行部署在web服务器前，串接在交换机上。</p>
+<p><strong>优点</strong>：部署简单，可承受吞吐量大。</p>
+<p><strong>缺点</strong>：贵，离线部署不能实时更新规则</p>
+<h3 id="软件防火墙："><a class="header-anchor" href="#软件防火墙：">¶</a>软件防火墙：</h3>
+<p>以软件形式直接安装在服务器上，典型的是网站安全狗</p>
+<p><strong>优点</strong>：安装简单，下载即用，部分开源免费</p>
+<p><strong>缺点</strong>：耗费服务器资源，而且只能单台机器部署，不适合大型项目</p>
+<h3 id="云WAF："><a class="header-anchor" href="#云WAF：">¶</a>云WAF：</h3>
+<p>​		无需软硬件部署，利用DNS技术，通过<strong>移交域名解析权</strong>来实现安全防护。用户的请求首先发送到<strong>云端节点</strong>进行检测，如存在异常请求则进行拦截，否则将请求<strong>转发</strong>至真实服务器。通常情况下，云WAF系统由<strong>控制中心</strong>及<strong>端节点</strong>两大部分组成。控制中心部署有DNS服务器、调度系统等，用来解析并调度客户端对网站的访问请求。端节点采用多台分布式部署，每一个端节点都是一台独立的硬件WAF设备，用来过滤非法的网站请求。</p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>
+<p>部署更加简单；</p>
+</li>
+<li>
+<p>网站本身不会增加运维成本；</p>
+</li>
+<li>
+<p>云waf厂商会及时跟踪最新漏洞；</p>
+</li>
+<li>
+<p>添加规则实现对最新Web攻击的防护；</p>
+</li>
+<li>
+<p>云waf一般采用<strong>多节点部署</strong>方式，具有CDN功能，可提高用户访问速度。</p>
+</li>
+<li>
+<p>云WAF的<strong>主要功能</strong>有DDOS&amp;CC防护、应用安全防护、业务安全防护、CDN加速、联动防御、态势感知、虚拟补丁、精准访问控	制、0day漏洞快速修复等。</p>
+</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>如果知道Web应用的真实IP可以直接绕过云waf；</li>
+<li>对于某些大型企业或厂商存在安全问题，通常他们会采取私有云或者混合云的方式解决</li>
+</ul>
+<h2 id="利用DNS引流"><a class="header-anchor" href="#利用DNS引流">¶</a>利用DNS引流</h2>
+<h3 id="DNS："><a class="header-anchor" href="#DNS：">¶</a>DNS：</h3>
+<p>DNS( Domain Name System)是“域名系统”的英文缩写，是一种组织成域层次结构的计算机和网络服务命名系统，使用的是UDP协议的53号端口，它用于TCP/IP网络，它所提供的服务是用来<strong>将主机名和域名转换为IP地址的工作。</strong></p>
+<h4 id="DNS记录："><a class="header-anchor" href="#DNS记录：">¶</a>DNS记录：</h4>
+<ul>
+<li><strong>A记录</strong>：用于将域名解析到IPv6地址的一种DNS记录类型。</li>
+<li><strong>AAAA记录</strong>：用于将域名解析到IPv6地址的一种DNS记录类型。</li>
+<li><strong>CNAME记录</strong>：主机名到主机名的映射，如果需要将域名指向另一个域名，而不是一个IP地址，就需要添加CNAME记录。</li>
+<li><strong>MX记录</strong>：邮件交换记录，主要用于邮箱解析，在发送邮件时根据收件人的地址后缀进行邮件服务器的定位。</li>
+<li><strong>TXT记录</strong>：用于某个主机名的标识和说明，通过设置TXT记录可以使别人更方便地联系到你。</li>
+<li><strong>PTR记录</strong>：A记录的反向记录，用于将一个IP地址指向对应的主机名，实现通过IP地址访问域名。</li>
+<li><strong>SRV记录</strong>：服务定位资源记录。</li>
+<li>**NS记录：**用于指定域名应该由哪些DNS服务器解析。</li>
+</ul>
+<p>一般比较重要的是<strong>A、CNAME、PTR、NS</strong></p>
+<p><strong>云WAF利用DNS引流的具体原理是：</strong></p>
+<p>​		把域名的解析权交给云WAF，云WAF利用DNS调度技术，改变网络流量的原始流向，将网络流量牵引到云端的WAF上，云端的WAF对流量进行净化和过滤后，将安全的流量回传给后端真实的应用，最终达到安全过滤和保护的作用。</p>
+<h3 id="具体实操："><a class="header-anchor" href="#具体实操：">¶</a>具体实操：</h3>
+<p><strong>将域名解析权交给云WAF的具体步骤如下：</strong></p>
+<ol>
+<li>登录您的<strong>域名注册商</strong>或域名管理平台的网站。</li>
+<li>找到您要转移的域名，并进入其管理页面。</li>
+<li>在管理页面中，找到DNS设置或域名解析设置选项。</li>
+<li>修改DNS设置（通常采用修改域名<strong>NS记录</strong>或<strong>CNAME记录</strong>的方式），<strong>将原有的DNS服务器地址更改为云WAF提供的DNS服务器地址。</strong></li>
+<li>保存更改并等待DNS生效。生效时间可能因域名注册商和DNS缓存情况而有所不同，一般需要几分钟到几小时不等。</li>
+</ol>
+<p>请注意，在更改DNS设置之前，您需要确保已经与云WAF提供商完成了相关配置和接入工作，并获得了正确的DNS服务器地址。此外，更改DNS设置可能会影响您的网站访问，因此请在操作前仔细确认并备份相关设置。</p>
+<h3 id="移交域名解析权"><a class="header-anchor" href="#移交域名解析权">¶</a>移交域名解析权</h3>
+<p>在DNS技术中，移交域名解析权通常涉及将域名的管理权和控制权从一个DNS服务提供商转移到另一个。这通常发生在域名所有者更换托管服务、重新委托域名管理或进行其他与域名相关的操作时。以下是移交域名解析权的一般步骤：</p>
+<ol>
+<li><strong>确定当前注册商和DNS服务提供商</strong>：首先，需要确定域名的当前注册商和DNS服务提供商。这些信息通常可以在域名的WHOIS记录中找到。</li>
+<li><strong>联系当前DNS服务提供商</strong>：联系当前DNS服务提供商，了解他们关于域名解析权转移的具体政策和流程。</li>
+<li><strong>获取转移码或授权码</strong>：根据当前DNS服务提供商的要求，可能需要获取一个转移码或授权码。这个码通常用于验证域名所有者的身份，并授权新的DNS服务提供商接管域名的解析权。</li>
+<li><strong>选择新的DNS服务提供商</strong>：选择一个新的DNS服务提供商，并确保他们支持你想要使用的DNS功能和特性。</li>
+<li><strong>提交转移请求</strong>：使用从当前DNS服务提供商获取的转移码或授权码，向新的DNS服务提供商提交域名解析权转移请求。</li>
+</ol>
+<h3 id="反向代理："><a class="header-anchor" href="#反向代理：">¶</a>反向代理：</h3>
+<p><strong>正向代理</strong></p>
+<p>​		是一个位于客户端和目标服务器之间的代理服务器（中间服务器）。为了从目标服务器取得内容，客户端向代理服务器发送一个请求，<strong>并且指定目标服务器</strong>，之后代理向目标服务器转发请求，将获得的内容返回给客户端。</p>
+<p><strong>作用：</strong></p>
+<ul>
+<li>正向代理需要主动设置代理服务器ip或者域名进行访问，由设置的服务器ip或者域名去访问内容并返回</li>
+<li>正向代理是<strong>代理客户端</strong>，为客户端收发请求，<strong>使真实客户端对服务器不可见。</strong></li>
+</ul>
+<p><strong>用途：</strong></p>
+<ul>
+<li>渗透人员为了防止溯源通常所搭建的代理服务就是正向代理，用于保护真实客服端。</li>
+<li>典型用途是为防火墙内的局域网客户端提供访问服务器的途径，正向代理还可以使用缓冲特性减少网络利用率。</li>
+<li>科学上网。</li>
+</ul>
+<p><strong>反向代理</strong></p>
+<p>​		是指以代理服务器来接收客户端的请求，然后将请求转发给内部网络上的服务器，将从服务器上得到的结果返回给客户端，此时代理服务器对外表现为一个反向代理服务器。</p>
+<p>对于客户端来说，反向代理就相当于目标服务器，只需要将反向代理当作目标服务器一样发送请求就可以了，并且客户端不需要进行任何设置。</p>
+<p>反向代理是<strong>代理服务器</strong>，为服务器收发请求，使真实服务器对客户端不可见。</p>
+<p><strong>用途：</strong></p>
+<ul>
+<li><strong>隐藏服务器真实ip</strong>：使用反向代理，可以对客户端隐藏服务器的ip地址</li>
+<li><strong>负载均衡</strong>：反向代理服务器可以做负载均衡，根据所有真实服务器的负载情况，将客户端请求分发到不同的真实服务器上</li>
+<li><strong>提高访问速度</strong>：反向代理服务器可以对静态内容及短时间内有大量访问请求的动态内容提供缓存服务，提高访问速度</li>
+<li><strong>提供安全保障</strong>：反向代理服务器可以作为应用层防火墙，为网站提供对基于web的攻击行为（例如DoS/DDoS）的防护，更容易排查恶意软件等。还可以为后端服务器统一提供加密和SSL加速（如SSL终端代理），提供HTTP访问认证等</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/web%E5%AE%89%E5%85%A8/" class="category-chain-item">web安全</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/web%E5%AE%89%E5%85%A8/%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/" class="category-chain-item">理论知识</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/web%E5%AE%89%E5%85%A8/">#web安全</a>
+      
+        <a href="/tags/%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/">#理论知识</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>云WAF以及与云WAF相关内容</div>
+      <div>https://jsweetcoffee.github.io/posts/5e6d38ee.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>SCxiaoyun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/7422e24d.html" title="下一代防火墙">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">下一代防火墙</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/438053c9.html" title="旁路阻断技术">
+                        <span class="hidden-mobile">旁路阻断技术</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"ejWQ4cLgEdFyaqpxh7H74jUL-gzGzoHsz","appKey":"esK2EV3cfDXbDYkhTkNEHyHD","path":"window.location.pathname","placeholder":"吐槽一下","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true,"verify":false,"notify":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+
+  
+  <script
+  async
+  defer
+  src="http://49.233.251.176:10087/api/application/embed?protocol=http&host=49.233.251.176:10087&token=0c8a92daa216c5bf">
+  </script>
+</div>  
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":true,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/runtime.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/DynamicLine.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/containsWord.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/nito.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"rect":"opacity:0.5","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

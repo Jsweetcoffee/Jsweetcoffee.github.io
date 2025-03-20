@@ -1,0 +1,774 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E8%95%BE%E5%A7%86.png">
+  <link rel="icon" href="/img/%E8%95%BE%E5%A7%86.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#58C9B9">
+  <meta name="author" content="SCxiaoyun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="hexo默认的mk文件渲染引擎是不支持将emoji表情渲染到html页面中的，所以这里我们需要将原来的卸载掉更换支持的引擎再安装emoji插件就好了😁 123npm un hexo-renderer-marked --savenpm i hexo-renderer-markdown-it --savenpm install markdown-it-emoji --save ¶配置文件 根目录下将">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo添加emoji表情功能">
+<meta property="og:url" content="https://jsweetcoffee.github.io/posts/83661a60.html">
+<meta property="og:site_name" content="晓雲的陋室">
+<meta property="og:description" content="hexo默认的mk文件渲染引擎是不支持将emoji表情渲染到html页面中的，所以这里我们需要将原来的卸载掉更换支持的引擎再安装emoji插件就好了😁 123npm un hexo-renderer-marked --savenpm i hexo-renderer-markdown-it --savenpm install markdown-it-emoji --save ¶配置文件 根目录下将">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-07-01T04:06:46.000Z">
+<meta property="article:modified_time" content="2023-07-01T05:31:42.000Z">
+<meta property="article:author" content="SCxiaoyun">
+<meta property="article:tag" content="博客">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>hexo添加emoji表情功能 - 晓雲的陋室</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/scroll.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jsweetcoffee.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":50,"cursorChar":"♫","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"❡"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":true,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading2.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>聊五分钱的天吗？|ω･)و ̑̑༉</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pic9.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="hexo添加emoji表情功能"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        SCxiaoyun
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-07-01 12:06" pubdate>
+          2023年7月1日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          103 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">hexo添加emoji表情功能</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：2023年7月1日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>hexo默认的mk文件渲染引擎是不支持将emoji表情渲染到html页面中的，所以这里我们需要将原来的卸载掉更换支持的引擎再安装emoji插件就好了😁</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs applescript">npm un hexo-renderer-marked <span class="hljs-comment">--save</span><br>npm i hexo-renderer-markdown-<span class="hljs-keyword">it</span> <span class="hljs-comment">--save</span><br>npm install markdown-<span class="hljs-keyword">it</span>-emoji <span class="hljs-comment">--save</span><br></code></pre></td></tr></table></figure>
+<h2 id="配置文件"><a class="header-anchor" href="#配置文件">¶</a>配置文件</h2>
+<p>根目录下将下面这段代码贴上去：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment">## markdown 渲染引擎配置，默认是hexo-renderer-marked，这个插件渲染速度更快，且有新特性</span><br><span class="hljs-attr">markdown:</span><br>  <span class="hljs-attr">render:</span><br>    <span class="hljs-attr">html:</span> <span class="hljs-literal">true</span><br>    <span class="hljs-attr">xhtmlOut:</span> <span class="hljs-literal">false</span><br>    <span class="hljs-attr">breaks:</span> <span class="hljs-literal">true</span><br>    <span class="hljs-attr">linkify:</span> <span class="hljs-literal">true</span><br>    <span class="hljs-attr">typographer:</span> <span class="hljs-literal">true</span><br>    <span class="hljs-attr">quotes:</span> <span class="hljs-string">&#x27;“”‘’&#x27;</span><br>  <span class="hljs-attr">plugins:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">markdown-it-footnote</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">markdown-it-sup</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">markdown-it-sub</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">markdown-it-abbr</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">markdown-it-emoji</span><br>  <span class="hljs-attr">anchors:</span><br>    <span class="hljs-attr">level:</span> <span class="hljs-number">1</span><br>    <span class="hljs-attr">collisionSuffix:</span> <span class="hljs-string">&#x27;v&#x27;</span><br>    <span class="hljs-attr">permalink:</span> <span class="hljs-literal">false</span><br>    <span class="hljs-attr">permalinkClass:</span> <span class="hljs-string">header-anchor</span><br>    <span class="hljs-attr">permalinkSymbol:</span> <span class="hljs-string">¶</span><br></code></pre></td></tr></table></figure>
+<p>然后编写文章时，将想要加入的emoji编码放上去，下面是常见的emoji编码，放在这里，主要是为了以后自己写文章的时候查找~</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br></pre></td><td class="code"><pre><code class="hljs elixir">emoji编码合集<br><br><span class="hljs-title class_">People</span><br>😐<span class="hljs-symbol">:neutral_face</span>:	😄<span class="hljs-symbol">:smile</span>:	😆<span class="hljs-symbol">:laughing</span>:<br>😊<span class="hljs-symbol">:blush</span>:	😃<span class="hljs-symbol">:smiley</span>:	☺️<span class="hljs-symbol">:relaxed</span>:<br>😏<span class="hljs-symbol">:smirk</span>:	😍<span class="hljs-symbol">:heart_eyes</span>:	😘<span class="hljs-symbol">:kissing_heart</span>:<br>😚<span class="hljs-symbol">:kissing_closed_eyes</span>:	😳<span class="hljs-symbol">:flushed</span>:	😌<span class="hljs-symbol">:relieved</span>:<br>😆<span class="hljs-symbol">:satisfied</span>:	😁<span class="hljs-symbol">:grin</span>:	😉<span class="hljs-symbol">:wink</span>:<br>😜<span class="hljs-symbol">:stuck_out_tongue_winking_eye</span>:	😝<span class="hljs-symbol">:stuck_out_tongue_closed_eyes</span>:	😀<span class="hljs-symbol">:grinning</span>:<br>😗<span class="hljs-symbol">:kissing</span>:	😙<span class="hljs-symbol">:kissing_smiling_eyes</span>:	😛<span class="hljs-symbol">:stuck_out_tongue</span>:<br>😴<span class="hljs-symbol">:sleeping</span>:	😟<span class="hljs-symbol">:worried</span>:	😦<span class="hljs-symbol">:frowning</span>:<br>😧<span class="hljs-symbol">:anguished</span>:	😮<span class="hljs-symbol">:open_mouth</span>:	😬<span class="hljs-symbol">:grimacing</span>:<br>😕<span class="hljs-symbol">:confused</span>:	😯<span class="hljs-symbol">:hushed</span>:	😑<span class="hljs-symbol">:expressionless</span>:<br>😒<span class="hljs-symbol">:unamused</span>:	😅<span class="hljs-symbol">:sweat_smile</span>:	😓<span class="hljs-symbol">:sweat</span>:<br>😥<span class="hljs-symbol">:disappointed_relieved</span>:	😩<span class="hljs-symbol">:weary</span>:	😔<span class="hljs-symbol">:pensive</span>:<br>😞<span class="hljs-symbol">:disappointed</span>:	😖<span class="hljs-symbol">:confounded</span>:	😨<span class="hljs-symbol">:fearful</span>:<br>😰<span class="hljs-symbol">:cold_sweat</span>:	😣<span class="hljs-symbol">:persevere</span>:	😢<span class="hljs-symbol">:cry</span>:<br>😭<span class="hljs-symbol">:sob</span>:	😂<span class="hljs-symbol">:joy</span>:	😲<span class="hljs-symbol">:astonished</span>:<br>😱<span class="hljs-symbol">:scream</span>:	💭<span class="hljs-symbol">:thought_balloon</span>:	😫<span class="hljs-symbol">:tired_face</span>:<br>😠<span class="hljs-symbol">:angry</span>:	😡<span class="hljs-symbol">:rage</span>:	😤<span class="hljs-symbol">:triumph</span>:<br>😪<span class="hljs-symbol">:sleepy</span>:	😋<span class="hljs-symbol">:yum</span>:	😷<span class="hljs-symbol">:mask</span>:<br>😎<span class="hljs-symbol">:sunglasses</span>:	😵<span class="hljs-symbol">:dizzy_face</span>:	👿<span class="hljs-symbol">:imp</span>:<br>😈<span class="hljs-symbol">:smiling_imp</span>:	💬<span class="hljs-symbol">:speech_balloon</span>:	😶<span class="hljs-symbol">:no_mouth</span>:<br>😇<span class="hljs-symbol">:innocent</span>:	👽<span class="hljs-symbol">:alien</span>:	💛<span class="hljs-symbol">:yellow_heart</span>:<br>💙<span class="hljs-symbol">:blue_heart</span>:	💜<span class="hljs-symbol">:purple_heart</span>:	❤️<span class="hljs-symbol">:heart</span>:<br>💚<span class="hljs-symbol">:green_heart</span>:	💔<span class="hljs-symbol">:broken_heart</span>:	💓<span class="hljs-symbol">:heartbeat</span>:<br>💗<span class="hljs-symbol">:heartpulse</span>:	💕<span class="hljs-symbol">:two_hearts</span>:	💞<span class="hljs-symbol">:revolving_hearts</span>:<br>💘<span class="hljs-symbol">:cupid</span>:	💖<span class="hljs-symbol">:sparkling_heart</span>:	✨<span class="hljs-symbol">:sparkles</span>:<br>⭐️<span class="hljs-symbol">:star</span>:	🌟<span class="hljs-symbol">:star2</span>:	💫<span class="hljs-symbol">:dizzy</span>:<br>💥<span class="hljs-symbol">:boom</span>:	💥<span class="hljs-symbol">:collision</span>:	💢<span class="hljs-symbol">:anger</span>:<br>❗️<span class="hljs-symbol">:exclamation</span>:	❓<span class="hljs-symbol">:question</span>:	❕<span class="hljs-symbol">:grey_exclamation</span>:<br>❔<span class="hljs-symbol">:grey_question</span>:	💤<span class="hljs-symbol">:zzz</span>:	💨<span class="hljs-symbol">:dash</span>:<br>💦<span class="hljs-symbol">:sweat_drops</span>:	🎶<span class="hljs-symbol">:notes</span>:	🎵<span class="hljs-symbol">:musical_note</span>:<br>🔥<span class="hljs-symbol">:fire</span>:	💩<span class="hljs-symbol">:hankey</span>:	💩<span class="hljs-symbol">:poop</span>:<br>💩<span class="hljs-symbol">:shit</span>:	👍<span class="hljs-symbol">:+</span><span class="hljs-number">1</span>:	👍<span class="hljs-symbol">:thumbsup</span>:<br>👎<span class="hljs-symbol">:-</span><span class="hljs-number">1</span>:	👎<span class="hljs-symbol">:thumbsdown</span>:	👌<span class="hljs-symbol">:ok_hand</span>:<br>👊<span class="hljs-symbol">:punch</span>:	👊<span class="hljs-symbol">:facepunch</span>:	✊<span class="hljs-symbol">:fist</span>:<br>✌️<span class="hljs-symbol">:v</span>:	👋<span class="hljs-symbol">:wave</span>:	✋<span class="hljs-symbol">:hand</span>:<br>✋<span class="hljs-symbol">:raised_hand</span>:	👐<span class="hljs-symbol">:open_hands</span>:	☝️<span class="hljs-symbol">:point_up</span>:<br>👇<span class="hljs-symbol">:point_down</span>:	👈<span class="hljs-symbol">:point_left</span>:	👉<span class="hljs-symbol">:point_right</span>:<br>🙌<span class="hljs-symbol">:raised_hands</span>:	🙏<span class="hljs-symbol">:pray</span>:	👆<span class="hljs-symbol">:point_up_2</span>:<br>👏<span class="hljs-symbol">:clap</span>:	💪<span class="hljs-symbol">:muscle</span>:	🤘<span class="hljs-symbol">:metal</span>:<br>🖕<span class="hljs-symbol">:fu</span>:	🚶<span class="hljs-symbol">:walking</span>:	🏃<span class="hljs-symbol">:runner</span>:<br>🏃<span class="hljs-symbol">:running</span>:	👫<span class="hljs-symbol">:couple</span>:	👪<span class="hljs-symbol">:family</span>:<br>👬<span class="hljs-symbol">:two_men_holding_hands</span>:	👭<span class="hljs-symbol">:two_women_holding_hands</span>:	💃<span class="hljs-symbol">:dancer</span>:<br>👯<span class="hljs-symbol">:dancers</span>:	🙆<span class="hljs-symbol">:ok_woman</span>:	🙅<span class="hljs-symbol">:no_good</span>:<br>💁<span class="hljs-symbol">:information_desk_person</span>:	🙋<span class="hljs-symbol">:raising_hand</span>:	👰<span class="hljs-symbol">:bride_with_veil</span>:<br>🙎<span class="hljs-symbol">:person_with_pouting_face</span>:	🙍<span class="hljs-symbol">:person_frowning</span>:	🙇<span class="hljs-symbol">:bow</span>:<br>💏<span class="hljs-symbol">:couplekiss</span>:	💑<span class="hljs-symbol">:couple_with_heart</span>:	💆<span class="hljs-symbol">:massage</span>:<br>💇<span class="hljs-symbol">:haircut</span>:	💅<span class="hljs-symbol">:nail_care</span>:	👦<span class="hljs-symbol">:boy</span>:<br>👧<span class="hljs-symbol">:girl</span>:	👩<span class="hljs-symbol">:woman</span>:	👨<span class="hljs-symbol">:man</span>:<br>👶<span class="hljs-symbol">:baby</span>:	👵<span class="hljs-symbol">:older_woman</span>:	👴<span class="hljs-symbol">:older_man</span>:<br>👱<span class="hljs-symbol">:person_with_blond_hair</span>:	👲<span class="hljs-symbol">:man_with_gua_pi_mao</span>:	👳<span class="hljs-symbol">:man_with_turban</span>:<br>👷<span class="hljs-symbol">:construction_worker</span>:	👮<span class="hljs-symbol">:cop</span>:	👼<span class="hljs-symbol">:angel</span>:<br>👸<span class="hljs-symbol">:princess</span>:	😺<span class="hljs-symbol">:smiley_cat</span>:	😸<span class="hljs-symbol">:smile_cat</span>:<br>😻<span class="hljs-symbol">:heart_eyes_cat</span>:	😽<span class="hljs-symbol">:kissing_cat</span>:	😼<span class="hljs-symbol">:smirk_cat</span>:<br>🙀<span class="hljs-symbol">:scream_cat</span>:	😿<span class="hljs-symbol">:crying_cat_face</span>:	😹<span class="hljs-symbol">:joy_cat</span>:<br>😾<span class="hljs-symbol">:pouting_cat</span>:	👹<span class="hljs-symbol">:japanese_ogre</span>:	👺<span class="hljs-symbol">:japanese_goblin</span>:<br>🙈<span class="hljs-symbol">:see_no_evil</span>:	🙉<span class="hljs-symbol">:hear_no_evil</span>:	🙊<span class="hljs-symbol">:speak_no_evil</span>:<br>💂<span class="hljs-symbol">:guardsman</span>:	💀<span class="hljs-symbol">:skull</span>:	🐾<span class="hljs-symbol">:feet</span>:<br>👄<span class="hljs-symbol">:lips</span>:	💋<span class="hljs-symbol">:kiss</span>:	💧<span class="hljs-symbol">:droplet</span>:<br>👂<span class="hljs-symbol">:ear</span>:	👀<span class="hljs-symbol">:eyes</span>:	👃<span class="hljs-symbol">:nose</span>:<br>👅<span class="hljs-symbol">:tongue</span>:	💌<span class="hljs-symbol">:love_letter</span>:	👤<span class="hljs-symbol">:bust_in_silhouette</span>:<br>👥<span class="hljs-symbol">:busts_in_silhouette</span>:		<br><br><span class="hljs-title class_">Nature</span><br>☀️<span class="hljs-symbol">:sunny</span>:	☔️<span class="hljs-symbol">:umbrella</span>:	☁️<span class="hljs-symbol">:cloud</span>:<br>❄️<span class="hljs-symbol">:snowflake</span>:	⛄️<span class="hljs-symbol">:snowman</span>:	⚡️<span class="hljs-symbol">:zap</span>:<br>🌀<span class="hljs-symbol">:cyclone</span>:	🌁<span class="hljs-symbol">:foggy</span>:	🌊<span class="hljs-symbol">:ocean</span>:<br>🐱<span class="hljs-symbol">:cat</span>:	🐶<span class="hljs-symbol">:dog</span>:	🐭<span class="hljs-symbol">:mouse</span>:<br>🐹<span class="hljs-symbol">:hamster</span>:	🐰<span class="hljs-symbol">:rabbit</span>:	🐺<span class="hljs-symbol">:wolf</span>:<br>🐸<span class="hljs-symbol">:frog</span>:	🐯<span class="hljs-symbol">:tiger</span>:	🐨<span class="hljs-symbol">:koala</span>:<br>🐻<span class="hljs-symbol">:bear</span>:	🐷<span class="hljs-symbol">:pig</span>:	🐽<span class="hljs-symbol">:pig_nose</span>:<br>🐮<span class="hljs-symbol">:cow</span>:	🐗<span class="hljs-symbol">:boar</span>:	🐵<span class="hljs-symbol">:monkey_face</span>:<br>🐒<span class="hljs-symbol">:monkey</span>:	🐴<span class="hljs-symbol">:horse</span>:	🐎<span class="hljs-symbol">:racehorse</span>:<br>🐫<span class="hljs-symbol">:camel</span>:	🐑<span class="hljs-symbol">:sheep</span>:	🐘<span class="hljs-symbol">:elephant</span>:<br>🐼<span class="hljs-symbol">:panda_face</span>:	🐍<span class="hljs-symbol">:snake</span>:	🐦<span class="hljs-symbol">:bird</span>:<br>🐤<span class="hljs-symbol">:baby_chick</span>:	🐥<span class="hljs-symbol">:hatched_chick</span>:	🐣<span class="hljs-symbol">:hatching_chick</span>:<br>🐔<span class="hljs-symbol">:chicken</span>:	🐧<span class="hljs-symbol">:penguin</span>:	🐢<span class="hljs-symbol">:turtle</span>:<br>🐛<span class="hljs-symbol">:bug</span>:	🐝<span class="hljs-symbol">:honeybee</span>:	🐜<span class="hljs-symbol">:ant</span>:<br>🐞<span class="hljs-symbol">:beetle</span>:	🐌<span class="hljs-symbol">:snail</span>:	🐙<span class="hljs-symbol">:octopus</span>:<br>🐠<span class="hljs-symbol">:tropical_fish</span>:	🐟<span class="hljs-symbol">:fish</span>:	🐳<span class="hljs-symbol">:whale</span>:<br>🐋<span class="hljs-symbol">:whale2</span>:	🐬<span class="hljs-symbol">:dolphin</span>:	🐄<span class="hljs-symbol">:cow2</span>:<br>🐏<span class="hljs-symbol">:ram</span>:	🐀<span class="hljs-symbol">:rat</span>:	🐃<span class="hljs-symbol">:water_buffalo</span>:<br>🐅<span class="hljs-symbol">:tiger2</span>:	🐇<span class="hljs-symbol">:rabbit2</span>:	🐉<span class="hljs-symbol">:dragon</span>:<br>🐐<span class="hljs-symbol">:goat</span>:	🐓<span class="hljs-symbol">:rooster</span>:	🐕<span class="hljs-symbol">:dog2</span>:<br>🐖<span class="hljs-symbol">:pig2</span>:	🐁<span class="hljs-symbol">:mouse2</span>:	🐂<span class="hljs-symbol">:ox</span>:<br>🐲<span class="hljs-symbol">:dragon_face</span>:	🐡<span class="hljs-symbol">:blowfish</span>:	🐊<span class="hljs-symbol">:crocodile</span>:<br>🐪<span class="hljs-symbol">:dromedary_camel</span>:	🐆<span class="hljs-symbol">:leopard</span>:	🐈<span class="hljs-symbol">:cat2</span>:<br>🐩<span class="hljs-symbol">:poodle</span>:	🐾<span class="hljs-symbol">:paw_prints</span>:	💐<span class="hljs-symbol">:bouquet</span>:<br>🌸<span class="hljs-symbol">:cherry_blossom</span>:	🌷<span class="hljs-symbol">:tulip</span>:	🍀<span class="hljs-symbol">:four_leaf_clover</span>:<br>🌹<span class="hljs-symbol">:rose</span>:	🌻<span class="hljs-symbol">:sunflower</span>:	🌺<span class="hljs-symbol">:hibiscus</span>:<br>🍁<span class="hljs-symbol">:maple_leaf</span>:	🍃<span class="hljs-symbol">:leaves</span>:	🍂<span class="hljs-symbol">:fallen_leaf</span>:<br>🌿<span class="hljs-symbol">:herb</span>:	🍄<span class="hljs-symbol">:mushroom</span>:	🌵<span class="hljs-symbol">:cactus</span>:<br>🌴<span class="hljs-symbol">:palm_tree</span>:	🌲<span class="hljs-symbol">:evergreen_tree</span>:	🌳<span class="hljs-symbol">:deciduous_tree</span>:<br>🌰<span class="hljs-symbol">:chestnut</span>:	🌱<span class="hljs-symbol">:seedling</span>:	🌼<span class="hljs-symbol">:blossom</span>:<br>🌾<span class="hljs-symbol">:ear_of_rice</span>:	🐚<span class="hljs-symbol">:shell</span>:	🌐<span class="hljs-symbol">:globe_with_meridians</span>:<br>🌞<span class="hljs-symbol">:sun_with_face</span>:	🌝<span class="hljs-symbol">:full_moon_with_face</span>:	🌚<span class="hljs-symbol">:new_moon_with_face</span>:<br>🌑<span class="hljs-symbol">:new_moon</span>:	🌒<span class="hljs-symbol">:waxing_crescent_moon</span>:	🌓<span class="hljs-symbol">:first_quarter_moon</span>:<br>🌔<span class="hljs-symbol">:waxing_gibbous_moon</span>:	🌕<span class="hljs-symbol">:full_moon</span>:	🌖<span class="hljs-symbol">:waning_gibbous_moon</span>:<br>🌗<span class="hljs-symbol">:last_quarter_moon</span>:	🌘<span class="hljs-symbol">:waning_crescent_moon</span>:	🌜<span class="hljs-symbol">:last_quarter_moon_with_face</span>:<br>🌛<span class="hljs-symbol">:first_quarter_moon_with_face</span>:	🌔<span class="hljs-symbol">:moon</span>:	🌍<span class="hljs-symbol">:earth_africa</span>:<br>🌎<span class="hljs-symbol">:earth_americas</span>:	🌏<span class="hljs-symbol">:earth_asia</span>:	🌋<span class="hljs-symbol">:volcano</span>:<br>🌌<span class="hljs-symbol">:milky_way</span>:	⛅️<span class="hljs-symbol">:partly_sunny</span>:	<br><br><span class="hljs-title class_">Objects</span><br>🎍<span class="hljs-symbol">:bamboo</span>:	💝<span class="hljs-symbol">:gift_heart</span>:	🎎<span class="hljs-symbol">:dolls</span>:<br>🎒<span class="hljs-symbol">:school_satchel</span>:	🎓<span class="hljs-symbol">:mortar_board</span>:	🎏<span class="hljs-symbol">:flags</span>:<br>🎆<span class="hljs-symbol">:fireworks</span>:	🎇<span class="hljs-symbol">:sparkler</span>:	🎐<span class="hljs-symbol">:wind_chime</span>:<br>🎑<span class="hljs-symbol">:rice_scene</span>:	🎃<span class="hljs-symbol">:jack_o_lantern</span>:	👻<span class="hljs-symbol">:ghost</span>:<br>🎅<span class="hljs-symbol">:santa</span>:	🎄<span class="hljs-symbol">:christmas_tree</span>:	🎁<span class="hljs-symbol">:gift</span>:<br>🔔<span class="hljs-symbol">:bell</span>:	🔕<span class="hljs-symbol">:no_bell</span>:	🎋<span class="hljs-symbol">:tanabata_tree</span>:<br>🎉<span class="hljs-symbol">:tada</span>:	🎊<span class="hljs-symbol">:confetti_ball</span>:	🎈<span class="hljs-symbol">:balloon</span>:<br>🔮<span class="hljs-symbol">:crystal_ball</span>:	💿<span class="hljs-symbol">:cd</span>:	📀<span class="hljs-symbol">:dvd</span>:<br>💾<span class="hljs-symbol">:floppy_disk</span>:	📷<span class="hljs-symbol">:camera</span>:	📹<span class="hljs-symbol">:video_camera</span>:<br>🎥<span class="hljs-symbol">:movie_camera</span>:	💻<span class="hljs-symbol">:computer</span>:	📺<span class="hljs-symbol">:tv</span>:<br>📱<span class="hljs-symbol">:iphone</span>:	☎️<span class="hljs-symbol">:phone</span>:	☎️<span class="hljs-symbol">:telephone</span>:<br>📞<span class="hljs-symbol">:telephone_receiver</span>:	📟<span class="hljs-symbol">:pager</span>:	📠<span class="hljs-symbol">:fax</span>:<br>💽<span class="hljs-symbol">:minidisc</span>:	📼<span class="hljs-symbol">:vhs</span>:	🔉<span class="hljs-symbol">:sound</span>:<br>🔈<span class="hljs-symbol">:speaker</span>:	🔇<span class="hljs-symbol">:mute</span>:	📢<span class="hljs-symbol">:loudspeaker</span>:<br>📣<span class="hljs-symbol">:mega</span>:	⌛️<span class="hljs-symbol">:hourglass</span>:	⏳<span class="hljs-symbol">:hourglass_flowing_sand</span>:<br>⏰<span class="hljs-symbol">:alarm_clock</span>:	⌚️<span class="hljs-symbol">:watch</span>:	📻<span class="hljs-symbol">:radio</span>:<br>📡<span class="hljs-symbol">:satellite</span>:	➿<span class="hljs-symbol">:loop</span>:	🔍<span class="hljs-symbol">:mag</span>:<br>🔎<span class="hljs-symbol">:mag_right</span>:	🔓<span class="hljs-symbol">:unlock</span>:	🔒<span class="hljs-symbol">:lock</span>:<br>🔏<span class="hljs-symbol">:lock_with_ink_pen</span>:	🔐<span class="hljs-symbol">:closed_lock_with_key</span>:	🔑<span class="hljs-symbol">:key</span>:<br>💡<span class="hljs-symbol">:bulb</span>:	🔦<span class="hljs-symbol">:flashlight</span>:	🔆<span class="hljs-symbol">:high_brightness</span>:<br>🔅<span class="hljs-symbol">:low_brightness</span>:	🔌<span class="hljs-symbol">:electric_plug</span>:	🔋<span class="hljs-symbol">:battery</span>:<br>📲<span class="hljs-symbol">:calling</span>:	✉️<span class="hljs-symbol">:email</span>:	📫<span class="hljs-symbol">:mailbox</span>:<br>📮<span class="hljs-symbol">:postbox</span>:	🛀<span class="hljs-symbol">:bath</span>:	🛁<span class="hljs-symbol">:bathtub</span>:<br>🚿<span class="hljs-symbol">:shower</span>:	🚽<span class="hljs-symbol">:toilet</span>:	🔧<span class="hljs-symbol">:wrench</span>:<br>🔩<span class="hljs-symbol">:nut_and_bolt</span>:	🔨<span class="hljs-symbol">:hammer</span>:	💺<span class="hljs-symbol">:seat</span>:<br>💰<span class="hljs-symbol">:moneybag</span>:	💴<span class="hljs-symbol">:yen</span>:	💵<span class="hljs-symbol">:dollar</span>:<br>💷<span class="hljs-symbol">:pound</span>:	💶<span class="hljs-symbol">:euro</span>:	💳<span class="hljs-symbol">:credit_card</span>:<br>💸<span class="hljs-symbol">:money_with_wings</span>:	📧<span class="hljs-symbol">:e-mail</span>:	📥<span class="hljs-symbol">:inbox_tray</span>:<br>📤<span class="hljs-symbol">:outbox_tray</span>:	✉️<span class="hljs-symbol">:envelope</span>:	📨<span class="hljs-symbol">:incoming_envelope</span>:<br>📯<span class="hljs-symbol">:postal_horn</span>:	📪<span class="hljs-symbol">:mailbox_closed</span>:	📬<span class="hljs-symbol">:mailbox_with_mail</span>:<br>📭<span class="hljs-symbol">:mailbox_with_no_mail</span>:	🚪<span class="hljs-symbol">:door</span>:	🚬<span class="hljs-symbol">:smoking</span>:<br>💣<span class="hljs-symbol">:bomb</span>:	🔫<span class="hljs-symbol">:gun</span>:	🔪<span class="hljs-symbol">:hocho</span>:<br>💊<span class="hljs-symbol">:pill</span>:	💉<span class="hljs-symbol">:syringe</span>:	📄<span class="hljs-symbol">:page_facing_up</span>:<br>📃<span class="hljs-symbol">:page_with_curl</span>:	📑<span class="hljs-symbol">:bookmark_tabs</span>:	📊<span class="hljs-symbol">:bar_chart</span>:<br>📈<span class="hljs-symbol">:chart_with_upwards_trend</span>:	📉<span class="hljs-symbol">:chart_with_downwards_trend</span>:	📜<span class="hljs-symbol">:scroll</span>:<br>📋<span class="hljs-symbol">:clipboard</span>:	📆<span class="hljs-symbol">:calendar</span>:	📅<span class="hljs-symbol">:date</span>:<br>📇<span class="hljs-symbol">:card_index</span>:	📁<span class="hljs-symbol">:file_folder</span>:	📂<span class="hljs-symbol">:open_file_folder</span>:<br>✂️<span class="hljs-symbol">:scissors</span>:	📌<span class="hljs-symbol">:pushpin</span>:	📎<span class="hljs-symbol">:paperclip</span>:<br>✒️<span class="hljs-symbol">:black_nib</span>:	✏️<span class="hljs-symbol">:pencil2</span>:	📏<span class="hljs-symbol">:straight_ruler</span>:<br>📐<span class="hljs-symbol">:triangular_ruler</span>:	📕<span class="hljs-symbol">:closed_book</span>:	📗<span class="hljs-symbol">:green_book</span>:<br>📘<span class="hljs-symbol">:blue_book</span>:	📙<span class="hljs-symbol">:orange_book</span>:	📓<span class="hljs-symbol">:notebook</span>:<br>📔<span class="hljs-symbol">:notebook_with_decorative_cover</span>:	📒<span class="hljs-symbol">:ledger</span>:	📚<span class="hljs-symbol">:books</span>:<br>🔖<span class="hljs-symbol">:bookmark</span>:	📛<span class="hljs-symbol">:name_badge</span>:	🔬<span class="hljs-symbol">:microscope</span>:<br>🔭<span class="hljs-symbol">:telescope</span>:	📰<span class="hljs-symbol">:newspaper</span>:	🏈<span class="hljs-symbol">:football</span>:<br>🏀<span class="hljs-symbol">:basketball</span>:	⚽️<span class="hljs-symbol">:soccer</span>:	⚾️<span class="hljs-symbol">:baseball</span>:<br>🎾<span class="hljs-symbol">:tennis</span>:	🎱<span class="hljs-symbol">:</span><span class="hljs-number">8</span><span class="hljs-symbol">ball:</span>	🏉<span class="hljs-symbol">:rugby_football</span>:<br>🎳<span class="hljs-symbol">:bowling</span>:	⛳️<span class="hljs-symbol">:golf</span>:	🚵<span class="hljs-symbol">:mountain_bicyclist</span>:<br>🚴<span class="hljs-symbol">:bicyclist</span>:	🏇<span class="hljs-symbol">:horse_racing</span>:	🏂<span class="hljs-symbol">:snowboarder</span>:<br>🏊<span class="hljs-symbol">:swimmer</span>:	🏄<span class="hljs-symbol">:surfer</span>:	🎿<span class="hljs-symbol">:ski</span>:<br>♠️<span class="hljs-symbol">:spades</span>:	♥️<span class="hljs-symbol">:hearts</span>:	♣️<span class="hljs-symbol">:clubs</span>:<br>♦️<span class="hljs-symbol">:diamonds</span>:	💎<span class="hljs-symbol">:gem</span>:	💍<span class="hljs-symbol">:ring</span>:<br>🏆<span class="hljs-symbol">:trophy</span>:	🎼<span class="hljs-symbol">:musical_score</span>:	🎹<span class="hljs-symbol">:musical_keyboard</span>:<br>🎻<span class="hljs-symbol">:violin</span>:	👾<span class="hljs-symbol">:space_invader</span>:	🎮<span class="hljs-symbol">:video_game</span>:<br>🃏<span class="hljs-symbol">:black_joker</span>:	🎴<span class="hljs-symbol">:flower_playing_cards</span>:	🎲<span class="hljs-symbol">:game_die</span>:<br>🎯<span class="hljs-symbol">:dart</span>:	🀄️<span class="hljs-symbol">:mahjong</span>:	🎬<span class="hljs-symbol">:clapper</span>:<br>📝<span class="hljs-symbol">:memo</span>:	📝<span class="hljs-symbol">:pencil</span>:	📖<span class="hljs-symbol">:book</span>:<br>🎨<span class="hljs-symbol">:art</span>:	🎤<span class="hljs-symbol">:microphone</span>:	🎧<span class="hljs-symbol">:headphones</span>:<br>🎺<span class="hljs-symbol">:trumpet</span>:	🎷<span class="hljs-symbol">:saxophone</span>:	🎸<span class="hljs-symbol">:guitar</span>:<br>👞<span class="hljs-symbol">:shoe</span>:	👡<span class="hljs-symbol">:sandal</span>:	👠<span class="hljs-symbol">:high_heel</span>:<br>💄<span class="hljs-symbol">:lipstick</span>:	👢<span class="hljs-symbol">:boot</span>:	👕<span class="hljs-symbol">:shirt</span>:<br>👕<span class="hljs-symbol">:tshirt</span>:	👔<span class="hljs-symbol">:necktie</span>:	👚<span class="hljs-symbol">:womans_clothes</span>:<br>👗<span class="hljs-symbol">:dress</span>:	🎽<span class="hljs-symbol">:running_shirt_with_sash</span>:	👖<span class="hljs-symbol">:jeans</span>:<br>👘<span class="hljs-symbol">:kimono</span>:	👙<span class="hljs-symbol">:bikini</span>:	🎀<span class="hljs-symbol">:ribbon</span>:<br>🎩<span class="hljs-symbol">:tophat</span>:	👑<span class="hljs-symbol">:crown</span>:	👒<span class="hljs-symbol">:womans_hat</span>:<br>👞<span class="hljs-symbol">:mans_shoe</span>:	🌂<span class="hljs-symbol">:closed_umbrella</span>:	💼<span class="hljs-symbol">:briefcase</span>:<br>👜<span class="hljs-symbol">:handbag</span>:	👝<span class="hljs-symbol">:pouch</span>:	👛<span class="hljs-symbol">:purse</span>:<br>👓<span class="hljs-symbol">:eyeglasses</span>:	🎣<span class="hljs-symbol">:fishing_pole_and_fish</span>:	☕️<span class="hljs-symbol">:coffee</span>:<br>🍵<span class="hljs-symbol">:tea</span>:	🍶<span class="hljs-symbol">:sake</span>:	🍼<span class="hljs-symbol">:baby_bottle</span>:<br>🍺<span class="hljs-symbol">:beer</span>:	🍻<span class="hljs-symbol">:beers</span>:	🍸<span class="hljs-symbol">:cocktail</span>:<br>🍹<span class="hljs-symbol">:tropical_drink</span>:	🍷<span class="hljs-symbol">:wine_glass</span>:	🍴<span class="hljs-symbol">:fork_and_knife</span>:<br>🍕<span class="hljs-symbol">:pizza</span>:	🍔<span class="hljs-symbol">:hamburger</span>:	🍟<span class="hljs-symbol">:fries</span>:<br>🍗<span class="hljs-symbol">:poultry_leg</span>:	🍖<span class="hljs-symbol">:meat_on_bone</span>:	🍝<span class="hljs-symbol">:spaghetti</span>:<br>🍛<span class="hljs-symbol">:curry</span>:	🍤<span class="hljs-symbol">:fried_shrimp</span>:	🍱<span class="hljs-symbol">:bento</span>:<br>🍣<span class="hljs-symbol">:sushi</span>:	🍥<span class="hljs-symbol">:fish_cake</span>:	🍙<span class="hljs-symbol">:rice_ball</span>:<br>🍘<span class="hljs-symbol">:rice_cracker</span>:	🍚<span class="hljs-symbol">:rice</span>:	🍜<span class="hljs-symbol">:ramen</span>:<br>🍲<span class="hljs-symbol">:stew</span>:	🍢<span class="hljs-symbol">:oden</span>:	🍡<span class="hljs-symbol">:dango</span>:<br>🥚<span class="hljs-symbol">:egg</span>:	🍞<span class="hljs-symbol">:bread</span>:	🍩<span class="hljs-symbol">:doughnut</span>:<br>🍮<span class="hljs-symbol">:custard</span>:	🍦<span class="hljs-symbol">:icecream</span>:	🍨<span class="hljs-symbol">:ice_cream</span>:<br>🍧<span class="hljs-symbol">:shaved_ice</span>:	🎂<span class="hljs-symbol">:birthday</span>:	🍰<span class="hljs-symbol">:cake</span>:<br>🍪<span class="hljs-symbol">:cookie</span>:	🍫<span class="hljs-symbol">:chocolate_bar</span>:	🍬<span class="hljs-symbol">:candy</span>:<br>🍭<span class="hljs-symbol">:lollipop</span>:	🍯<span class="hljs-symbol">:honey_pot</span>:	🍎<span class="hljs-symbol">:apple</span>:<br>🍏<span class="hljs-symbol">:green_apple</span>:	🍊<span class="hljs-symbol">:tangerine</span>:	🍋<span class="hljs-symbol">:lemon</span>:<br>🍒<span class="hljs-symbol">:cherries</span>:	🍇<span class="hljs-symbol">:grapes</span>:	🍉<span class="hljs-symbol">:watermelon</span>:<br>🍓<span class="hljs-symbol">:strawberry</span>:	🍑<span class="hljs-symbol">:peach</span>:	🍈<span class="hljs-symbol">:melon</span>:<br>🍌<span class="hljs-symbol">:banana</span>:	🍐<span class="hljs-symbol">:pear</span>:	🍍<span class="hljs-symbol">:pineapple</span>:<br>🍠<span class="hljs-symbol">:sweet_potato</span>:	🍆<span class="hljs-symbol">:eggplant</span>:	🍅<span class="hljs-symbol">:tomato</span>:<br>🌽<span class="hljs-symbol">:corn</span>:		<br><br><span class="hljs-title class_">Places</span><br>🏠<span class="hljs-symbol">:house</span>:	🏡<span class="hljs-symbol">:house_with_garden</span>:	🏫<span class="hljs-symbol">:school</span>:<br>🏢<span class="hljs-symbol">:office</span>:	🏣<span class="hljs-symbol">:post_office</span>:	🏥<span class="hljs-symbol">:hospital</span>:<br>🏦<span class="hljs-symbol">:bank</span>:	🏪<span class="hljs-symbol">:convenience_store</span>:	🏩<span class="hljs-symbol">:love_hotel</span>:<br>🏨<span class="hljs-symbol">:hotel</span>:	💒<span class="hljs-symbol">:wedding</span>:	⛪️<span class="hljs-symbol">:church</span>:<br>🏬<span class="hljs-symbol">:department_store</span>:	🏤<span class="hljs-symbol">:european_post_office</span>:	🌇<span class="hljs-symbol">:city_sunrise</span>:<br>🌆<span class="hljs-symbol">:city_sunset</span>:	🏯<span class="hljs-symbol">:japanese_castle</span>:	🏰<span class="hljs-symbol">:european_castle</span>:<br>⛺️<span class="hljs-symbol">:tent</span>:	🏭<span class="hljs-symbol">:factory</span>:	🗼<span class="hljs-symbol">:tokyo_tower</span>:<br>🗾<span class="hljs-symbol">:japan</span>:	🗻<span class="hljs-symbol">:mount_fuji</span>:	🌄<span class="hljs-symbol">:sunrise_over_mountains</span>:<br>🌅<span class="hljs-symbol">:sunrise</span>:	🌠<span class="hljs-symbol">:stars</span>:	🗽<span class="hljs-symbol">:statue_of_liberty</span>:<br>🌉<span class="hljs-symbol">:bridge_at_night</span>:	🎠<span class="hljs-symbol">:carousel_horse</span>:	🌈<span class="hljs-symbol">:rainbow</span>:<br>🎡<span class="hljs-symbol">:ferris_wheel</span>:	⛲️<span class="hljs-symbol">:fountain</span>:	🎢<span class="hljs-symbol">:roller_coaster</span>:<br>🚢<span class="hljs-symbol">:ship</span>:	🚤<span class="hljs-symbol">:speedboat</span>:	⛵️<span class="hljs-symbol">:boat</span>:<br>⛵️<span class="hljs-symbol">:sailboat</span>:	🚣<span class="hljs-symbol">:rowboat</span>:	⚓️<span class="hljs-symbol">:anchor</span>:<br>🚀<span class="hljs-symbol">:rocket</span>:	✈️<span class="hljs-symbol">:airplane</span>:	🚁<span class="hljs-symbol">:helicopter</span>:<br>🚂<span class="hljs-symbol">:steam_locomotive</span>:	🚊<span class="hljs-symbol">:tram</span>:	🚞<span class="hljs-symbol">:mountain_railway</span>:<br>🚲<span class="hljs-symbol">:bike</span>:	🚡<span class="hljs-symbol">:aerial_tramway</span>:	🚟<span class="hljs-symbol">:suspension_railway</span>:<br>🚠<span class="hljs-symbol">:mountain_cableway</span>:	🚜<span class="hljs-symbol">:tractor</span>:	🚙<span class="hljs-symbol">:blue_car</span>:<br>🚘<span class="hljs-symbol">:oncoming_automobile</span>:	🚗<span class="hljs-symbol">:car</span>:	🚗<span class="hljs-symbol">:red_car</span>:<br>🚕<span class="hljs-symbol">:taxi</span>:	🚖<span class="hljs-symbol">:oncoming_taxi</span>:	🚛<span class="hljs-symbol">:articulated_lorry</span>:<br>🚌<span class="hljs-symbol">:bus</span>:	🚍<span class="hljs-symbol">:oncoming_bus</span>:	🚨<span class="hljs-symbol">:rotating_light</span>:<br>🚓<span class="hljs-symbol">:police_car</span>:	🚔<span class="hljs-symbol">:oncoming_police_car</span>:	🚒<span class="hljs-symbol">:fire_engine</span>:<br>🚑<span class="hljs-symbol">:ambulance</span>:	🚐<span class="hljs-symbol">:minibus</span>:	🚚<span class="hljs-symbol">:truck</span>:<br>🚋<span class="hljs-symbol">:train</span>:	🚉<span class="hljs-symbol">:station</span>:	🚆<span class="hljs-symbol">:train2</span>:<br>🚅<span class="hljs-symbol">:bullettrain_front</span>:	🚄<span class="hljs-symbol">:bullettrain_side</span>:	🚈<span class="hljs-symbol">:light_rail</span>:<br>🚝<span class="hljs-symbol">:monorail</span>:	🚃<span class="hljs-symbol">:railway_car</span>:	🚎<span class="hljs-symbol">:trolleybus</span>:<br>🎫<span class="hljs-symbol">:ticket</span>:	⛽️<span class="hljs-symbol">:fuelpump</span>:	🚦<span class="hljs-symbol">:vertical_traffic_light</span>:<br>🚥<span class="hljs-symbol">:traffic_light</span>:	⚠️<span class="hljs-symbol">:warning</span>:	🚧<span class="hljs-symbol">:construction</span>:<br>🔰<span class="hljs-symbol">:beginner</span>:	🏧<span class="hljs-symbol">:atm</span>:	🎰<span class="hljs-symbol">:slot_machine</span>:<br>🚏<span class="hljs-symbol">:busstop</span>:	💈<span class="hljs-symbol">:barber</span>:	♨️<span class="hljs-symbol">:hotsprings</span>:<br>🏁<span class="hljs-symbol">:checkered_flag</span>:	🎌<span class="hljs-symbol">:crossed_flags</span>:	🏮<span class="hljs-symbol">:izakaya_lantern</span>:<br>🗿<span class="hljs-symbol">:moyai</span>:	🎪<span class="hljs-symbol">:circus_tent</span>:	🎭<span class="hljs-symbol">:performing_arts</span>:<br>📍<span class="hljs-symbol">:round_pushpin</span>:	🚩<span class="hljs-symbol">:triangular_flag_on_post</span>:	<br><br><span class="hljs-title class_">Symbols</span><br><span class="hljs-number">1</span>️⃣<span class="hljs-symbol">:one</span>:	<span class="hljs-number">2</span>️⃣<span class="hljs-symbol">:two</span>:	<span class="hljs-number">3</span>️⃣<span class="hljs-symbol">:three</span>:<br><span class="hljs-number">4</span>️⃣<span class="hljs-symbol">:four</span>:	<span class="hljs-number">5</span>️⃣<span class="hljs-symbol">:five</span>:	<span class="hljs-number">6</span>️⃣<span class="hljs-symbol">:six</span>:<br><span class="hljs-number">7</span>️⃣<span class="hljs-symbol">:seven</span>:	<span class="hljs-number">8</span>️⃣<span class="hljs-symbol">:eight</span>:	<span class="hljs-number">9</span>️⃣<span class="hljs-symbol">:nine</span>:<br>🔟<span class="hljs-symbol">:keycap_ten</span>:	🔢<span class="hljs-symbol">:</span><span class="hljs-number">1234</span>:	<span class="hljs-number">0</span>️⃣<span class="hljs-symbol">:zero</span>:<br><span class="hljs-comment">#️⃣:hash:	🔣:symbols:	◀️:arrow_backward:</span><br>⬇️<span class="hljs-symbol">:arrow_down</span>:	▶️<span class="hljs-symbol">:arrow_forward</span>:	⬅️<span class="hljs-symbol">:arrow_left</span>:<br>🔠<span class="hljs-symbol">:capital_abcd</span>:	🔡<span class="hljs-symbol">:abcd</span>:	🔤<span class="hljs-symbol">:abc</span>:<br>↙️<span class="hljs-symbol">:arrow_lower_left</span>:	↘️<span class="hljs-symbol">:arrow_lower_right</span>:	➡️<span class="hljs-symbol">:arrow_right</span>:<br>⬆️<span class="hljs-symbol">:arrow_up</span>:	↖️<span class="hljs-symbol">:arrow_upper_left</span>:	↗️<span class="hljs-symbol">:arrow_upper_right</span>:<br>⏬<span class="hljs-symbol">:arrow_double_down</span>:	⏫<span class="hljs-symbol">:arrow_double_up</span>:	🔽<span class="hljs-symbol">:arrow_down_small</span>:<br>⤵️<span class="hljs-symbol">:arrow_heading_down</span>:	⤴️<span class="hljs-symbol">:arrow_heading_up</span>:	↩️<span class="hljs-symbol">:leftwards_arrow_with_hook</span>:<br>↪️<span class="hljs-symbol">:arrow_right_hook</span>:	↔️<span class="hljs-symbol">:left_right_arrow</span>:	↕️<span class="hljs-symbol">:arrow_up_down</span>:<br>🔼<span class="hljs-symbol">:arrow_up_small</span>:	🔃<span class="hljs-symbol">:arrows_clockwise</span>:	🔄<span class="hljs-symbol">:arrows_counterclockwise</span>:<br>⏪<span class="hljs-symbol">:rewind</span>:	⏩<span class="hljs-symbol">:fast_forward</span>:	ℹ️<span class="hljs-symbol">:information_source</span>:<br>🆗<span class="hljs-symbol">:ok</span>:	🔀<span class="hljs-symbol">:twisted_rightwards_arrows</span>:	🔁<span class="hljs-symbol">:repeat</span>:<br>🔂<span class="hljs-symbol">:repeat_one</span>:	🆕<span class="hljs-symbol">:new</span>:	🔝<span class="hljs-symbol">:top</span>:<br>🆙<span class="hljs-symbol">:up</span>:	🆒<span class="hljs-symbol">:cool</span>:	🆓<span class="hljs-symbol">:free</span>:<br>🆖<span class="hljs-symbol">:ng</span>:	🎦<span class="hljs-symbol">:cinema</span>:	🈁<span class="hljs-symbol">:koko</span>:<br>📶<span class="hljs-symbol">:signal_strength</span>:		<br>🈂️<span class="hljs-symbol">:sa</span>:	🚻<span class="hljs-symbol">:restroom</span>:	🚹<span class="hljs-symbol">:mens</span>:<br>🚺<span class="hljs-symbol">:womens</span>:	🚼<span class="hljs-symbol">:baby_symbol</span>:	🚭<span class="hljs-symbol">:no_smoking</span>:<br>🅿️<span class="hljs-symbol">:parking</span>:	♿️<span class="hljs-symbol">:wheelchair</span>:	🚇<span class="hljs-symbol">:metro</span>:<br>🛄<span class="hljs-symbol">:baggage_claim</span>:	🉑<span class="hljs-symbol">:accept</span>:	🚾<span class="hljs-symbol">:wc</span>:<br>🚰<span class="hljs-symbol">:potable_water</span>:	🚮<span class="hljs-symbol">:put_litter_in_its_place</span>:	㊙️<span class="hljs-symbol">:secret</span>:<br>㊗️<span class="hljs-symbol">:congratulations</span>:	Ⓜ️<span class="hljs-symbol">:m</span>:	🛂<span class="hljs-symbol">:passport_control</span>:<br>🛅<span class="hljs-symbol">:left_luggage</span>:	🛃<span class="hljs-symbol">:customs</span>:	🉐<span class="hljs-symbol">:ideograph_advantage</span>:<br>🆑<span class="hljs-symbol">:cl</span>:	🆘<span class="hljs-symbol">:sos</span>:	🆔<span class="hljs-symbol">:id</span>:<br>🚫<span class="hljs-symbol">:no_entry_sign</span>:	🔞<span class="hljs-symbol">:underage</span>:	📵<span class="hljs-symbol">:no_mobile_phones</span>:<br>🚯<span class="hljs-symbol">:do_not_litter</span>:	🚱<span class="hljs-symbol">:non-potable_water</span>:	🚳<span class="hljs-symbol">:no_bicycles</span>:<br>🚷<span class="hljs-symbol">:no_pedestrians</span>:	🚸<span class="hljs-symbol">:children_crossing</span>:	⛔️<span class="hljs-symbol">:no_entry</span>:<br>✳️<span class="hljs-symbol">:eight_spoked_asterisk</span>:	✴️<span class="hljs-symbol">:eight_pointed_black_star</span>:	💟<span class="hljs-symbol">:heart_decoration</span>:<br>🆚<span class="hljs-symbol">:vs</span>:	📳<span class="hljs-symbol">:vibration_mode</span>:	📴<span class="hljs-symbol">:mobile_phone_off</span>:<br>💹<span class="hljs-symbol">:chart</span>:	💱<span class="hljs-symbol">:currency_exchange</span>:	♈️<span class="hljs-symbol">:aries</span>:<br>♉️<span class="hljs-symbol">:taurus</span>:	♊️<span class="hljs-symbol">:gemini</span>:	♋️<span class="hljs-symbol">:cancer</span>:<br>♌️<span class="hljs-symbol">:leo</span>:	♍️<span class="hljs-symbol">:virgo</span>:	♎️<span class="hljs-symbol">:libra</span>:<br>♏️<span class="hljs-symbol">:scorpius</span>:	♐️<span class="hljs-symbol">:sagittarius</span>:	♑️<span class="hljs-symbol">:capricorn</span>:<br>♒️<span class="hljs-symbol">:aquarius</span>:	♓️<span class="hljs-symbol">:pisces</span>:	⛎<span class="hljs-symbol">:ophiuchus</span>:<br>🔯<span class="hljs-symbol">:six_pointed_star</span>:	❎<span class="hljs-symbol">:negative_squared_cross_mark</span>:	🅰️<span class="hljs-symbol">:a</span>:<br>🅱️<span class="hljs-symbol">:b</span>:	🆎<span class="hljs-symbol">:ab</span>:	🅾️<span class="hljs-symbol">:o2</span>:<br>💠<span class="hljs-symbol">:diamond_shape_with_a_dot_inside</span>:	♻️<span class="hljs-symbol">:recycle</span>:	🔚<span class="hljs-symbol">:end</span>:<br>🔛<span class="hljs-symbol">:on</span>:	🔜<span class="hljs-symbol">:soon</span>:	🕐<span class="hljs-symbol">:clock1</span>:<br>🕜<span class="hljs-symbol">:clock130</span>:	🕙<span class="hljs-symbol">:clock10</span>:	🕥<span class="hljs-symbol">:clock1030</span>:<br>🕚<span class="hljs-symbol">:clock11</span>:	🕦<span class="hljs-symbol">:clock1130</span>:	🕛<span class="hljs-symbol">:clock12</span>:<br>🕧<span class="hljs-symbol">:clock1230</span>:	🕑<span class="hljs-symbol">:clock2</span>:	🕝<span class="hljs-symbol">:clock230</span>:<br>🕒<span class="hljs-symbol">:clock3</span>:	🕞<span class="hljs-symbol">:clock330</span>:	🕓<span class="hljs-symbol">:clock4</span>:<br>🕟<span class="hljs-symbol">:clock430</span>:	🕔<span class="hljs-symbol">:clock5</span>:	🕠<span class="hljs-symbol">:clock530</span>:<br>🕕<span class="hljs-symbol">:clock6</span>:	🕡<span class="hljs-symbol">:clock630</span>:	🕖<span class="hljs-symbol">:clock7</span>:<br>🕢<span class="hljs-symbol">:clock730</span>:	🕗<span class="hljs-symbol">:clock8</span>:	🕣<span class="hljs-symbol">:clock830</span>:<br>🕘<span class="hljs-symbol">:clock9</span>:	🕤<span class="hljs-symbol">:clock930</span>:	💲<span class="hljs-symbol">:heavy_dollar_sign</span>:<br>©️<span class="hljs-symbol">:copyright</span>:	®️<span class="hljs-symbol">:registered</span>:	™️<span class="hljs-symbol">:tm</span>:<br>❌<span class="hljs-symbol">:x</span>:	❗️<span class="hljs-symbol">:heavy_exclamation_mark</span>:	‼️<span class="hljs-symbol">:bangbang</span>:<br>⁉️<span class="hljs-symbol">:interrobang</span>:	⭕️<span class="hljs-symbol">:o</span>:	✖️<span class="hljs-symbol">:heavy_multiplication_x</span>:<br>➕<span class="hljs-symbol">:heavy_plus_sign</span>:	➖<span class="hljs-symbol">:heavy_minus_sign</span>:	➗<span class="hljs-symbol">:heavy_division_sign</span>:<br>💮<span class="hljs-symbol">:white_flower</span>:	💯<span class="hljs-symbol">:</span><span class="hljs-number">100</span>:	✔️<span class="hljs-symbol">:heavy_check_mark</span>:<br>☑️<span class="hljs-symbol">:ballot_box_with_check</span>:	🔘<span class="hljs-symbol">:radio_button</span>:	🔗<span class="hljs-symbol">:link</span>:<br>➰<span class="hljs-symbol">:curly_loop</span>:	〰️<span class="hljs-symbol">:wavy_dash</span>:	〽️<span class="hljs-symbol">:part_alternation_mark</span>:<br>🔱<span class="hljs-symbol">:trident</span>:	🔻<span class="hljs-symbol">:small_red_triangle_down</span>:	🔺<span class="hljs-symbol">:small_red_triangle</span>:<br>✅<span class="hljs-symbol">:white_check_mark</span>:	🔲<span class="hljs-symbol">:black_square_button</span>:	🔳<span class="hljs-symbol">:white_square_button</span>:<br>⚫️<span class="hljs-symbol">:black_circle</span>:	⚪️<span class="hljs-symbol">:white_circle</span>:	🔴<span class="hljs-symbol">:red_circle</span>:<br>🔵<span class="hljs-symbol">:large_blue_circle</span>:	🔷<span class="hljs-symbol">:large_blue_diamond</span>:	🔶<span class="hljs-symbol">:large_orange_diamond</span>:<br>🔹<span class="hljs-symbol">:small_blue_diamond</span>:	🔸<span class="hljs-symbol">:small_orange_diamond</span>:	<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" class="category-chain-item">个人博客</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8D%9A%E5%AE%A2/">#博客</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>hexo添加emoji表情功能</div>
+      <div>https://jsweetcoffee.github.io/posts/83661a60.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>SCxiaoyun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年7月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/12fab53.html" title="Http状态码汇总">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Http状态码汇总</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/13d6b9a5.html" title="Fastjson反序列化漏洞vulhub靶场复现">
+                        <span class="hidden-mobile">Fastjson反序列化漏洞vulhub靶场复现</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"ejWQ4cLgEdFyaqpxh7H74jUL-gzGzoHsz","appKey":"esK2EV3cfDXbDYkhTkNEHyHD","path":"window.location.pathname","placeholder":"吐槽一下","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true,"verify":false,"notify":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+
+  
+  <script
+  async
+  defer
+  src="http://49.233.251.176:10087/api/application/embed?protocol=http&host=49.233.251.176:10087&token=0c8a92daa216c5bf">
+  </script>
+</div>  
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":true,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/runtime.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/DynamicLine.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/containsWord.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/nito.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"rect":"opacity:0.5","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

